@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- にゃんこアイコンフレーム (Cat Icon Frame) -->
+  <!-- 外側の丸フレーム -->
+  <circle cx="100" cy="110" r="80" fill="#1A1A2E" stroke="#FFB7C5" stroke-width="5"/>
+  <!-- 内側のリング -->
+  <circle cx="100" cy="110" r="72" fill="none" stroke="#E91E8C" stroke-width="2" stroke-dasharray="6,3"/>
+  <!-- 左耳 -->
+  <polygon points="40,50 55,15 75,48" fill="#FFB7C5" stroke="#E91E8C" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon points="47,47 55,23 70,46" fill="#FFC9D4"/>
+  <!-- 右耳 -->
+  <polygon points="125,48 145,15 160,50" fill="#FFB7C5" stroke="#E91E8C" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon points="130,46 145,23 153,47" fill="#FFC9D4"/>
+  <!-- アイコン領域（グラデーション背景） -->
+  <circle cx="100" cy="110" r="68" fill="url(#iconBg)"/>
+  <!-- 猫シルエット -->
+  <ellipse cx="100" cy="120" rx="28" ry="24" fill="#E87DA0" opacity="0.5"/>
+  <circle cx="100" cy="100" r="22" fill="#E87DA0" opacity="0.5"/>
+  <defs>
+    <radialGradient id="iconBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#2D1B3D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F3460;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+</svg>

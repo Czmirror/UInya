@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- 猫耳フレーム (Cat Ear Frame) -->
+  <!-- 左耳（外側） -->
+  <polygon points="60,180 110,60 200,180" fill="#FFB7C5" stroke="#E91E8C" stroke-width="4" stroke-linejoin="round"/>
+  <!-- 左耳（内側） -->
+  <polygon points="80,175 110,90 185,175" fill="#FFC9D4"/>
+  <!-- 右耳（外側） -->
+  <polygon points="312,180 402,60 452,180" fill="#FFB7C5" stroke="#E91E8C" stroke-width="4" stroke-linejoin="round"/>
+  <!-- 右耳（内側） -->
+  <polygon points="327,175 402,90 432,175" fill="#FFC9D4"/>
+  <!-- フレーム本体 -->
+  <rect x="40" y="175" width="432" height="296" rx="20" ry="20" fill="#1A1A2E" stroke="#FFB7C5" stroke-width="4"/>
+  <!-- フレーム内側の枠線 -->
+  <rect x="56" y="191" width="400" height="264" rx="12" ry="12" fill="none" stroke="#E91E8C" stroke-width="2" stroke-dasharray="8,4"/>
+</svg>

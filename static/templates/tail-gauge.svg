@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 120" width="512" height="120">
+  <!-- しっぽゲージ (Tail Gauge / HP Bar) -->
+  <!-- ゲージ背景 -->
+  <rect x="20" y="35" width="440" height="50" rx="25" ry="25" fill="#2D1B3D" stroke="#9C27B0" stroke-width="3"/>
+  <!-- ゲージ充填部分 (70%) -->
+  <rect x="24" y="39" width="300" height="42" rx="22" ry="22" fill="url(#tailGradient)"/>
+  <!-- しっぽ先端の丸 -->
+  <circle cx="466" cy="38" r="28" fill="#FFB7C5" stroke="#E91E8C" stroke-width="3"/>
+  <!-- しっぽのカーブ -->
+  <path d="M 460 52 Q 490 30 470 10 Q 450 -5 440 15" fill="none" stroke="#FFB7C5" stroke-width="14" stroke-linecap="round"/>
+  <path d="M 460 52 Q 490 30 470 10 Q 450 -5 440 15" fill="none" stroke="#FFC9D4" stroke-width="6" stroke-linecap="round"/>
+  <!-- HP テキスト -->
+  <text x="50" y="67" font-family="Nunito, sans-serif" font-size="22" font-weight="700" fill="white">HP</text>
+  <!-- ゲージ数値 -->
+  <text x="200" y="67" font-family="Nunito, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">70 / 100</text>
+  <defs>
+    <linearGradient id="tailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E91E8C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9C27B0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

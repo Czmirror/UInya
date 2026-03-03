@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- 肉球ボタン (Paw Button) -->
+  <!-- メインの丸ボタン背景 -->
+  <rect x="56" y="160" width="400" height="192" rx="96" ry="96" fill="#FFB7C5" stroke="#E91E8C" stroke-width="4"/>
+  <!-- 大きな中央肉球パッド -->
+  <ellipse cx="256" cy="256" rx="64" ry="56" fill="#E87DA0"/>
+  <!-- 左上の小さな肉球 -->
+  <ellipse cx="152" cy="196" rx="30" ry="26" fill="#E87DA0"/>
+  <!-- 右上の小さな肉球 -->
+  <ellipse cx="360" cy="196" rx="30" ry="26" fill="#E87DA0"/>
+  <!-- 左下の小さな肉球 -->
+  <ellipse cx="180" cy="300" rx="26" ry="22" fill="#E87DA0"/>
+  <!-- 右下の小さな肉球 -->
+  <ellipse cx="332" cy="300" rx="26" ry="22" fill="#E87DA0"/>
+</svg>

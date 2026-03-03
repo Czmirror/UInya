@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- UInya ロゴ: 肉球アイコン -->
+  <rect width="64" height="64" rx="14" fill="#1A1A2E"/>
+  <!-- 大きな中央肉球 -->
+  <ellipse cx="32" cy="38" rx="14" ry="12" fill="#FFB7C5"/>
+  <!-- 左上小肉球 -->
+  <ellipse cx="16" cy="26" rx="8" ry="7" fill="#FFB7C5"/>
+  <!-- 右上小肉球 -->
+  <ellipse cx="48" cy="26" rx="8" ry="7" fill="#FFB7C5"/>
+  <!-- 左下小肉球 -->
+  <ellipse cx="21" cy="47" rx="6.5" ry="5.5" fill="#FFB7C5"/>
+  <!-- 右下小肉球 -->
+  <ellipse cx="43" cy="47" rx="6.5" ry="5.5" fill="#FFB7C5"/>
+</svg>
