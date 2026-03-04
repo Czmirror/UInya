@@ -182,21 +182,60 @@
               reject(new Error('SVG load failed'));
               return;
             }
-            const group = fabric.util.groupSVGElements(objects, options);
+
+            // Separate text objects from non-text objects
+            const textObjects: fabric.Object[] = [];
+            const nonTextObjects: fabric.Object[] = [];
+            for (const obj of objects) {
+              if (obj.type === 'text') {
+                textObjects.push(obj);
+              } else {
+                nonTextObjects.push(obj);
+              }
+            }
+
+            // Group non-text elements
+            const group = fabric.util.groupSVGElements(
+              nonTextObjects.length > 0 ? nonTextObjects : objects,
+              options
+            );
             const canvasW = canvas.getWidth();
             const canvasH = canvas.getHeight();
             const scale = Math.min(
               (canvasW * 0.7) / (group.width ?? 200),
               (canvasH * 0.7) / (group.height ?? 200)
             );
+            const groupLeft = canvasW / 2 - ((group.width ?? 200) * scale) / 2;
+            const groupTop = canvasH / 2 - ((group.height ?? 200) * scale) / 2;
+
             group.set({
-              left: canvasW / 2 - ((group.width ?? 200) * scale) / 2,
-              top: canvasH / 2 - ((group.height ?? 200) * scale) / 2,
+              left: groupLeft,
+              top: groupTop,
               scaleX: scale,
               scaleY: scale
             });
             (group as { __id?: string }).__id = `template_${template.id}_${Date.now()}`;
             canvas.add(group);
+
+            // Convert text objects to editable IText and position relative to group
+            for (const textObj of textObjects) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const t = textObj as any;
+              const itext = new fabric.IText(t.text || 'テキスト', {
+                left: groupLeft + (t.left ?? 0) * scale,
+                top: groupTop + (t.top ?? 0) * scale,
+                fontSize: (t.fontSize ?? 20) * scale,
+                fontFamily: t.fontFamily || 'Nunito, sans-serif',
+                fill: t.fill || '#888',
+                textAlign: t.textAlign || 'center',
+                fontWeight: t.fontWeight || 'normal',
+                originX: t.originX || 'left',
+                originY: t.originY || 'top'
+              });
+              (itext as { __id?: string }).__id = `text_${template.id}_${Date.now()}`;
+              canvas.add(itext);
+            }
+
             canvas.setActiveObject(group);
             canvas.renderAll();
             resolve();
