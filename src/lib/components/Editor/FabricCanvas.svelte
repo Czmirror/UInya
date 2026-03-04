@@ -133,23 +133,26 @@
       stopContextMenu: true
     });
 
-    // 選択イベント
+    // 選択イベント — syncStateFromObject を先に呼び、ガードを立ててから
+    // setSelectedObjectId でストアを更新する（順序が逆だと subscribe が古い値を適用してしまう）
     canvas.on('selection:created', (e: { selected: Array<{ __id?: string }> }) => {
       const obj = e.selected?.[0];
       if (obj) {
-        setSelectedObjectId((obj as { __id?: string }).__id ?? 'selected');
         syncStateFromObject(obj);
+        setSelectedObjectId((obj as { __id?: string }).__id ?? 'selected');
       }
     });
     canvas.on('selection:updated', (e: { selected: Array<{ __id?: string }> }) => {
       const obj = e.selected?.[0];
       if (obj) {
-        setSelectedObjectId((obj as { __id?: string }).__id ?? 'selected');
         syncStateFromObject(obj);
+        setSelectedObjectId((obj as { __id?: string }).__id ?? 'selected');
       }
     });
     canvas.on('selection:cleared', () => {
+      isSyncingFromObject = true;
       setSelectedObjectId(null);
+      Promise.resolve().then(() => { isSyncingFromObject = false; });
     });
 
     // Double-click to enter group for editing (proper ungroup with position preservation)
