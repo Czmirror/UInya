@@ -13,6 +13,10 @@
     redo: void;
     groupSelected: void;
     ungroupSelected: void;
+    bringToFront: void;
+    bringForward: void;
+    sendBackwards: void;
+    sendToBack: void;
   }>();
 
   $: hasSelection = $editorState.selectedObjectId !== null;
@@ -109,6 +113,54 @@
         <path d="M12 8l2-2M12 16l-2 2" stroke-linecap="round"/>
       </svg>
       <span class="tooltip">グループ解除 (Ctrl+Shift+G)</span>
+    </button>
+  </div>
+
+  <!-- レイヤー順序 -->
+  <div class="flex items-center gap-1 border-r border-white/10 pr-3 mr-1">
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('bringToFront')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="8" y="2" width="13" height="13" rx="1"/>
+        <rect x="3" y="9" width="13" height="13" rx="1" fill="currentColor" opacity="0.15"/>
+      </svg>
+      <span class="tooltip">最前面へ</span>
+    </button>
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('bringForward')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5l-4 4h8l-4-4z" fill="currentColor" opacity="0.3"/>
+        <rect x="4" y="12" width="16" height="2" rx="1"/>
+      </svg>
+      <span class="tooltip">前面へ</span>
+    </button>
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('sendBackwards')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 19l-4-4h8l-4 4z" fill="currentColor" opacity="0.3"/>
+        <rect x="4" y="10" width="16" height="2" rx="1"/>
+      </svg>
+      <span class="tooltip">背面へ</span>
+    </button>
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('sendToBack')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="2" width="13" height="13" rx="1"/>
+        <rect x="8" y="9" width="13" height="13" rx="1" fill="currentColor" opacity="0.15"/>
+      </svg>
+      <span class="tooltip">最背面へ</span>
     </button>
   </div>
 

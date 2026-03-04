@@ -71,6 +71,10 @@
     on:redo={() => fabricCanvas?.redo()}
     on:groupSelected={() => fabricCanvas?.groupSelected()}
     on:ungroupSelected={() => fabricCanvas?.ungroupSelected()}
+    on:bringToFront={() => fabricCanvas?.bringToFront()}
+    on:bringForward={() => fabricCanvas?.bringForward()}
+    on:sendBackwards={() => fabricCanvas?.sendBackwards()}
+    on:sendToBack={() => fabricCanvas?.sendToBack()}
   />
 
   <!-- メインコンテンツ -->
