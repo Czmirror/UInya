@@ -15,9 +15,12 @@
   // Right-click context menu
   let contextMenu = { visible: false, x: 0, y: 0 };
 
-  // Guard flag: when true, store changes come from selecting an object
-  // and should NOT be applied back to the object (prevents circular overwrite)
+  // Guard flag: when true, store changes should NOT be applied to canvas objects.
+  // Prevents circular overwrite when selecting objects or during batch operations.
   let isSyncingFromObject = false;
+
+  // Batch operation flag: prevents undo history from capturing intermediate states
+  let isBatchOperation = false;
 
   // Undo/Redo history
   let history: string[] = [];
@@ -26,7 +29,7 @@
   const MAX_HISTORY = 50;
 
   function saveState() {
-    if (!canvas || isRestoring) return;
+    if (!canvas || isRestoring || isBatchOperation) return;
     const json = JSON.stringify(canvas.toJSON());
     history = history.slice(0, historyIndex + 1);
     history.push(json);
@@ -51,6 +54,10 @@
     if (!canvas || isSyncingFromObject) return;
     const obj = canvas.getActiveObject();
     if (!obj) return;
+
+    // Do NOT apply fill/stroke to groups or activeSelections —
+    // they don't own individual fill/stroke and applying would overwrite children's properties
+    if (obj.type === 'group' || obj.type === 'activeSelection') return;
 
     obj.set({
       fill: state.fillColor,
@@ -150,6 +157,9 @@
       const active = canvas.getActiveObject();
       if (!active || active.type !== 'group') return;
 
+      // Batch operation: prevent intermediate state saves from object:added/removed events
+      isBatchOperation = true;
+
       // Use fabric's toActiveSelection to properly ungroup with preserved transforms
       const activeSelection = active.toActiveSelection();
       canvas.renderAll();
@@ -157,6 +167,8 @@
       // Now discard the selection so items are individual on canvas
       canvas.discardActiveObject();
       canvas.renderAll();
+
+      isBatchOperation = false;
       saveState();
     });
 
@@ -209,15 +221,29 @@
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function syncStateFromObject(obj: any) {
     isSyncingFromObject = true;
-    editorState.update((s) => ({
-      ...s,
-      fillColor: obj.fill ?? s.fillColor,
-      strokeColor: obj.stroke ?? s.strokeColor,
-      strokeWidth: obj.strokeWidth ?? s.strokeWidth,
-      borderRadius: obj.rx ?? s.borderRadius,
-      opacity: Math.round((obj.opacity ?? 1) * 100)
-    }));
-    isSyncingFromObject = false;
+
+    // For groups/activeSelections, only sync opacity (they don't have individual fill/stroke)
+    if (obj.type === 'group' || obj.type === 'activeSelection') {
+      editorState.update((s) => ({
+        ...s,
+        opacity: Math.round((obj.opacity ?? 1) * 100)
+      }));
+    } else {
+      editorState.update((s) => ({
+        ...s,
+        fillColor: obj.fill ?? s.fillColor,
+        strokeColor: obj.stroke ?? s.strokeColor,
+        strokeWidth: obj.strokeWidth ?? s.strokeWidth,
+        borderRadius: obj.rx ?? s.borderRadius,
+        opacity: Math.round((obj.opacity ?? 1) * 100)
+      }));
+    }
+
+    // Keep guard active through the next microtask so that
+    // setSelectedObjectId (called right after) doesn't trigger store → canvas writeback
+    Promise.resolve().then(() => {
+      isSyncingFromObject = false;
+    });
   }
 
   export function addRect() {
@@ -342,10 +368,12 @@
     const activeSelection = canvas.getActiveObject();
     if (!activeSelection || activeSelection.type !== 'activeSelection') return;
 
+    isBatchOperation = true;
     // Use fabric's toGroup() to properly group an activeSelection
     const group = activeSelection.toGroup();
     (group as { __id?: string }).__id = `group_${Date.now()}`;
     canvas.renderAll();
+    isBatchOperation = false;
     saveState();
   }
 
@@ -354,10 +382,12 @@
     const active = canvas.getActiveObject();
     if (!active || active.type !== 'group') return;
 
+    isBatchOperation = true;
     // Use toActiveSelection to preserve transforms
     active.toActiveSelection();
     canvas.discardActiveObject();
     canvas.renderAll();
+    isBatchOperation = false;
     saveState();
   }
 
@@ -403,6 +433,7 @@
     const active = canvas.getActiveObject();
     if (!active) return;
 
+    isBatchOperation = true;
     if (active.type === 'activeSelection') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       active.getObjects().forEach((obj: any) => canvas.remove(obj));
@@ -411,6 +442,8 @@
     }
     canvas.discardActiveObject();
     canvas.renderAll();
+    isBatchOperation = false;
+    saveState();
   }
 
   export function clearAll() {
