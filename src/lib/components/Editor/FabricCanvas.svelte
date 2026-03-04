@@ -2,6 +2,7 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { editorState, exportOptions, setSelectedObjectId } from '$lib/stores/editorStore';
   import type { CatTemplate } from '$lib/types/ui';
+  import { base } from '$app/paths';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
 
@@ -176,7 +177,7 @@
     try {
       await new Promise<void>((resolve, reject) => {
         fabric.loadSVGFromURL(
-          template.svgFile,
+          `${base}${template.svgFile}`,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (objects: any[], options: any) => {
             if (!objects || objects.length === 0) {

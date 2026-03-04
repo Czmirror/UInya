@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { catTemplates, templateCategories } from '$lib/templates/cat';
   import type { CatTemplate, TemplateCategory } from '$lib/types/ui';
+  import { base } from '$app/paths';
 
   const dispatch = createEventDispatcher<{ select: CatTemplate }>();
 
@@ -56,7 +57,7 @@
         <!-- SVGサムネイル -->
         <div class="w-full bg-white/5 flex items-center justify-center p-2 h-24 overflow-hidden">
           <img
-            src={template.thumbnail}
+            src="{base}{template.thumbnail}"
             alt={template.nameJa}
             class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
           />
