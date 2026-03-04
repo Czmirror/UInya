@@ -88,4 +88,11 @@
     <!-- 右パネル: プロパティ -->
     <PropertiesPanel on:bgColorChange={(e) => fabricCanvas?.setBackgroundColor(e.detail)} />
   </div>
+
+  <!-- フッター -->
+  <footer class="flex items-center justify-center gap-2 px-5 py-1.5 bg-dark-panel border-t border-white/10 shrink-0 text-xs text-white/40">
+    <span>&copy; 2026 <a href="https://czmirror.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-cat-pink/70 hover:text-cat-pink transition-colors">Cz_mirror</a></span>
+    <span>·</span>
+    <span>MIT License</span>
+  </footer>
 </div>
