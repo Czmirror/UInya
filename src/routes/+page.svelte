@@ -69,6 +69,8 @@
     on:clearAll={() => fabricCanvas?.clearAll()}
     on:undo={() => fabricCanvas?.undo()}
     on:redo={() => fabricCanvas?.redo()}
+    on:groupSelected={() => fabricCanvas?.groupSelected()}
+    on:ungroupSelected={() => fabricCanvas?.ungroupSelected()}
   />
 
   <!-- メインコンテンツ -->
@@ -80,6 +82,6 @@
     <FabricCanvas bind:this={fabricCanvas} />
 
     <!-- 右パネル: プロパティ -->
-    <PropertiesPanel />
+    <PropertiesPanel on:bgColorChange={(e) => fabricCanvas?.setBackgroundColor(e.detail)} />
   </div>
 </div>

@@ -1,21 +1,69 @@
 <script lang="ts">
   import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow } from '$lib/stores/editorStore';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher<{ bgColorChange: string | null }>();
 
   $: state = $editorState;
   $: hasSelection = state.selectedObjectId !== null;
+
+  let bgColor = '#0F3460';
+  let bgEnabled = true;
+
+  function handleBgToggle(checked: boolean) {
+    bgEnabled = checked;
+    dispatch('bgColorChange', checked ? bgColor : null);
+  }
+
+  function handleBgColor(color: string) {
+    bgColor = color;
+    if (bgEnabled) {
+      dispatch('bgColorChange', color);
+    }
+  }
 </script>
 
 <aside class="w-64 bg-dark-panel flex flex-col h-full border-l border-white/10 overflow-y-auto">
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider">
-      ✨ プロパティ
+      プロパティ
     </h2>
+  </div>
+
+  <!-- 背景設定（常に表示） -->
+  <div class="p-4 border-b border-white/10 space-y-2">
+    <label class="prop-label flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={bgEnabled}
+        class="rounded"
+        on:change={(e) => handleBgToggle(e.currentTarget.checked)}
+      />
+      背景色
+    </label>
+    {#if bgEnabled}
+      <div class="flex items-center gap-2">
+        <input
+          type="color"
+          value={bgColor}
+          class="color-input"
+          on:input={(e) => handleBgColor(e.currentTarget.value)}
+        />
+        <input
+          type="text"
+          value={bgColor}
+          class="text-input flex-1"
+          on:change={(e) => handleBgColor(e.currentTarget.value)}
+          aria-label="背景色の16進数値"
+        />
+      </div>
+    {/if}
   </div>
 
   {#if !hasSelection}
     <div class="flex-1 flex items-center justify-center text-white/30 text-sm p-4 text-center">
       <div>
-        <div class="text-3xl mb-2">🐾</div>
+        <p class="text-3xl mb-2">🐾</p>
         <p>図形またはテンプレートを選択してください</p>
       </div>
     </div>

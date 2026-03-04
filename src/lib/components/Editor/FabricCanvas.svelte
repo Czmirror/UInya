@@ -20,7 +20,6 @@
   function saveState() {
     if (!canvas || isRestoring) return;
     const json = JSON.stringify(canvas.toJSON());
-    // Discard any redo states after current index
     history = history.slice(0, historyIndex + 1);
     history.push(json);
     if (history.length > MAX_HISTORY) {
@@ -73,15 +72,30 @@
   });
 
   function handleKeyDown(e: KeyboardEvent) {
-    const isCtrlOrCmd = e.ctrlKey || e.metaKey;
-    if (!isCtrlOrCmd) return;
+    if (!canvas) return;
 
-    if (e.key === 'z' && !e.shiftKey) {
+    // Don't intercept keys when editing text
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const activeObj = canvas.getActiveObject() as any;
+    if (activeObj && activeObj.isEditing) return;
+
+    const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+
+    if (isCtrlOrCmd && e.key === 'z' && !e.shiftKey) {
       e.preventDefault();
       undo();
-    } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+    } else if (isCtrlOrCmd && ((e.key === 'z' && e.shiftKey) || e.key === 'y')) {
       e.preventDefault();
       redo();
+    } else if (isCtrlOrCmd && e.key === 'g' && !e.shiftKey) {
+      e.preventDefault();
+      groupSelected();
+    } else if (isCtrlOrCmd && e.key === 'g' && e.shiftKey) {
+      e.preventDefault();
+      ungroupSelected();
+    } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault();
+      deleteSelected();
     }
   }
 
@@ -114,6 +128,23 @@
     });
     canvas.on('selection:cleared', () => {
       setSelectedObjectId(null);
+    });
+
+    // Double-click to enter group for editing
+    canvas.on('mouse:dblclick', () => {
+      const active = canvas.getActiveObject();
+      if (!active || active.type !== 'group') return;
+
+      // Ungroup temporarily for editing
+      const items = active.getObjects();
+      active.destroy();
+      canvas.remove(active);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      items.forEach((item: any) => {
+        canvas.add(item);
+      });
+      canvas.renderAll();
+      saveState();
     });
 
     // Save state on object modifications for undo/redo
@@ -238,7 +269,6 @@
               return;
             }
 
-            // Group all SVG elements together (including text)
             const group = fabric.util.groupSVGElements(objects, options);
             const canvasW = canvas.getWidth();
             const canvasH = canvas.getHeight();
@@ -266,14 +296,55 @@
     }
   }
 
+  export function groupSelected() {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+    const activeSelection = canvas.getActiveObject();
+    if (!activeSelection || activeSelection.type !== 'activeSelection') return;
+
+    const group = new fabric.Group(activeSelection.getObjects(), {
+      left: activeSelection.left,
+      top: activeSelection.top
+    });
+    canvas.discardActiveObject();
+    // Remove original objects
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    activeSelection.getObjects().forEach((obj: any) => canvas.remove(obj));
+    (group as { __id?: string }).__id = `group_${Date.now()}`;
+    canvas.add(group);
+    canvas.setActiveObject(group);
+    canvas.renderAll();
+  }
+
+  export function ungroupSelected() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active || active.type !== 'group') return;
+
+    const items = active.getObjects();
+    active.destroy();
+    canvas.remove(active);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items.forEach((item: any) => {
+      canvas.add(item);
+    });
+    canvas.discardActiveObject();
+    canvas.renderAll();
+  }
+
   export function deleteSelected() {
     if (!canvas) return;
-    const obj = canvas.getActiveObject();
-    if (obj) {
-      canvas.remove(obj);
-      canvas.discardActiveObject();
-      canvas.renderAll();
+    const active = canvas.getActiveObject();
+    if (!active) return;
+
+    if (active.type === 'activeSelection') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      active.getObjects().forEach((obj: any) => canvas.remove(obj));
+    } else {
+      canvas.remove(active);
     }
+    canvas.discardActiveObject();
+    canvas.renderAll();
   }
 
   export function clearAll() {
@@ -281,6 +352,17 @@
     canvas.clear();
     canvas.backgroundColor = '#0F3460';
     canvas.renderAll();
+  }
+
+  export function setBackgroundColor(color: string | null) {
+    if (!canvas) return;
+    canvas.backgroundColor = color || '';
+    canvas.renderAll();
+    saveState();
+  }
+
+  export function getBackgroundColor(): string {
+    return canvas?.backgroundColor || '#0F3460';
   }
 
   export function undo() {
@@ -297,7 +379,10 @@
 
   export function exportSvg(): string {
     if (!canvas) return '';
-    return canvas.toSVG({
+    // Temporarily remove background to avoid blue rect in SVG output
+    const savedBg = canvas.backgroundColor;
+    canvas.backgroundColor = '';
+    const svg = canvas.toSVG({
       width: $exportOptions.width,
       height: $exportOptions.height,
       viewBox: {
@@ -307,15 +392,23 @@
         height: $editorState.canvasHeight
       }
     });
+    canvas.backgroundColor = savedBg;
+    return svg;
   }
 
   export function exportPng(): string {
     if (!canvas) return '';
-    return canvas.toDataURL({
+    const savedBg = canvas.backgroundColor;
+    if ($exportOptions.transparent) {
+      canvas.backgroundColor = '';
+    }
+    const dataUrl = canvas.toDataURL({
       format: 'png',
       multiplier: $exportOptions.width / $editorState.canvasWidth,
       enableRetinaScaling: false
     });
+    canvas.backgroundColor = savedBg;
+    return dataUrl;
   }
 </script>
 
