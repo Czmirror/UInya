@@ -44,17 +44,19 @@
 
   <!-- エクスポートボタン -->
   <button
-    class="px-4 py-1.5 bg-cat-pink/20 border border-cat-pink/40 text-cat-pink rounded-lg text-sm font-semibold
-      hover:bg-cat-pink/30 transition-colors"
+    class="px-5 py-2 bg-cat-pink text-dark-bg rounded-lg text-sm font-bold
+      hover:bg-cat-pink/80 transition-colors shadow-md shadow-cat-pink/20 flex items-center gap-1.5"
     on:click={onExportSvg}
   >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
     SVG
   </button>
   <button
-    class="px-4 py-1.5 bg-cat-lavender/20 border border-cat-lavender/40 text-cat-lavender rounded-lg text-sm font-semibold
-      hover:bg-cat-lavender/30 transition-colors"
+    class="px-5 py-2 bg-cat-lavender text-dark-bg rounded-lg text-sm font-bold
+      hover:bg-cat-lavender/80 transition-colors shadow-md shadow-cat-lavender/20 flex items-center gap-1.5"
     on:click={onExportPng}
   >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
     PNG
   </button>
 </div>
