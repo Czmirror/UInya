@@ -65,7 +65,10 @@
 
       <!-- 線の太さ -->
       <div class="prop-section">
-        <span class="prop-label">線の太さ: {state.strokeWidth}px</span>
+        <div class="flex justify-between items-center">
+          <label for="stroke-width" class="prop-label">線の太さ</label>
+          <span class="text-cat-pink text-xs font-semibold">{state.strokeWidth}px</span>
+        </div>
         <input
           id="stroke-width"
           type="range"
@@ -74,14 +77,16 @@
           step="1"
           value={state.strokeWidth}
           class="range-input mt-1.5"
-          aria-label="線の太さ"
           on:input={(e) => updateStroke(state.strokeColor, Number(e.currentTarget.value))}
         />
       </div>
 
       <!-- 角丸 -->
       <div class="prop-section">
-        <span class="prop-label">角丸: {state.borderRadius}px</span>
+        <div class="flex justify-between items-center">
+          <label for="border-radius" class="prop-label">角丸</label>
+          <span class="text-cat-pink text-xs font-semibold">{state.borderRadius}px</span>
+        </div>
         <input
           id="border-radius"
           type="range"
@@ -90,14 +95,16 @@
           step="1"
           value={state.borderRadius}
           class="range-input mt-1.5"
-          aria-label="角丸"
           on:input={(e) => updateBorderRadius(Number(e.currentTarget.value))}
         />
       </div>
 
       <!-- 透明度 -->
       <div class="prop-section">
-        <span class="prop-label">透明度: {state.opacity}%</span>
+        <div class="flex justify-between items-center">
+          <label for="opacity" class="prop-label">透明度</label>
+          <span class="text-cat-pink text-xs font-semibold">{state.opacity}%</span>
+        </div>
         <input
           id="opacity"
           type="range"
@@ -106,7 +113,6 @@
           step="1"
           value={state.opacity}
           class="range-input mt-1.5"
-          aria-label="透明度"
           on:input={(e) => updateOpacity(Number(e.currentTarget.value))}
         />
       </div>
@@ -137,7 +143,10 @@
               </div>
             </div>
             <div>
-              <span class="prop-label-sm">ぼかし: {state.shadowBlur}px</span>
+              <div class="flex justify-between items-center">
+                <span class="prop-label-sm">ぼかし</span>
+                <span class="text-cat-lavender text-xs">{state.shadowBlur}px</span>
+              </div>
               <input
                 type="range"
                 min="0"
@@ -150,7 +159,10 @@
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <span class="prop-label-sm">X: {state.shadowOffsetX}</span>
+                <div class="flex justify-between items-center">
+                  <span class="prop-label-sm">X オフセット</span>
+                  <span class="text-cat-lavender text-xs">{state.shadowOffsetX}</span>
+                </div>
                 <input
                   type="range"
                   min="-20"
@@ -162,7 +174,10 @@
                 />
               </div>
               <div>
-                <span class="prop-label-sm">Y: {state.shadowOffsetY}</span>
+                <div class="flex justify-between items-center">
+                  <span class="prop-label-sm">Y オフセット</span>
+                  <span class="text-cat-lavender text-xs">{state.shadowOffsetY}</span>
+                </div>
                 <input
                   type="range"
                   min="-20"
