@@ -7,9 +7,13 @@
   const dispatch = createEventDispatcher<{ ready: void }>();
 
   let canvasEl: HTMLCanvasElement;
+  let wrapperEl: HTMLDivElement;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let canvas: any = null;
   let fabricModule: typeof import('fabric') | null = null;
+
+  // Right-click context menu
+  let contextMenu = { visible: false, x: 0, y: 0 };
 
   // Undo/Redo history
   let history: string[] = [];
@@ -71,8 +75,13 @@
     canvas.renderAll();
   });
 
+  function hideContextMenu() {
+    contextMenu = { visible: false, x: 0, y: 0 };
+  }
+
   function handleKeyDown(e: KeyboardEvent) {
     if (!canvas) return;
+    hideContextMenu();
 
     // Don't intercept keys when editing text
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,7 +117,9 @@
       height: $editorState.canvasHeight,
       backgroundColor: '#0F3460',
       selection: true,
-      preserveObjectStacking: true
+      preserveObjectStacking: true,
+      fireRightClick: true,
+      stopContextMenu: true
     });
 
     // 選択イベント
@@ -130,21 +141,43 @@
       setSelectedObjectId(null);
     });
 
-    // Double-click to enter group for editing
+    // Double-click to enter group for editing (proper ungroup with position preservation)
     canvas.on('mouse:dblclick', () => {
       const active = canvas.getActiveObject();
       if (!active || active.type !== 'group') return;
 
-      // Ungroup temporarily for editing
-      const items = active.getObjects();
-      active.destroy();
-      canvas.remove(active);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      items.forEach((item: any) => {
-        canvas.add(item);
-      });
+      // Use fabric's toActiveSelection to properly ungroup with preserved transforms
+      const activeSelection = active.toActiveSelection();
+      canvas.renderAll();
+
+      // Now discard the selection so items are individual on canvas
+      canvas.discardActiveObject();
       canvas.renderAll();
       saveState();
+    });
+
+    // Right-click context menu
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    canvas.on('mouse:down', (opt: any) => {
+      if (opt.button === 3) {
+        // Right click
+        const pointer = canvas.getPointer(opt.e);
+        const canvasRect = canvasEl.getBoundingClientRect();
+        contextMenu = {
+          visible: true,
+          x: opt.e.clientX - (wrapperEl?.getBoundingClientRect().left ?? 0),
+          y: opt.e.clientY - (wrapperEl?.getBoundingClientRect().top ?? 0)
+        };
+
+        // Select object under cursor if not already selected
+        const target = canvas.findTarget(opt.e);
+        if (target && target !== canvas.getActiveObject()) {
+          canvas.setActiveObject(target);
+          canvas.renderAll();
+        }
+      } else {
+        hideContextMenu();
+      }
     });
 
     // Save state on object modifications for undo/redo
@@ -155,8 +188,9 @@
     // Save initial empty state
     saveState();
 
-    // Keyboard shortcuts
+    // Keyboard shortcuts & click-outside to close context menu
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('click', hideContextMenu);
 
     dispatch('ready');
   });
@@ -164,6 +198,7 @@
   onDestroy(() => {
     unsubscribe();
     window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('click', hideContextMenu);
     canvas?.dispose();
   });
 
@@ -298,22 +333,14 @@
 
   export function groupSelected() {
     if (!canvas || !fabricModule) return;
-    const { fabric } = fabricModule;
     const activeSelection = canvas.getActiveObject();
     if (!activeSelection || activeSelection.type !== 'activeSelection') return;
 
-    const group = new fabric.Group(activeSelection.getObjects(), {
-      left: activeSelection.left,
-      top: activeSelection.top
-    });
-    canvas.discardActiveObject();
-    // Remove original objects
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    activeSelection.getObjects().forEach((obj: any) => canvas.remove(obj));
+    // Use fabric's toGroup() to properly group an activeSelection
+    const group = activeSelection.toGroup();
     (group as { __id?: string }).__id = `group_${Date.now()}`;
-    canvas.add(group);
-    canvas.setActiveObject(group);
     canvas.renderAll();
+    saveState();
   }
 
   export function ungroupSelected() {
@@ -321,15 +348,48 @@
     const active = canvas.getActiveObject();
     if (!active || active.type !== 'group') return;
 
-    const items = active.getObjects();
-    active.destroy();
-    canvas.remove(active);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    items.forEach((item: any) => {
-      canvas.add(item);
-    });
+    // Use toActiveSelection to preserve transforms
+    active.toActiveSelection();
     canvas.discardActiveObject();
     canvas.renderAll();
+    saveState();
+  }
+
+  // Layer ordering
+  export function bringToFront() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    canvas.bringToFront(active);
+    canvas.renderAll();
+    saveState();
+  }
+
+  export function sendToBack() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    canvas.sendToBack(active);
+    canvas.renderAll();
+    saveState();
+  }
+
+  export function bringForward() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    canvas.bringForward(active);
+    canvas.renderAll();
+    saveState();
+  }
+
+  export function sendBackwards() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    canvas.sendBackwards(active);
+    canvas.renderAll();
+    saveState();
   }
 
   export function deleteSelected() {
@@ -361,10 +421,6 @@
     saveState();
   }
 
-  export function getBackgroundColor(): string {
-    return canvas?.backgroundColor || '#0F3460';
-  }
-
   export function undo() {
     if (historyIndex > 0) {
       restoreState(historyIndex - 1);
@@ -379,9 +435,12 @@
 
   export function exportSvg(): string {
     if (!canvas) return '';
-    // Temporarily remove background to avoid blue rect in SVG output
-    const savedBg = canvas.backgroundColor;
-    canvas.backgroundColor = '';
+    const bg = canvas.backgroundColor;
+    const hasBg = bg && bg !== '';
+    // Keep background if user has it enabled, remove if empty
+    if (!hasBg) {
+      canvas.backgroundColor = '';
+    }
     const svg = canvas.toSVG({
       width: $exportOptions.width,
       height: $exportOptions.height,
@@ -392,7 +451,6 @@
         height: $editorState.canvasHeight
       }
     });
-    canvas.backgroundColor = savedBg;
     return svg;
   }
 
@@ -407,13 +465,79 @@
       multiplier: $exportOptions.width / $editorState.canvasWidth,
       enableRetinaScaling: false
     });
-    canvas.backgroundColor = savedBg;
+    if ($exportOptions.transparent) {
+      canvas.backgroundColor = savedBg;
+    }
     return dataUrl;
+  }
+
+  // Context menu action helper
+  function ctxAction(fn: () => void) {
+    fn();
+    hideContextMenu();
   }
 </script>
 
-<div class="flex-1 flex items-center justify-center overflow-auto bg-[#111827] p-4">
+<div class="flex-1 flex items-center justify-center overflow-auto bg-[#111827] p-4 relative" bind:this={wrapperEl}>
   <div class="shadow-2xl shadow-black/60 rounded-lg overflow-hidden border border-white/10">
     <canvas bind:this={canvasEl}></canvas>
   </div>
+
+  <!-- Right-click context menu -->
+  {#if contextMenu.visible}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+      class="ctx-menu"
+      style="left: {contextMenu.x}px; top: {contextMenu.y}px;"
+      on:click|stopPropagation
+    >
+      {#if $editorState.selectedObjectId}
+        <button class="ctx-item" on:click={() => ctxAction(deleteSelected)}>
+          <span>削除</span><span class="ctx-shortcut">Delete</span>
+        </button>
+        <hr class="border-white/10" />
+        <button class="ctx-item" on:click={() => ctxAction(bringToFront)}>
+          <span>最前面へ</span>
+        </button>
+        <button class="ctx-item" on:click={() => ctxAction(bringForward)}>
+          <span>前面へ</span>
+        </button>
+        <button class="ctx-item" on:click={() => ctxAction(sendBackwards)}>
+          <span>背面へ</span>
+        </button>
+        <button class="ctx-item" on:click={() => ctxAction(sendToBack)}>
+          <span>最背面へ</span>
+        </button>
+        <hr class="border-white/10" />
+        <button class="ctx-item" on:click={() => ctxAction(groupSelected)}>
+          <span>グループ化</span><span class="ctx-shortcut">Ctrl+G</span>
+        </button>
+        <button class="ctx-item" on:click={() => ctxAction(ungroupSelected)}>
+          <span>グループ解除</span><span class="ctx-shortcut">Ctrl+Shift+G</span>
+        </button>
+      {:else}
+        <button class="ctx-item" on:click={() => ctxAction(undo)}>
+          <span>元に戻す</span><span class="ctx-shortcut">Ctrl+Z</span>
+        </button>
+        <button class="ctx-item" on:click={() => ctxAction(redo)}>
+          <span>やり直す</span><span class="ctx-shortcut">Ctrl+Shift+Z</span>
+        </button>
+      {/if}
+    </div>
+  {/if}
 </div>
+
+<style>
+  .ctx-menu {
+    @apply absolute z-50 bg-dark-panel border border-white/20 rounded-lg shadow-xl shadow-black/50
+      py-1 min-w-[180px] overflow-hidden;
+  }
+  .ctx-item {
+    @apply w-full flex items-center justify-between px-3 py-1.5 text-sm text-white/80
+      hover:bg-white/10 hover:text-white transition-colors text-left;
+  }
+  .ctx-shortcut {
+    @apply text-white/30 text-xs ml-4;
+  }
+</style>
