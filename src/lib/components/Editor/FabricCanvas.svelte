@@ -15,6 +15,10 @@
   // Right-click context menu
   let contextMenu = { visible: false, x: 0, y: 0 };
 
+  // Guard flag: when true, store changes come from selecting an object
+  // and should NOT be applied back to the object (prevents circular overwrite)
+  let isSyncingFromObject = false;
+
   // Undo/Redo history
   let history: string[] = [];
   let historyIndex = -1;
@@ -44,7 +48,7 @@
 
   // Store subscription for syncing props to selected object
   const unsubscribe = editorState.subscribe((state) => {
-    if (!canvas) return;
+    if (!canvas || isSyncingFromObject) return;
     const obj = canvas.getActiveObject();
     if (!obj) return;
 
@@ -204,6 +208,7 @@
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function syncStateFromObject(obj: any) {
+    isSyncingFromObject = true;
     editorState.update((s) => ({
       ...s,
       fillColor: obj.fill ?? s.fillColor,
@@ -212,6 +217,7 @@
       borderRadius: obj.rx ?? s.borderRadius,
       opacity: Math.round((obj.opacity ?? 1) * 100)
     }));
+    isSyncingFromObject = false;
   }
 
   export function addRect() {
