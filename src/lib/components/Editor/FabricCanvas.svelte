@@ -177,15 +177,18 @@
       await new Promise<void>((resolve, reject) => {
         fabric.loadSVGFromURL(
           template.svgFile,
-          (objects: fabric.Object[], options: fabric.IGroupOptions) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (objects: any[], options: any) => {
             if (!objects || objects.length === 0) {
               reject(new Error('SVG load failed'));
               return;
             }
 
             // Separate text objects from non-text objects
-            const textObjects: fabric.Object[] = [];
-            const nonTextObjects: fabric.Object[] = [];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const textObjects: any[] = [];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const nonTextObjects: any[] = [];
             for (const obj of objects) {
               if (obj.type === 'text') {
                 textObjects.push(obj);
