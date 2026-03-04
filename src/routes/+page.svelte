@@ -48,7 +48,7 @@
       <img src="{base}/icon.svg" alt="UInya" class="w-8 h-8" />
       <div>
         <h1 class="text-xl font-extrabold text-cat-pink leading-none">UInya</h1>
-        <p class="text-white/40 text-xs">猫モチーフ ゲームUI素材エディタ</p>
+        <p class="text-white/40 text-xs">Generate cute cat-themed game UI assets — SVG & PNG</p>
       </div>
     </div>
 
@@ -90,9 +90,11 @@
   </div>
 
   <!-- フッター -->
-  <footer class="flex items-center justify-center gap-2 px-5 py-1.5 bg-dark-panel border-t border-white/10 shrink-0 text-xs text-white/40">
+  <footer class="flex items-center justify-center gap-x-4 gap-y-0.5 flex-wrap px-5 py-1.5 bg-dark-panel border-t border-white/10 shrink-0 text-xs text-white/40">
     <span>&copy; 2026 <a href="https://czmirror.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-cat-pink/70 hover:text-cat-pink transition-colors">Cz_mirror</a></span>
     <span>·</span>
     <span>MIT License</span>
+    <span>·</span>
+    <span class="text-white/50">Generated images are free to use, including commercial use.</span>
   </footer>
 </div>

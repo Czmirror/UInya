@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { editorState, exportOptions, setSelectedObjectId } from '$lib/stores/editorStore';
+  import { catTemplates } from '$lib/templates/cat';
   import type { CatTemplate } from '$lib/types/ui';
   import { base } from '$app/paths';
 
@@ -8,6 +9,7 @@
 
   let canvasEl: HTMLCanvasElement;
   let wrapperEl: HTMLDivElement;
+  let showWelcome = true;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let canvas: any = null;
   let fabricModule: typeof import('fabric') | null = null;
@@ -200,7 +202,7 @@
     });
 
     // Save state on object modifications for undo/redo
-    canvas.on('object:added', () => saveState());
+    canvas.on('object:added', () => { showWelcome = false; saveState(); });
     canvas.on('object:modified', () => saveState());
     canvas.on('object:removed', () => saveState());
 
@@ -524,6 +526,38 @@
   <div class="shadow-2xl shadow-black/60 rounded-lg overflow-hidden border border-white/10">
     <canvas bind:this={canvasEl}></canvas>
   </div>
+
+  <!-- Welcome showcase overlay -->
+  {#if showWelcome}
+    <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#111827]/80 z-40 backdrop-blur-sm">
+      <p class="text-white/70 text-lg font-bold mb-1">Create cute cat game UI</p>
+      <p class="text-white/40 text-sm mb-5">Pick a template or start from scratch</p>
+      <div class="flex gap-4 flex-wrap justify-center max-w-xl px-4">
+        {#each catTemplates.slice(0, 5) as template (template.id)}
+          <button
+            class="w-24 rounded-xl overflow-hidden bg-dark-panel border border-white/10
+              hover:border-cat-pink/60 hover:scale-105 transition-all group"
+            on:click={() => { showWelcome = false; loadTemplate(template); }}
+          >
+            <div class="w-full bg-white/5 flex items-center justify-center p-2 h-20 overflow-hidden">
+              <img
+                src="{base}{template.thumbnail}"
+                alt={template.nameJa}
+                class="max-h-full max-w-full object-contain"
+              />
+            </div>
+            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{template.nameJa}</p>
+          </button>
+        {/each}
+      </div>
+      <button
+        class="mt-5 text-white/30 text-xs hover:text-white/60 transition-colors"
+        on:click={() => { showWelcome = false; }}
+      >
+        Skip — start with empty canvas
+      </button>
+    </div>
+  {/if}
 
   <!-- Right-click context menu -->
   {#if contextMenu.visible}
