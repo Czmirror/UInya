@@ -11,6 +11,34 @@
   let canvas: any = null;
   let fabricModule: typeof import('fabric') | null = null;
 
+  // Undo/Redo history
+  let history: string[] = [];
+  let historyIndex = -1;
+  let isRestoring = false;
+  const MAX_HISTORY = 50;
+
+  function saveState() {
+    if (!canvas || isRestoring) return;
+    const json = JSON.stringify(canvas.toJSON());
+    // Discard any redo states after current index
+    history = history.slice(0, historyIndex + 1);
+    history.push(json);
+    if (history.length > MAX_HISTORY) {
+      history = history.slice(history.length - MAX_HISTORY);
+    }
+    historyIndex = history.length - 1;
+  }
+
+  function restoreState(index: number) {
+    if (!canvas || index < 0 || index >= history.length) return;
+    isRestoring = true;
+    historyIndex = index;
+    canvas.loadFromJSON(history[index], () => {
+      canvas.renderAll();
+      isRestoring = false;
+    });
+  }
+
   // Store subscription for syncing props to selected object
   const unsubscribe = editorState.subscribe((state) => {
     if (!canvas) return;
@@ -44,6 +72,19 @@
     canvas.renderAll();
   });
 
+  function handleKeyDown(e: KeyboardEvent) {
+    const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+    if (!isCtrlOrCmd) return;
+
+    if (e.key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      undo();
+    } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+      e.preventDefault();
+      redo();
+    }
+  }
+
   onMount(async () => {
     fabricModule = await import('fabric');
     const { fabric } = fabricModule;
@@ -75,11 +116,23 @@
       setSelectedObjectId(null);
     });
 
+    // Save state on object modifications for undo/redo
+    canvas.on('object:added', () => saveState());
+    canvas.on('object:modified', () => saveState());
+    canvas.on('object:removed', () => saveState());
+
+    // Save initial empty state
+    saveState();
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', handleKeyDown);
+
     dispatch('ready');
   });
 
   onDestroy(() => {
     unsubscribe();
+    window.removeEventListener('keydown', handleKeyDown);
     canvas?.dispose();
   });
 
@@ -185,61 +238,23 @@
               return;
             }
 
-            // Separate text objects from non-text objects
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const textObjects: any[] = [];
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const nonTextObjects: any[] = [];
-            for (const obj of objects) {
-              if (obj.type === 'text') {
-                textObjects.push(obj);
-              } else {
-                nonTextObjects.push(obj);
-              }
-            }
-
-            // Group non-text elements
-            const group = fabric.util.groupSVGElements(
-              nonTextObjects.length > 0 ? nonTextObjects : objects,
-              options
-            );
+            // Group all SVG elements together (including text)
+            const group = fabric.util.groupSVGElements(objects, options);
             const canvasW = canvas.getWidth();
             const canvasH = canvas.getHeight();
             const scale = Math.min(
               (canvasW * 0.7) / (group.width ?? 200),
               (canvasH * 0.7) / (group.height ?? 200)
             );
-            const groupLeft = canvasW / 2 - ((group.width ?? 200) * scale) / 2;
-            const groupTop = canvasH / 2 - ((group.height ?? 200) * scale) / 2;
 
             group.set({
-              left: groupLeft,
-              top: groupTop,
+              left: canvasW / 2 - ((group.width ?? 200) * scale) / 2,
+              top: canvasH / 2 - ((group.height ?? 200) * scale) / 2,
               scaleX: scale,
               scaleY: scale
             });
             (group as { __id?: string }).__id = `template_${template.id}_${Date.now()}`;
             canvas.add(group);
-
-            // Convert text objects to editable IText and position relative to group
-            for (const textObj of textObjects) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const t = textObj as any;
-              const itext = new fabric.IText(t.text || 'テキスト', {
-                left: groupLeft + (t.left ?? 0) * scale,
-                top: groupTop + (t.top ?? 0) * scale,
-                fontSize: (t.fontSize ?? 20) * scale,
-                fontFamily: t.fontFamily || 'Nunito, sans-serif',
-                fill: t.fill || '#888',
-                textAlign: t.textAlign || 'center',
-                fontWeight: t.fontWeight || 'normal',
-                originX: t.originX || 'left',
-                originY: t.originY || 'top'
-              });
-              (itext as { __id?: string }).__id = `text_${template.id}_${Date.now()}`;
-              canvas.add(itext);
-            }
-
             canvas.setActiveObject(group);
             canvas.renderAll();
             resolve();
@@ -269,12 +284,15 @@
   }
 
   export function undo() {
-    // Fabric v5 does not have built-in undo/redo; placeholder
-    console.log('undo not implemented yet');
+    if (historyIndex > 0) {
+      restoreState(historyIndex - 1);
+    }
   }
 
   export function redo() {
-    console.log('redo not implemented yet');
+    if (historyIndex < history.length - 1) {
+      restoreState(historyIndex + 1);
+    }
   }
 
   export function exportSvg(): string {
