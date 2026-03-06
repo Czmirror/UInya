@@ -8,6 +8,13 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  */
 export const catParts: CatPart[] = [
   {
+    id: 'cat-face-base-round',
+    name: 'Round Face Base',
+    nameJa: 'まる顔ベース',
+    category: 'face',
+    svgFile: '/svg/cat-face-base-round.svg'
+  },
+  {
     id: 'ear-point-left',
     name: 'Pointed Ear (Left)',
     nameJa: 'とがり耳（左）',
@@ -17,6 +24,7 @@ export const catParts: CatPart[] = [
 ];
 
 export const catPartCategories: { id: CatPartCategory; label: string }[] = [
+  { id: 'face', label: '顔' },
   { id: 'ear', label: '耳' },
   { id: 'eye', label: '目' },
   { id: 'mouth', label: '口' },
