@@ -2,7 +2,7 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { editorState, exportOptions, setSelectedObjectId } from '$lib/stores/editorStore';
   import { catTemplates } from '$lib/templates/cat';
-  import type { CatTemplate } from '$lib/types/ui';
+  import type { CatTemplate, CatPart } from '$lib/types/ui';
   import { base } from '$app/paths';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
@@ -365,6 +365,50 @@
       });
     } catch (e) {
       console.error('Failed to load template SVG:', e);
+    }
+  }
+
+  /** 新規猫パーツ規格: viewBox 0 0 100 100 のSVGをキャンバスに配置 */
+  export async function loadPart(part: CatPart) {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+
+    try {
+      await new Promise<void>((resolve, reject) => {
+        fabric.loadSVGFromURL(
+          `${base}${part.svgFile}`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (objects: any[], options: any) => {
+            if (!objects || objects.length === 0) {
+              reject(new Error('Part SVG load failed'));
+              return;
+            }
+
+            const group = fabric.util.groupSVGElements(objects, options);
+            // パーツは小さめ（キャンバスの30%）で配置
+            const canvasW = canvas.getWidth();
+            const canvasH = canvas.getHeight();
+            const scale = Math.min(
+              (canvasW * 0.3) / (group.width ?? 100),
+              (canvasH * 0.3) / (group.height ?? 100)
+            );
+
+            group.set({
+              left: canvasW / 2 - ((group.width ?? 100) * scale) / 2,
+              top: canvasH / 2 - ((group.height ?? 100) * scale) / 2,
+              scaleX: scale,
+              scaleY: scale
+            });
+            (group as { __id?: string }).__id = `part_${part.id}_${Date.now()}`;
+            canvas.add(group);
+            canvas.setActiveObject(group);
+            canvas.renderAll();
+            resolve();
+          }
+        );
+      });
+    } catch (e) {
+      console.error('Failed to load part SVG:', e);
     }
   }
 

@@ -5,12 +5,16 @@
   import PropertiesPanel from '$lib/components/Editor/PropertiesPanel.svelte';
   import ExportPanel from '$lib/components/ExportPanel/ExportPanel.svelte';
   import { base } from '$app/paths';
-  import type { CatTemplate } from '$lib/types/ui';
+  import type { CatTemplate, CatPart } from '$lib/types/ui';
 
   let fabricCanvas: FabricCanvas;
 
   function handleTemplateSelect(e: CustomEvent<CatTemplate>) {
     fabricCanvas?.loadTemplate(e.detail);
+  }
+
+  function handlePartSelect(e: CustomEvent<CatPart>) {
+    fabricCanvas?.loadPart(e.detail);
   }
 
   function handleExportSvg() {
@@ -80,7 +84,7 @@
   <!-- メインコンテンツ -->
   <div class="flex flex-1 overflow-hidden">
     <!-- 左パネル: テンプレート -->
-    <TemplatePanel on:select={handleTemplateSelect} />
+    <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} />
 
     <!-- 中央: キャンバスエディタ -->
     <FabricCanvas bind:this={fabricCanvas} />
