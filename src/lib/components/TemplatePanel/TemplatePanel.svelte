@@ -1,11 +1,13 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { catTemplates, templateCategories } from '$lib/templates/cat';
-  import type { CatTemplate, TemplateCategory } from '$lib/types/ui';
+  import type { CatTemplate, CatPart, TemplateCategory } from '$lib/types/ui';
   import { base } from '$app/paths';
+  import CatPartsPanel from './CatPartsPanel.svelte';
 
-  const dispatch = createEventDispatcher<{ select: CatTemplate }>();
+  const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart }>();
 
+  let activeTab: 'templates' | 'parts' = 'templates';
   let activeCategory: TemplateCategory | 'all' = 'all';
 
   $: filtered = activeCategory === 'all'
@@ -22,6 +24,27 @@
 </script>
 
 <aside class="w-64 bg-dark-panel flex flex-col h-full border-r border-white/10 overflow-hidden">
+  <!-- タブ切替 -->
+  <div class="flex border-b border-white/10 shrink-0">
+    <button
+      class="flex-1 py-2 text-xs font-bold transition-colors
+        {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-white/40 hover:text-white/60'}"
+      on:click={() => (activeTab = 'templates')}
+    >
+      テンプレート
+    </button>
+    <button
+      class="flex-1 py-2 text-xs font-bold transition-colors
+        {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-white/40 hover:text-white/60'}"
+      on:click={() => (activeTab = 'parts')}
+    >
+      パーツ
+    </button>
+  </div>
+
+  {#if activeTab === 'parts'}
+    <CatPartsPanel on:selectPart />
+  {:else}
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-pink font-bold text-sm uppercase tracking-wider mb-3">
       🐾 テンプレート
@@ -75,4 +98,5 @@
       </div>
     {/if}
   </div>
+  {/if}
 </aside>
