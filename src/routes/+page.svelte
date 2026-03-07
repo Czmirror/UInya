@@ -52,7 +52,7 @@
       <img src="{base}/icon.svg" alt="UInya" class="w-8 h-8" />
       <div>
         <h1 class="text-xl font-extrabold text-cat-pink leading-none">UInya</h1>
-        <p class="text-white/40 text-xs">Cat SVG Maker for Game UI</p>
+        <p class="text-white/40 text-xs">Cat UI SVG Generator for Games</p>
       </div>
     </div>
 

@@ -1,18 +1,12 @@
 # **UInya 🐱**
 
-  
+**Cat UI SVG Generator for Games**
 
-**Cat SVG Maker for Game UI**
-
-  
+![UInya screenshot](docs/screenshot.png)
 
 Generate cute **cat-themed game UI assets** as **SVG or PNG** directly in the browser.
 
-  
-
 UInya is a lightweight editor for creating cat-styled UI elements such as buttons, frames, gauges and icons.
-
-  
 
 It runs entirely in the browser and exports clean SVG assets ready for games or web apps.
 
@@ -121,19 +115,12 @@ Generated images are free to use, including commercial use.
 
   
 
-Planned improvements:
-
-- grid guide
-    
-- snap positioning
-    
-- flip transforms
-    
-- line / bezier drawing tools
-    
-- random cat generator
-    
-- additional UI templates
+- [x] grid guide
+- [x] snap positioning
+- [x] flip transforms
+- [ ] line / bezier drawing tools
+- [ ] random cat generator
+- [ ] additional UI templates
     
 
 ---
