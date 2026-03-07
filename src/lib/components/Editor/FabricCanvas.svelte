@@ -1,11 +1,15 @@
 <script lang="ts">
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-  import { editorState, exportOptions, setSelectedObjectId } from '$lib/stores/editorStore';
+  import { editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
   import { catTemplates } from '$lib/templates/cat';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import { base } from '$app/paths';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
+
+  // スナップ閾値（px）— 調整しやすいよう定数化
+  const SNAP_THRESHOLD = 8;
+  const GRID_SIZE = 25;
 
   let canvasEl: HTMLCanvasElement;
   let wrapperEl: HTMLDivElement;
@@ -199,6 +203,60 @@
       } else {
         hideContextMenu();
       }
+    });
+
+    // スナップ: 移動中にトップレベルオブジェクトの端・中心にスナップ
+    canvas.on('object:moving', (e: { target: any }) => {
+      if (!$snapEnabled) return;
+      const target = e.target;
+      if (!target) return;
+
+      const bound = target.getBoundingRect(true);
+      const tCenterX = bound.left + bound.width / 2;
+      const tCenterY = bound.top + bound.height / 2;
+
+      // キャンバス中心・端もスナップ対象
+      const snapXCandidates = [0, canvas.getWidth() / 2, canvas.getWidth()];
+      const snapYCandidates = [0, canvas.getHeight() / 2, canvas.getHeight()];
+
+      // トップレベルオブジェクトの端・中心を収集（移動中のオブジェクト自体は除外）
+      canvas.getObjects().forEach((obj: any) => {
+        if (obj === target) return;
+        const r = obj.getBoundingRect(true);
+        snapXCandidates.push(r.left, r.left + r.width / 2, r.left + r.width);
+        snapYCandidates.push(r.top, r.top + r.height / 2, r.top + r.height);
+      });
+
+      // 移動中オブジェクトの左端・中心・右端それぞれでスナップ判定
+      const tEdgesX = [bound.left, tCenterX, bound.left + bound.width];
+      const tEdgesY = [bound.top, tCenterY, bound.top + bound.height];
+
+      let bestDx: number | null = null;
+      let bestDistX = SNAP_THRESHOLD;
+      for (const edge of tEdgesX) {
+        for (const snap of snapXCandidates) {
+          const dist = Math.abs(edge - snap);
+          if (dist < bestDistX) {
+            bestDistX = dist;
+            bestDx = snap - edge;
+          }
+        }
+      }
+
+      let bestDy: number | null = null;
+      let bestDistY = SNAP_THRESHOLD;
+      for (const edge of tEdgesY) {
+        for (const snap of snapYCandidates) {
+          const dist = Math.abs(edge - snap);
+          if (dist < bestDistY) {
+            bestDistY = dist;
+            bestDy = snap - edge;
+          }
+        }
+      }
+
+      if (bestDx !== null) target.set('left', target.left + bestDx);
+      if (bestDy !== null) target.set('top', target.top + bestDy);
     });
 
     // Save state on object modifications for undo/redo
@@ -477,6 +535,25 @@
     saveState();
   }
 
+  // X軸・Y軸反転
+  export function flipX() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    active.set('flipX', !active.flipX);
+    canvas.renderAll();
+    saveState();
+  }
+
+  export function flipY() {
+    if (!canvas) return;
+    const active = canvas.getActiveObject();
+    if (!active) return;
+    active.set('flipY', !active.flipY);
+    canvas.renderAll();
+    saveState();
+  }
+
   export function deleteSelected() {
     if (!canvas) return;
     const active = canvas.getActiveObject();
@@ -567,8 +644,19 @@
 </script>
 
 <div class="flex-1 flex items-center justify-center overflow-auto bg-[#111827] p-4 relative" bind:this={wrapperEl}>
-  <div class="shadow-2xl shadow-black/60 rounded-lg overflow-hidden border border-white/10">
+  <div class="shadow-2xl shadow-black/60 rounded-lg overflow-hidden border border-white/10 relative">
     <canvas bind:this={canvasEl}></canvas>
+    {#if $gridEnabled}
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+          background-size: {GRID_SIZE}px {GRID_SIZE}px;
+        "
+      ></div>
+    {/if}
   </div>
 
   <!-- Welcome showcase overlay -->

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { editorState } from '$lib/stores/editorStore';
+  import { editorState, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
 
   const dispatch = createEventDispatcher<{
     addRect: void;
@@ -17,6 +17,8 @@
     bringForward: void;
     sendBackwards: void;
     sendToBack: void;
+    flipX: void;
+    flipY: void;
   }>();
 
   $: hasSelection = $editorState.selectedObjectId !== null;
@@ -161,6 +163,56 @@
         <rect x="8" y="9" width="13" height="13" rx="1" fill="currentColor" opacity="0.15"/>
       </svg>
       <span class="tooltip">最背面へ</span>
+    </button>
+  </div>
+
+  <!-- 反転 -->
+  <div class="flex items-center gap-1 border-r border-white/10 pr-3 mr-1">
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('flipX')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 3v18" stroke-dasharray="2 2"/>
+        <path d="M16 7h4v10h-4" /><path d="M8 7H4v10h4" />
+      </svg>
+      <span class="tooltip">水平反転</span>
+    </button>
+    <button
+      class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
+      disabled={!hasSelection}
+      on:click={() => dispatch('flipY')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18" stroke-dasharray="2 2"/>
+        <path d="M7 8V4h10v4" /><path d="M7 16v4h10v-4" />
+      </svg>
+      <span class="tooltip">垂直反転</span>
+    </button>
+  </div>
+
+  <!-- グリッド・スナップ -->
+  <div class="flex items-center gap-1 border-r border-white/10 pr-3 mr-1">
+    <button
+      class="tool-btn {$gridEnabled ? 'text-cat-pink bg-cat-pink/15' : ''}"
+      on:click={() => gridEnabled.update(v => !v)}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="1"/>
+        <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
+      </svg>
+      <span class="tooltip">グリッド {$gridEnabled ? 'OFF' : 'ON'}</span>
+    </button>
+    <button
+      class="tool-btn {$snapEnabled ? 'text-cat-lavender bg-cat-lavender/15' : ''}"
+      on:click={() => snapEnabled.update(v => !v)}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 12h4M16 12h4M12 4v4M12 16v4"/>
+        <circle cx="12" cy="12" r="2"/>
+      </svg>
+      <span class="tooltip">スナップ {$snapEnabled ? 'OFF' : 'ON'}</span>
     </button>
   </div>
 

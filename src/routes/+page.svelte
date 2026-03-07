@@ -79,6 +79,8 @@
     on:bringForward={() => fabricCanvas?.bringForward()}
     on:sendBackwards={() => fabricCanvas?.sendBackwards()}
     on:sendToBack={() => fabricCanvas?.sendToBack()}
+    on:flipX={() => fabricCanvas?.flipX()}
+    on:flipY={() => fabricCanvas?.flipY()}
   />
 
   <!-- メインコンテンツ -->
