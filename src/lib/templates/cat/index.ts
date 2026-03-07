@@ -6,8 +6,8 @@ export const catTemplates: CatTemplate[] = [
     name: 'Paw Button',
     nameJa: '肉球ボタン',
     category: 'button',
-    svgFile: '/templates/paw-button.svg',
-    thumbnail: '/templates/paw-button.svg',
+    svgFile: '/templates/buttons/paw-button.svg',
+    thumbnail: '/templates/buttons/paw-button.svg',
     description: '丸いボタンに肉球の凹凸をSVGで表現したかわいいUIボタン'
   },
   {
@@ -15,8 +15,8 @@ export const catTemplates: CatTemplate[] = [
     name: 'Cat Ear Frame',
     nameJa: '猫耳フレーム',
     category: 'frame',
-    svgFile: '/templates/cat-ear-frame.svg',
-    thumbnail: '/templates/cat-ear-frame.svg',
+    svgFile: '/templates/frames/cat-ear-frame.svg',
+    thumbnail: '/templates/frames/cat-ear-frame.svg',
     description: 'ダイアログやウィンドウ枠に猫耳がついたデザインフレーム'
   },
   {
@@ -24,8 +24,8 @@ export const catTemplates: CatTemplate[] = [
     name: 'Tail Gauge',
     nameJa: 'しっぽゲージ',
     category: 'gauge',
-    svgFile: '/templates/tail-gauge.svg',
-    thumbnail: '/templates/tail-gauge.svg',
+    svgFile: '/templates/gauges/tail-gauge.svg',
+    thumbnail: '/templates/gauges/tail-gauge.svg',
     description: 'HPバーやMPバーがしっぽの形をしたゲージUI'
   },
   {
@@ -33,8 +33,8 @@ export const catTemplates: CatTemplate[] = [
     name: 'Whisker Textbox',
     nameJa: 'ひげテキストボックス',
     category: 'textbox',
-    svgFile: '/templates/whisker-textbox.svg',
-    thumbnail: '/templates/whisker-textbox.svg',
+    svgFile: '/templates/text/whisker-textbox.svg',
+    thumbnail: '/templates/text/whisker-textbox.svg',
     description: 'ひげが装飾として付いた入力欄風のテキストボックス'
   },
   {
@@ -42,8 +42,8 @@ export const catTemplates: CatTemplate[] = [
     name: 'Cat Icon Frame',
     nameJa: 'にゃんこアイコンフレーム',
     category: 'icon',
-    svgFile: '/templates/cat-icon-frame.svg',
-    thumbnail: '/templates/cat-icon-frame.svg',
+    svgFile: '/templates/icons/cat-icon-frame.svg',
+    thumbnail: '/templates/icons/cat-icon-frame.svg',
     description: 'キャラクターアイコン用の猫耳付き丸フレーム'
   }
 ];
