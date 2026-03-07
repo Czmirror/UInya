@@ -5,6 +5,7 @@
   import type { CatTemplate, CatPart, TemplateCategory } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
   import { base } from '$app/paths';
+  import { t } from '$lib/stores/i18n';
   import CatPartsPanel from './CatPartsPanel.svelte';
 
   const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart; selectPreset: UIPreset }>();
@@ -23,6 +24,31 @@
   function setCategory(id: string) {
     activeCategory = id as TemplateCategory | 'all';
   }
+
+  function tplCatLabel(id: string): string {
+    const key = `tpl.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? id;
+  }
+
+  function tplName(id: string): string {
+    const key = `tpl.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? id;
+  }
+
+  function tplDesc(id: string): string {
+    const key = `tplDesc.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? '';
+  }
+
+  function presetName(id: string): string {
+    const key = `preset.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? id;
+  }
+
+  function presetDesc(id: string): string {
+    const key = `presetDesc.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? '';
+  }
 </script>
 
 <aside class="w-64 bg-dark-panel flex flex-col h-full border-r border-white/10 overflow-hidden">
@@ -33,30 +59,30 @@
         {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'templates')}
     >
-      テンプレート
+      {$t.templates}
     </button>
     <button
       class="flex-1 py-2 text-xs font-bold transition-colors
         {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'parts')}
     >
-      パーツ
+      {$t.parts}
     </button>
     <button
       class="flex-1 py-2 text-xs font-bold transition-colors
         {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'presets')}
     >
-      用途別UI
+      {$t.presetUi}
     </button>
   </div>
 
   {#if activeTab === 'presets'}
     <div class="p-4 border-b border-white/10">
       <h2 class="text-cat-cream font-bold text-sm uppercase tracking-wider">
-        🎮 用途別UI
+        {$t.presetHeader}
       </h2>
-      <p class="text-white/40 text-xs mt-1">1クリックで完成UIをキャンバスに追加</p>
+      <p class="text-white/40 text-xs mt-1">{$t.presetDesc}</p>
     </div>
     <div class="flex-1 overflow-y-auto p-3 space-y-2">
       {#each uiPresets as preset (preset.id)}
@@ -66,8 +92,8 @@
           on:click={() => dispatch('selectPreset', preset)}
         >
           <div class="p-3">
-            <p class="text-white font-semibold text-sm">{preset.nameJa}</p>
-            <p class="text-white/40 text-xs mt-1 leading-tight">{preset.description}</p>
+            <p class="text-white font-semibold text-sm">{presetName(preset.id)}</p>
+            <p class="text-white/40 text-xs mt-1 leading-tight">{presetDesc(preset.id)}</p>
           </div>
         </button>
       {/each}
@@ -77,7 +103,7 @@
   {:else}
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-pink font-bold text-sm uppercase tracking-wider mb-3">
-      🐾 テンプレート
+      {$t.templateHeader}
     </h2>
     <!-- カテゴリフィルター -->
     <div class="flex flex-wrap gap-1">
@@ -86,7 +112,7 @@
           {activeCategory === 'all' ? 'bg-cat-pink text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
         on:click={() => (activeCategory = 'all')}
       >
-        すべて
+        {$t.all}
       </button>
       {#each templateCategories as cat}
         <button
@@ -94,7 +120,7 @@
             {activeCategory === cat.id ? 'bg-cat-pink text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
           on:click={() => setCategory(cat.id)}
         >
-          {cat.label}
+          {tplCatLabel(cat.id)}
         </button>
       {/each}
     </div>
@@ -111,20 +137,20 @@
         <div class="w-full bg-white/5 flex items-center justify-center p-2 h-24 overflow-hidden">
           <img
             src="{base}{template.thumbnail}"
-            alt={template.nameJa}
+            alt={tplName(template.id)}
             class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
           />
         </div>
         <div class="p-2">
-          <p class="text-white font-semibold text-xs">{template.nameJa}</p>
-          <p class="text-white/40 text-xs mt-0.5 leading-tight">{template.description}</p>
+          <p class="text-white font-semibold text-xs">{tplName(template.id)}</p>
+          <p class="text-white/40 text-xs mt-0.5 leading-tight">{tplDesc(template.id)}</p>
         </div>
       </button>
     {/each}
 
     {#if filtered.length === 0}
       <div class="text-center text-white/40 text-sm py-8">
-        テンプレートがありません
+        {$t.noTemplates}
       </div>
     {/if}
   </div>

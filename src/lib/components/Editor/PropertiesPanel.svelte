@@ -1,6 +1,7 @@
 <script lang="ts">
   import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow } from '$lib/stores/editorStore';
   import { createEventDispatcher } from 'svelte';
+  import { t } from '$lib/stores/i18n';
 
   const dispatch = createEventDispatcher<{ bgColorChange: string | null }>();
 
@@ -26,7 +27,7 @@
 <aside class="w-64 bg-dark-panel flex flex-col h-full border-l border-white/10 overflow-y-auto">
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider">
-      プロパティ
+      {$t.properties}
     </h2>
   </div>
 
@@ -39,7 +40,7 @@
         class="rounded"
         on:change={(e) => handleBgToggle(e.currentTarget.checked)}
       />
-      背景色
+      {$t.bgColor}
     </label>
     {#if bgEnabled}
       <div class="flex items-center gap-2">
@@ -54,7 +55,7 @@
           value={bgColor}
           class="text-input flex-1"
           on:change={(e) => handleBgColor(e.currentTarget.value)}
-          aria-label="背景色の16進数値"
+          aria-label={$t.bgColor}
         />
       </div>
     {/if}
@@ -64,14 +65,14 @@
     <div class="flex-1 flex items-center justify-center text-white/30 text-sm p-4 text-center">
       <div>
         <p class="text-3xl mb-2">🐾</p>
-        <p>図形またはテンプレートを選択してください</p>
+        <p>{$t.selectPrompt}</p>
       </div>
     </div>
   {:else}
     <div class="p-4 space-y-5">
       <!-- 塗り色 -->
       <div class="prop-section">
-        <span class="prop-label">塗り色</span>
+        <span class="prop-label">{$t.fill}</span>
         <div class="flex items-center gap-2 mt-1.5">
           <input
             id="fill-color"
@@ -85,14 +86,14 @@
             value={state.fillColor}
             class="text-input flex-1"
             on:change={(e) => updateFill(e.currentTarget.value)}
-            aria-label="塗り色の16進数値"
+            aria-label={$t.fill}
           />
         </div>
       </div>
 
       <!-- 線の色 -->
       <div class="prop-section">
-        <span class="prop-label">線の色</span>
+        <span class="prop-label">{$t.strokeColor}</span>
         <div class="flex items-center gap-2 mt-1.5">
           <input
             id="stroke-color"
@@ -106,7 +107,7 @@
             value={state.strokeColor}
             class="text-input flex-1"
             on:change={(e) => updateStroke(e.currentTarget.value)}
-            aria-label="線の色の16進数値"
+            aria-label={$t.strokeColor}
           />
         </div>
       </div>
@@ -114,7 +115,7 @@
       <!-- 線の太さ -->
       <div class="prop-section">
         <div class="flex justify-between items-center">
-          <label for="stroke-width" class="prop-label">線の太さ</label>
+          <label for="stroke-width" class="prop-label">{$t.strokeWidth}</label>
           <span class="text-cat-pink text-xs font-semibold">{state.strokeWidth}px</span>
         </div>
         <input
@@ -132,7 +133,7 @@
       <!-- 角丸 -->
       <div class="prop-section">
         <div class="flex justify-between items-center">
-          <label for="border-radius" class="prop-label">角丸</label>
+          <label for="border-radius" class="prop-label">{$t.borderRadius}</label>
           <span class="text-cat-pink text-xs font-semibold">{state.borderRadius}px</span>
         </div>
         <input
@@ -150,7 +151,7 @@
       <!-- 透明度 -->
       <div class="prop-section">
         <div class="flex justify-between items-center">
-          <label for="opacity" class="prop-label">透明度</label>
+          <label for="opacity" class="prop-label">{$t.opacity}</label>
           <span class="text-cat-pink text-xs font-semibold">{state.opacity}%</span>
         </div>
         <input
@@ -174,25 +175,25 @@
             class="rounded"
             on:change={(e) => updateShadow(e.currentTarget.checked)}
           />
-          影
+          {$t.shadow}
         </label>
         {#if state.shadowEnabled}
           <div class="mt-2 space-y-2 pl-2 border-l-2 border-cat-lavender/30">
             <div>
-              <span class="prop-label-sm">影の色</span>
+              <span class="prop-label-sm">{$t.shadowColor}</span>
               <div class="flex items-center gap-2 mt-1">
                 <input
                   type="color"
                   value={state.shadowColor}
                   class="color-input"
-                  aria-label="影の色"
+                  aria-label={$t.shadowColor}
                   on:input={(e) => updateShadow(true, e.currentTarget.value)}
                 />
               </div>
             </div>
             <div>
               <div class="flex justify-between items-center">
-                <span class="prop-label-sm">ぼかし</span>
+                <span class="prop-label-sm">{$t.blur}</span>
                 <span class="text-cat-lavender text-xs">{state.shadowBlur}px</span>
               </div>
               <input
@@ -201,14 +202,14 @@
                 max="40"
                 value={state.shadowBlur}
                 class="range-input mt-1"
-                aria-label="影のぼかし"
+                aria-label={$t.blur}
                 on:input={(e) => updateShadow(true, undefined, Number(e.currentTarget.value))}
               />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <div class="flex justify-between items-center">
-                  <span class="prop-label-sm">X オフセット</span>
+                  <span class="prop-label-sm">{$t.xOffset}</span>
                   <span class="text-cat-lavender text-xs">{state.shadowOffsetX}</span>
                 </div>
                 <input
@@ -217,13 +218,13 @@
                   max="20"
                   value={state.shadowOffsetX}
                   class="range-input mt-1"
-                  aria-label="影のX方向オフセット"
+                  aria-label={$t.xOffset}
                   on:input={(e) => updateShadow(true, undefined, undefined, Number(e.currentTarget.value))}
                 />
               </div>
               <div>
                 <div class="flex justify-between items-center">
-                  <span class="prop-label-sm">Y オフセット</span>
+                  <span class="prop-label-sm">{$t.yOffset}</span>
                   <span class="text-cat-lavender text-xs">{state.shadowOffsetY}</span>
                 </div>
                 <input
@@ -232,7 +233,7 @@
                   max="20"
                   value={state.shadowOffsetY}
                   class="range-input mt-1"
-                  aria-label="影のY方向オフセット"
+                  aria-label={$t.yOffset}
                   on:input={(e) => updateShadow(true, undefined, undefined, undefined, Number(e.currentTarget.value))}
                 />
               </div>

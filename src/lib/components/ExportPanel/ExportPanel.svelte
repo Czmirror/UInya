@@ -1,5 +1,6 @@
 <script lang="ts">
   import { exportOptions } from '$lib/stores/editorStore';
+  import { t } from '$lib/stores/i18n';
 
   export let onExportSvg: () => void;
   export let onExportPng: () => void;
@@ -39,7 +40,7 @@
       checked={opts.transparent}
       on:change={(e) => exportOptions.update(o => ({ ...o, transparent: e.currentTarget.checked }))}
     />
-    透過PNG
+    {$t.transparentPng}
   </label>
 
   <!-- エクスポートボタン -->
