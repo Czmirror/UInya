@@ -36,14 +36,14 @@ export const uiPresets: UIPreset[] = [
     description: 'しっぽゲージ + 肉球装飾 + HPテキスト',
     elements: [
       {
-        svgFile: '/templates/tail-gauge.svg',
+        svgFile: '/templates/gauges/tail-gauge.svg',
         xRatio: 0.15,
         yRatio: 0.3,
         scaleRatio: 0.6,
         idPrefix: 'preset-gauge',
       },
       {
-        svgFile: '/svg/paw-simple.svg',
+        svgFile: '/parts/paws/paw-simple.svg',
         xRatio: 0.02,
         yRatio: 0.25,
         scaleRatio: 0.18,
@@ -66,14 +66,14 @@ export const uiPresets: UIPreset[] = [
     description: '猫耳フレーム + ひげテキストボックス + にゃんこアイコン',
     elements: [
       {
-        svgFile: '/templates/cat-ear-frame.svg',
+        svgFile: '/templates/frames/cat-ear-frame.svg',
         xRatio: 0.05,
         yRatio: 0.1,
         scaleRatio: 0.7,
         idPrefix: 'preset-frame',
       },
       {
-        svgFile: '/templates/cat-icon-frame.svg',
+        svgFile: '/templates/icons/cat-icon-frame.svg',
         xRatio: 0.02,
         yRatio: 0.55,
         scaleRatio: 0.25,
@@ -95,14 +95,14 @@ export const uiPresets: UIPreset[] = [
     description: '肉球ボタン + 猫顔装飾',
     elements: [
       {
-        svgFile: '/templates/paw-button.svg',
+        svgFile: '/templates/buttons/paw-button.svg',
         xRatio: 0.2,
         yRatio: 0.15,
         scaleRatio: 0.55,
         idPrefix: 'preset-button',
       },
       {
-        svgFile: '/svg/cat-face-base-round.svg',
+        svgFile: '/parts/face/face-round-basic.svg',
         xRatio: 0.6,
         yRatio: 0.55,
         scaleRatio: 0.25,
@@ -124,14 +124,14 @@ export const uiPresets: UIPreset[] = [
     description: 'にゃんこアイコンフレーム + 耳装飾',
     elements: [
       {
-        svgFile: '/templates/cat-icon-frame.svg',
+        svgFile: '/templates/icons/cat-icon-frame.svg',
         xRatio: 0.15,
         yRatio: 0.1,
         scaleRatio: 0.65,
         idPrefix: 'preset-iconframe',
       },
       {
-        svgFile: '/svg/ear-point-left.svg',
+        svgFile: '/parts/ears/ear-point-left.svg',
         xRatio: 0.12,
         yRatio: 0.02,
         scaleRatio: 0.15,
@@ -139,7 +139,7 @@ export const uiPresets: UIPreset[] = [
         idPrefix: 'preset-ear-l',
       },
       {
-        svgFile: '/svg/ear-point-right.svg',
+        svgFile: '/parts/ears/ear-point-right.svg',
         xRatio: 0.62,
         yRatio: 0.02,
         scaleRatio: 0.15,

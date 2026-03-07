@@ -16,7 +16,7 @@
 <div class="flex flex-col h-full">
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider mb-3">
-      🐱 パーツ <span class="text-white/30 text-[10px] normal-case tracking-normal ml-1">試験版</span>
+      🐱 パーツ
     </h2>
     <div class="flex flex-wrap gap-1">
       <button
