@@ -426,6 +426,39 @@
     canvas.renderAll();
   }
 
+  export function addLine() {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+    const state = $editorState;
+    const line = new fabric.Line([80, 200, 400, 200], {
+      stroke: state.strokeColor,
+      strokeWidth: Math.max(state.strokeWidth, 2),
+      fill: '',
+      strokeLineCap: 'round'
+    });
+    (line as { __id?: string }).__id = `line_${Date.now()}`;
+    canvas.add(line);
+    canvas.setActiveObject(line);
+    canvas.renderAll();
+  }
+
+  export function addBezier() {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+    const state = $editorState;
+    // Cubic bezier: M start C control1 control2 end
+    const path = new fabric.Path('M 60 300 C 140 100, 360 100, 440 300', {
+      stroke: state.strokeColor,
+      strokeWidth: Math.max(state.strokeWidth, 2),
+      fill: '',
+      strokeLineCap: 'round'
+    });
+    (path as { __id?: string }).__id = `bezier_${Date.now()}`;
+    canvas.add(path);
+    canvas.setActiveObject(path);
+    canvas.renderAll();
+  }
+
   export async function loadTemplate(template: CatTemplate) {
     if (!canvas || !fabricModule) return;
     const { fabric } = fabricModule;

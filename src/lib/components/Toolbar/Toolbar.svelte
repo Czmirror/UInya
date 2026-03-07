@@ -7,6 +7,8 @@
     addRoundedRect: void;
     addText: void;
     addCircle: void;
+    addLine: void;
+    addBezier: void;
     deleteSelected: void;
     clearAll: void;
     undo: void;
@@ -63,6 +65,24 @@
         <path d="M4 7V4h16v3M9 20h6M12 4v16"/>
       </svg>
       <span class="tooltip">テキストを追加</span>
+    </button>
+    <button
+      class="tool-btn"
+      on:click={() => dispatch('addLine')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="19" x2="19" y2="5"/>
+      </svg>
+      <span class="tooltip">ラインを追加</span>
+    </button>
+    <button
+      class="tool-btn"
+      on:click={() => dispatch('addBezier')}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 18 C 8 6, 16 6, 20 18" stroke-linecap="round"/>
+      </svg>
+      <span class="tooltip">ベジエ曲線を追加</span>
     </button>
   </div>
 
