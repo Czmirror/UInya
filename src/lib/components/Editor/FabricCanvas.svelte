@@ -5,6 +5,7 @@
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
   import { base } from '$app/paths';
+  import { t } from '$lib/stores/i18n';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
 
@@ -770,6 +771,11 @@
     return dataUrl;
   }
 
+  function tplName(id: string): string {
+    const key = `tpl.${id}` as keyof typeof $t;
+    return ($t as Record<string, string>)[key] ?? id;
+  }
+
   // Context menu action helper
   function ctxAction(fn: () => void) {
     fn();
@@ -809,8 +815,8 @@
   <!-- Welcome showcase overlay -->
   {#if showWelcome}
     <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#111827]/80 z-40 backdrop-blur-sm">
-      <p class="text-white/70 text-lg font-bold mb-1">Create cute cat game UI</p>
-      <p class="text-white/40 text-sm mb-5">Pick a template or start from scratch</p>
+      <p class="text-white/70 text-lg font-bold mb-1">{$t.welcomeTitle}</p>
+      <p class="text-white/40 text-sm mb-5">{$t.welcomeSub}</p>
       <div class="flex gap-4 flex-wrap justify-center max-w-xl px-4">
         {#each catTemplates.slice(0, 5) as template (template.id)}
           <button
@@ -821,11 +827,11 @@
             <div class="w-full bg-white/5 flex items-center justify-center p-2 h-20 overflow-hidden">
               <img
                 src="{base}{template.thumbnail}"
-                alt={template.nameJa}
+                alt={tplName(template.id)}
                 class="max-h-full max-w-full object-contain"
               />
             </div>
-            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{template.nameJa}</p>
+            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{tplName(template.id)}</p>
           </button>
         {/each}
       </div>
@@ -833,7 +839,7 @@
         class="mt-5 text-white/30 text-xs hover:text-white/60 transition-colors"
         on:click={() => { showWelcome = false; }}
       >
-        Skip — start with empty canvas
+        {$t.welcomeSkip}
       </button>
     </div>
   {/if}
@@ -849,34 +855,34 @@
     >
       {#if $editorState.selectedObjectId}
         <button class="ctx-item" on:click={() => ctxAction(deleteSelected)}>
-          <span>削除</span><span class="ctx-shortcut">Delete</span>
+          <span>{$t.delete}</span><span class="ctx-shortcut">Delete</span>
         </button>
         <hr class="border-white/10" />
         <button class="ctx-item" on:click={() => ctxAction(bringToFront)}>
-          <span>最前面へ</span>
+          <span>{$t.bringToFront}</span>
         </button>
         <button class="ctx-item" on:click={() => ctxAction(bringForward)}>
-          <span>前面へ</span>
+          <span>{$t.bringForward}</span>
         </button>
         <button class="ctx-item" on:click={() => ctxAction(sendBackwards)}>
-          <span>背面へ</span>
+          <span>{$t.sendBackwards}</span>
         </button>
         <button class="ctx-item" on:click={() => ctxAction(sendToBack)}>
-          <span>最背面へ</span>
+          <span>{$t.sendToBack}</span>
         </button>
         <hr class="border-white/10" />
         <button class="ctx-item" on:click={() => ctxAction(groupSelected)}>
-          <span>グループ化</span><span class="ctx-shortcut">Ctrl+G</span>
+          <span>{$t.group}</span><span class="ctx-shortcut">Ctrl+G</span>
         </button>
         <button class="ctx-item" on:click={() => ctxAction(ungroupSelected)}>
-          <span>グループ解除</span><span class="ctx-shortcut">Ctrl+Shift+G</span>
+          <span>{$t.ungroup}</span><span class="ctx-shortcut">Ctrl+Shift+G</span>
         </button>
       {:else}
         <button class="ctx-item" on:click={() => ctxAction(undo)}>
-          <span>元に戻す</span><span class="ctx-shortcut">Ctrl+Z</span>
+          <span>{$t.undo}</span><span class="ctx-shortcut">Ctrl+Z</span>
         </button>
         <button class="ctx-item" on:click={() => ctxAction(redo)}>
-          <span>やり直す</span><span class="ctx-shortcut">Ctrl+Shift+Z</span>
+          <span>{$t.redo}</span><span class="ctx-shortcut">Ctrl+Shift+Z</span>
         </button>
       {/if}
     </div>

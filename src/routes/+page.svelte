@@ -5,10 +5,22 @@
   import PropertiesPanel from '$lib/components/Editor/PropertiesPanel.svelte';
   import ExportPanel from '$lib/components/ExportPanel/ExportPanel.svelte';
   import { base } from '$app/paths';
+  import { onMount } from 'svelte';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
+  import { locale, initLocale, setLocale, t } from '$lib/stores/i18n';
+  import type { Locale } from '$lib/stores/i18n';
 
   let fabricCanvas: FabricCanvas;
+
+  onMount(() => {
+    initLocale();
+  });
+
+  function toggleLocale() {
+    const next: Locale = $locale === 'ja' ? 'en' : 'ja';
+    setLocale(next);
+  }
 
   function handleTemplateSelect(e: CustomEvent<CatTemplate>) {
     fabricCanvas?.loadTemplate(e.detail);
@@ -57,15 +69,26 @@
       <img src="{base}/icon.svg" alt="UInya" class="w-8 h-8" />
       <div>
         <h1 class="text-xl font-extrabold text-cat-pink leading-none">UInya</h1>
-        <p class="text-white/40 text-xs">Cat UI SVG Generator for Games</p>
+        <p class="text-white/40 text-xs">{$t.subtitle}</p>
       </div>
     </div>
 
-    <!-- エクスポートパネル -->
-    <ExportPanel
+    <div class="flex items-center gap-3">
+      <!-- 言語切替 -->
+      <button
+        class="flex items-center gap-0.5 text-xs font-bold rounded-lg border border-white/20 overflow-hidden"
+        on:click={toggleLocale}
+      >
+        <span class="px-2 py-1 transition-colors {$locale === 'ja' ? 'bg-cat-pink text-dark-bg' : 'text-white/40 hover:text-white/60'}">JA</span>
+        <span class="px-2 py-1 transition-colors {$locale === 'en' ? 'bg-cat-pink text-dark-bg' : 'text-white/40 hover:text-white/60'}">EN</span>
+      </button>
+
+      <!-- エクスポートパネル -->
+      <ExportPanel
       onExportSvg={handleExportSvg}
       onExportPng={handleExportPng}
     />
+    </div>
   </header>
 
   <!-- ツールバー -->
