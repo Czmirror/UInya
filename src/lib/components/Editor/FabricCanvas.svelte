@@ -14,6 +14,9 @@
   let canvasEl: HTMLCanvasElement;
   let wrapperEl: HTMLDivElement;
   let showWelcome = true;
+
+  // スナップガイドライン（ドラッグ中のプレビュー表示用）
+  let snapGuides: { x: number | null; y: number | null } = { x: null, y: null };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let canvas: any = null;
   let fabricModule: typeof import('fabric') | null = null;
@@ -205,12 +208,10 @@
       }
     });
 
-    // スナップ: 移動中にトップレベルオブジェクトの端・中心にスナップ
-    canvas.on('object:moving', (e: { target: any }) => {
-      if (!$snapEnabled) return;
-      const target = e.target;
-      if (!target) return;
+    // --- スナップ: 候補検出・ガイド表示・最終吸着確定を分離 ---
 
+    /** スナップ候補を検出し、最も近いX/Yの吸着量を返す */
+    function findSnapCandidates(target: any): { dx: number | null; dy: number | null; snapX: number | null; snapY: number | null } {
       const bound = target.getBoundingRect(true);
       const tCenterX = bound.left + bound.width / 2;
       const tCenterY = bound.top + bound.height / 2;
@@ -233,36 +234,76 @@
 
       let bestDx: number | null = null;
       let bestDistX = SNAP_THRESHOLD;
+      let bestSnapX: number | null = null;
       for (const edge of tEdgesX) {
         for (const snap of snapXCandidates) {
           const dist = Math.abs(edge - snap);
           if (dist < bestDistX) {
             bestDistX = dist;
             bestDx = snap - edge;
+            bestSnapX = snap;
           }
         }
       }
 
       let bestDy: number | null = null;
       let bestDistY = SNAP_THRESHOLD;
+      let bestSnapY: number | null = null;
       for (const edge of tEdgesY) {
         for (const snap of snapYCandidates) {
           const dist = Math.abs(edge - snap);
           if (dist < bestDistY) {
             bestDistY = dist;
             bestDy = snap - edge;
+            bestSnapY = snap;
           }
         }
       }
 
-      if (bestDx !== null) target.set('left', target.left + bestDx);
-      if (bestDy !== null) target.set('top', target.top + bestDy);
+      return { dx: bestDx, dy: bestDy, snapX: bestSnapX, snapY: bestSnapY };
+    }
+
+    /** ドラッグ中: ガイドラインのプレビューのみ（位置は変更しない） */
+    canvas.on('object:moving', (e: { target: any }) => {
+      if (!$snapEnabled) {
+        snapGuides = { x: null, y: null };
+        return;
+      }
+      const target = e.target;
+      if (!target) return;
+
+      const { snapX, snapY } = findSnapCandidates(target);
+      snapGuides = { x: snapX, y: snapY };
     });
+
+    /** ドラッグ終了時: 実際の吸着確定を1回だけ実行 */
+    function commitSnapOnDragEnd(target: any) {
+      if (!$snapEnabled || !target) return;
+
+      const { dx, dy } = findSnapCandidates(target);
+      if (dx !== null) target.set('left', target.left + dx);
+      if (dy !== null) target.set('top', target.top + dy);
+      if (dx !== null || dy !== null) {
+        target.setCoords();
+        canvas.renderAll();
+      }
+
+      // ガイドをクリア
+      snapGuides = { x: null, y: null };
+    }
 
     // Save state on object modifications for undo/redo
     canvas.on('object:added', () => { showWelcome = false; saveState(); });
-    canvas.on('object:modified', () => saveState());
+    canvas.on('object:modified', (e: { target: any }) => {
+      commitSnapOnDragEnd(e.target);
+      saveState();
+    });
     canvas.on('object:removed', () => saveState());
+
+    // ドラッグ終了時にガイドをクリア
+    canvas.on('mouse:up', () => {
+      snapGuides = { x: null, y: null };
+    });
 
     // Save initial empty state
     saveState();
@@ -655,6 +696,19 @@
             linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
           background-size: {GRID_SIZE}px {GRID_SIZE}px;
         "
+      ></div>
+    {/if}
+    <!-- スナップガイドライン（ドラッグ中のプレビュー） -->
+    {#if snapGuides.x !== null}
+      <div
+        class="absolute top-0 bottom-0 pointer-events-none"
+        style="left: {snapGuides.x}px; width: 1px; background: rgba(255,107,181,0.5);"
+      ></div>
+    {/if}
+    {#if snapGuides.y !== null}
+      <div
+        class="absolute left-0 right-0 pointer-events-none"
+        style="top: {snapGuides.y}px; height: 1px; background: rgba(255,107,181,0.5);"
       ></div>
     {/if}
   </div>
