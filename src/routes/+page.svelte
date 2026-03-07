@@ -74,6 +74,8 @@
     on:addRoundedRect={() => fabricCanvas?.addRoundedRect()}
     on:addCircle={() => fabricCanvas?.addCircle()}
     on:addText={() => fabricCanvas?.addText()}
+    on:addLine={() => fabricCanvas?.addLine()}
+    on:addBezier={() => fabricCanvas?.addBezier()}
     on:deleteSelected={() => fabricCanvas?.deleteSelected()}
     on:clearAll={() => fabricCanvas?.clearAll()}
     on:undo={() => fabricCanvas?.undo()}
