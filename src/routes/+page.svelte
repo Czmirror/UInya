@@ -6,6 +6,7 @@
   import ExportPanel from '$lib/components/ExportPanel/ExportPanel.svelte';
   import { base } from '$app/paths';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
+  import type { UIPreset } from '$lib/templates/presets';
 
   let fabricCanvas: FabricCanvas;
 
@@ -15,6 +16,10 @@
 
   function handlePartSelect(e: CustomEvent<CatPart>) {
     fabricCanvas?.loadPart(e.detail);
+  }
+
+  function handlePresetSelect(e: CustomEvent<UIPreset>) {
+    fabricCanvas?.createPreset(e.detail);
   }
 
   function handleExportSvg() {
@@ -86,7 +91,7 @@
   <!-- メインコンテンツ -->
   <div class="flex flex-1 overflow-hidden">
     <!-- 左パネル: テンプレート -->
-    <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} />
+    <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} on:selectPreset={handlePresetSelect} />
 
     <!-- 中央: キャンバスエディタ -->
     <FabricCanvas bind:this={fabricCanvas} />
