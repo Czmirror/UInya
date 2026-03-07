@@ -1,13 +1,15 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { catTemplates, templateCategories } from '$lib/templates/cat';
+  import { uiPresets } from '$lib/templates/presets';
   import type { CatTemplate, CatPart, TemplateCategory } from '$lib/types/ui';
+  import type { UIPreset } from '$lib/templates/presets';
   import { base } from '$app/paths';
   import CatPartsPanel from './CatPartsPanel.svelte';
 
-  const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart }>();
+  const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart; selectPreset: UIPreset }>();
 
-  let activeTab: 'templates' | 'parts' = 'templates';
+  let activeTab: 'templates' | 'parts' | 'presets' = 'templates';
   let activeCategory: TemplateCategory | 'all' = 'all';
 
   $: filtered = activeCategory === 'all'
@@ -40,9 +42,37 @@
     >
       パーツ
     </button>
+    <button
+      class="flex-1 py-2 text-xs font-bold transition-colors
+        {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-white/40 hover:text-white/60'}"
+      on:click={() => (activeTab = 'presets')}
+    >
+      用途別UI
+    </button>
   </div>
 
-  {#if activeTab === 'parts'}
+  {#if activeTab === 'presets'}
+    <div class="p-4 border-b border-white/10">
+      <h2 class="text-cat-cream font-bold text-sm uppercase tracking-wider">
+        🎮 用途別UI
+      </h2>
+      <p class="text-white/40 text-xs mt-1">1クリックで完成UIをキャンバスに追加</p>
+    </div>
+    <div class="flex-1 overflow-y-auto p-3 space-y-2">
+      {#each uiPresets as preset (preset.id)}
+        <button
+          class="w-full rounded-xl overflow-hidden bg-dark-card border border-white/10
+            hover:border-cat-cream/60 transition-all group text-left"
+          on:click={() => dispatch('selectPreset', preset)}
+        >
+          <div class="p-3">
+            <p class="text-white font-semibold text-sm">{preset.nameJa}</p>
+            <p class="text-white/40 text-xs mt-1 leading-tight">{preset.description}</p>
+          </div>
+        </button>
+      {/each}
+    </div>
+  {:else if activeTab === 'parts'}
     <CatPartsPanel on:selectPart />
   {:else}
   <div class="p-4 border-b border-white/10">

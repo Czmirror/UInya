@@ -3,6 +3,7 @@
   import { editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
   import { catTemplates } from '$lib/templates/cat';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
+  import type { UIPreset } from '$lib/templates/presets';
   import { base } from '$app/paths';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
@@ -509,6 +510,65 @@
     } catch (e) {
       console.error('Failed to load part SVG:', e);
     }
+  }
+
+  /** 用途別UIプリセットをキャンバスへ追加 */
+  export async function createPreset(preset: UIPreset) {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+    const canvasW = canvas.getWidth();
+    const canvasH = canvas.getHeight();
+
+    isBatchOperation = true;
+
+    for (const elem of preset.elements) {
+      // テキスト要素（svgFile が空の場合）
+      if (!elem.svgFile) {
+        const label = elem.idPrefix.replace('preset-text:', '');
+        const text = new fabric.IText(label, {
+          left: canvasW * elem.xRatio,
+          top: canvasH * elem.yRatio,
+          fontSize: 24,
+          fontFamily: 'Nunito, sans-serif',
+          fill: '#FFB7C5',
+          fontWeight: '700'
+        });
+        (text as { __id?: string }).__id = `preset_text_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+        canvas.add(text);
+        continue;
+      }
+
+      // SVG要素
+      await new Promise<void>((resolve) => {
+        fabric.loadSVGFromURL(
+          `${base}${elem.svgFile}`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (objects: any[], options: any) => {
+            if (!objects || objects.length === 0) {
+              resolve();
+              return;
+            }
+            const group = fabric.util.groupSVGElements(objects, options);
+            const scale = (canvasW * elem.scaleRatio) / (group.width ?? 100);
+            group.set({
+              left: canvasW * elem.xRatio,
+              top: canvasH * elem.yRatio,
+              scaleX: scale,
+              scaleY: scale,
+              angle: elem.angle ?? 0
+            });
+            (group as { __id?: string }).__id = `${elem.idPrefix}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            canvas.add(group);
+            resolve();
+          }
+        );
+      });
+    }
+
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    isBatchOperation = false;
+    saveState();
   }
 
   export function groupSelected() {
