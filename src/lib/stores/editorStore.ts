@@ -21,6 +21,10 @@ const initialState: EditorState = {
 
 export const editorState = writable<EditorState>(initialState);
 
+// グリッド表示・スナップ機能の状態（editorStateとは独立して管理）
+export const gridEnabled = writable(false);
+export const snapEnabled = writable(false);
+
 export const exportOptions = writable<ExportOptions>({
   format: 'svg',
   width: 512,
