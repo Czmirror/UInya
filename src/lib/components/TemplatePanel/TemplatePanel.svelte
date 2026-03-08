@@ -4,13 +4,15 @@
   import { uiPresets } from '$lib/templates/presets';
   import type { CatTemplate, CatPart, TemplateCategory } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
+  import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { base } from '$app/paths';
   import { t } from '$lib/stores/i18n';
   import CatPartsPanel from './CatPartsPanel.svelte';
+  import SilhouettePanel from './SilhouettePanel.svelte';
 
-  const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart; selectPreset: UIPreset }>();
+  const dispatch = createEventDispatcher<{ select: CatTemplate; selectPart: CatPart; selectPreset: UIPreset; selectSilhouette: CatSilhouette }>();
 
-  let activeTab: 'templates' | 'parts' | 'presets' = 'templates';
+  let activeTab: 'templates' | 'parts' | 'presets' | 'silhouettes' = 'templates';
   let activeCategory: TemplateCategory | 'all' = 'all';
 
   $: dict = $t;
@@ -55,9 +57,18 @@
     >
       {dict.presetUi}
     </button>
+    <button
+      class="flex-1 py-2 text-xs font-bold transition-colors
+        {activeTab === 'silhouettes' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-white/40 hover:text-white/60'}"
+      on:click={() => (activeTab = 'silhouettes')}
+    >
+      {dict.silhouettes}
+    </button>
   </div>
 
-  {#if activeTab === 'presets'}
+  {#if activeTab === 'silhouettes'}
+    <SilhouettePanel on:selectSilhouette />
+  {:else if activeTab === 'presets'}
     <div class="p-4 border-b border-white/10">
       <h2 class="text-cat-cream font-bold text-sm uppercase tracking-wider">
         {dict.presetHeader}

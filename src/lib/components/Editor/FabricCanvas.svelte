@@ -4,6 +4,7 @@
   import { catTemplates } from '$lib/templates/cat';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
+  import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { base } from '$app/paths';
   import { t } from '$lib/stores/i18n';
 
@@ -620,6 +621,49 @@
       });
     } catch (e) {
       console.error('Failed to load part SVG:', e);
+    }
+  }
+
+  /** シルエットSVGをキャンバスに配置（パーツと同じ方式） */
+  export async function loadSilhouette(sil: CatSilhouette) {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+
+    try {
+      await new Promise<void>((resolve, reject) => {
+        fabric.loadSVGFromURL(
+          `${base}${sil.svgFile}`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (objects: any[], options: any) => {
+            if (!objects || objects.length === 0) {
+              reject(new Error('Silhouette SVG load failed'));
+              return;
+            }
+
+            const group = fabric.util.groupSVGElements(objects, options);
+            const canvasW = canvas.getWidth();
+            const canvasH = canvas.getHeight();
+            const scale = Math.min(
+              (canvasW * 0.3) / (group.width ?? 100),
+              (canvasH * 0.3) / (group.height ?? 100)
+            );
+
+            group.set({
+              left: canvasW / 2 - ((group.width ?? 100) * scale) / 2,
+              top: canvasH / 2 - ((group.height ?? 100) * scale) / 2,
+              scaleX: scale,
+              scaleY: scale
+            });
+            (group as { __id?: string }).__id = `sil_${sil.id}_${Date.now()}`;
+            canvas.add(group);
+            canvas.setActiveObject(group);
+            canvas.renderAll();
+            resolve();
+          }
+        );
+      });
+    } catch (e) {
+      console.error('Failed to load silhouette SVG:', e);
     }
   }
 
