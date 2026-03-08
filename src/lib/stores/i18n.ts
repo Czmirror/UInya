@@ -156,6 +156,24 @@ const dict = {
     'presetDesc.dialog-window': '猫耳フレーム + ひげテキストボックス + にゃんこアイコン',
     'presetDesc.skill-button': '肉球ボタン + 猫顔装飾',
     'presetDesc.icon-frame': 'にゃんこアイコンフレーム + 耳装飾',
+
+    // Silhouettes
+    silhouettes: 'シルエット',
+    silhouetteHeader: '🐈‍⬛ シルエット',
+    silhouetteDesc: '完成済みの猫シルエット素材',
+    noSilhouettes: 'シルエットがありません',
+    'sil.cat-face': '猫顔シルエット',
+    'sil.cat-sit': '座り猫',
+    'sil.cat-walk': '歩き猫',
+    'sil.cat-loaf': '香箱猫',
+    'sil.cat-sleep': '眠り猫',
+    'sil.cat-stretching': '伸び猫',
+    'sil.cat-grooming': '毛づくろい猫',
+    'sil.cat-laying': '寝そべり猫',
+    'sil.cat-looking-back': '振り向き猫',
+    'sil.cat-looking-up': '見上げ猫',
+    'sil.cat-rolling': 'ゴロゴロ猫',
+    'sil.cat-tailwrap': 'しっぽ巻き猫',
   },
   en: {
     subtitle: 'Cat UI SVG Generator for Games',
@@ -269,6 +287,24 @@ const dict = {
     'presetDesc.dialog-window': 'Cat ear frame + whisker textbox + cat icon',
     'presetDesc.skill-button': 'Paw button + cat face decoration',
     'presetDesc.icon-frame': 'Cat icon frame + ear decoration',
+
+    // Silhouettes
+    silhouettes: 'Silhouettes',
+    silhouetteHeader: '🐈‍⬛ Silhouettes',
+    silhouetteDesc: 'Ready-made cat silhouette assets',
+    noSilhouettes: 'No silhouettes found',
+    'sil.cat-face': 'Cat Face',
+    'sil.cat-sit': 'Sitting Cat',
+    'sil.cat-walk': 'Walking Cat',
+    'sil.cat-loaf': 'Cat Loaf',
+    'sil.cat-sleep': 'Sleeping Cat',
+    'sil.cat-stretching': 'Stretching Cat',
+    'sil.cat-grooming': 'Grooming Cat',
+    'sil.cat-laying': 'Laying Cat',
+    'sil.cat-looking-back': 'Looking Back',
+    'sil.cat-looking-up': 'Looking Up',
+    'sil.cat-rolling': 'Rolling Cat',
+    'sil.cat-tailwrap': 'Tail Wrap Cat',
   }
 } as const;
 

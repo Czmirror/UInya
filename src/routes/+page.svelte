@@ -8,6 +8,7 @@
   import { onMount } from 'svelte';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
+  import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { locale, initLocale, setLocale, t } from '$lib/stores/i18n';
   import type { Locale } from '$lib/stores/i18n';
 
@@ -32,6 +33,10 @@
 
   function handlePresetSelect(e: CustomEvent<UIPreset>) {
     fabricCanvas?.createPreset(e.detail);
+  }
+
+  function handleSilhouetteSelect(e: CustomEvent<CatSilhouette>) {
+    fabricCanvas?.loadSilhouette(e.detail);
   }
 
   function handleExportSvg() {
@@ -116,7 +121,7 @@
   <!-- メインコンテンツ -->
   <div class="flex flex-1 overflow-hidden">
     <!-- 左パネル: テンプレート -->
-    <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} on:selectPreset={handlePresetSelect} />
+    <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} on:selectPreset={handlePresetSelect} on:selectSilhouette={handleSilhouetteSelect} />
 
     <!-- 中央: キャンバスエディタ -->
     <FabricCanvas bind:this={fabricCanvas} />
