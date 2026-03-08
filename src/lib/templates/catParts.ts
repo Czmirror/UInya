@@ -144,6 +144,29 @@ export const catParts: CatPart[] = [
     nameJa: 'ぴんとしっぽ',
     category: 'tail',
     svgFile: '/parts/tails/tail-up.svg'
+  },
+
+  // ── ひげ ──
+  {
+    id: 'whisker-left',
+    name: 'Whisker (Left)',
+    nameJa: 'ひげ（左）',
+    category: 'whisker',
+    svgFile: '/parts/whiskers/whisker-left.svg'
+  },
+  {
+    id: 'whisker-right',
+    name: 'Whisker (Right)',
+    nameJa: 'ひげ（右）',
+    category: 'whisker',
+    svgFile: '/parts/whiskers/whisker-right.svg'
+  },
+  {
+    id: 'whisker-pair',
+    name: 'Whiskers',
+    nameJa: 'ひげ',
+    category: 'whisker',
+    svgFile: '/parts/whiskers/whisker-pair.svg'
   }
 ];
 
@@ -154,5 +177,6 @@ export const catPartCategories: { id: CatPartCategory; label: string }[] = [
   { id: 'nose', label: '鼻' },
   { id: 'mouth', label: '口' },
   { id: 'paw', label: '肉球' },
-  { id: 'tail', label: 'しっぽ' }
+  { id: 'tail', label: 'しっぽ' },
+  { id: 'whisker', label: 'ひげ' }
 ];

@@ -103,6 +103,7 @@ const dict = {
     'cat.mouth': '口',
     'cat.paw': '肉球',
     'cat.tail': 'しっぽ',
+    'cat.whisker': 'ひげ',
 
     // Template categories
     'tpl.button': 'ボタン',
@@ -130,6 +131,9 @@ const dict = {
     'part.paw-simple': 'シンプル肉球',
     'part.tail-curve': 'カーブしっぽ',
     'part.tail-up': 'ぴんとしっぽ',
+    'part.whisker-left': 'ひげ（左）',
+    'part.whisker-right': 'ひげ（右）',
+    'part.whisker-pair': 'ひげ',
 
     // Template names
     'tpl.paw-button': '肉球ボタン',
@@ -174,6 +178,7 @@ const dict = {
     'sil.cat-looking-up': '見上げ猫',
     'sil.cat-rolling': 'ゴロゴロ猫',
     'sil.cat-tailwrap': 'しっぽ巻き猫',
+    'sil.cat-running': '走り猫',
   },
   en: {
     subtitle: 'Cat UI SVG Generator for Games',
@@ -240,6 +245,7 @@ const dict = {
     'cat.mouth': 'Mouth',
     'cat.paw': 'Paws',
     'cat.tail': 'Tail',
+    'cat.whisker': 'Whiskers',
 
     'tpl.button': 'Buttons',
     'tpl.frame': 'Frames',
@@ -265,6 +271,9 @@ const dict = {
     'part.paw-simple': 'Simple Paw',
     'part.tail-curve': 'Curved Tail',
     'part.tail-up': 'Up Tail',
+    'part.whisker-left': 'Whisker (L)',
+    'part.whisker-right': 'Whisker (R)',
+    'part.whisker-pair': 'Whiskers',
 
     'tpl.paw-button': 'Paw Button',
     'tpl.cat-ear-frame': 'Cat Ear Frame',
@@ -305,6 +314,7 @@ const dict = {
     'sil.cat-looking-up': 'Looking Up',
     'sil.cat-rolling': 'Rolling Cat',
     'sil.cat-tailwrap': 'Tail Wrap Cat',
+    'sil.cat-running': 'Running Cat',
   }
 } as const;
 

@@ -12,7 +12,7 @@ export interface CatTemplate {
 }
 
 /** 新規: 猫パーツ規格（viewBox 0 0 100 100 統一） */
-export type CatPartCategory = 'face' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail';
+export type CatPartCategory = 'face' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail' | 'whisker';
 
 export interface CatPart {
   id: string;
