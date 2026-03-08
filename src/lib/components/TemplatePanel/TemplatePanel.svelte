@@ -13,9 +13,10 @@
   let activeTab: 'templates' | 'parts' | 'presets' = 'templates';
   let activeCategory: TemplateCategory | 'all' = 'all';
 
+  $: dict = $t;
   $: filtered = activeCategory === 'all'
     ? catTemplates
-    : catTemplates.filter((t) => t.category === activeCategory);
+    : catTemplates.filter((tpl) => tpl.category === activeCategory);
 
   function selectTemplate(template: CatTemplate) {
     dispatch('select', template);
@@ -25,29 +26,8 @@
     activeCategory = id as TemplateCategory | 'all';
   }
 
-  function tplCatLabel(id: string): string {
-    const key = `tpl.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
-  }
-
-  function tplName(id: string): string {
-    const key = `tpl.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
-  }
-
-  function tplDesc(id: string): string {
-    const key = `tplDesc.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? '';
-  }
-
-  function presetName(id: string): string {
-    const key = `preset.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
-  }
-
-  function presetDesc(id: string): string {
-    const key = `presetDesc.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? '';
+  function lookup(d: Record<string, string>, key: string, fallback: string): string {
+    return d[key] ?? fallback;
   }
 </script>
 
@@ -59,30 +39,30 @@
         {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'templates')}
     >
-      {$t.templates}
+      {dict.templates}
     </button>
     <button
       class="flex-1 py-2 text-xs font-bold transition-colors
         {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'parts')}
     >
-      {$t.parts}
+      {dict.parts}
     </button>
     <button
       class="flex-1 py-2 text-xs font-bold transition-colors
         {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'presets')}
     >
-      {$t.presetUi}
+      {dict.presetUi}
     </button>
   </div>
 
   {#if activeTab === 'presets'}
     <div class="p-4 border-b border-white/10">
       <h2 class="text-cat-cream font-bold text-sm uppercase tracking-wider">
-        {$t.presetHeader}
+        {dict.presetHeader}
       </h2>
-      <p class="text-white/40 text-xs mt-1">{$t.presetDesc}</p>
+      <p class="text-white/40 text-xs mt-1">{dict.presetDesc}</p>
     </div>
     <div class="flex-1 overflow-y-auto p-3 space-y-2">
       {#each uiPresets as preset (preset.id)}
@@ -92,8 +72,8 @@
           on:click={() => dispatch('selectPreset', preset)}
         >
           <div class="p-3">
-            <p class="text-white font-semibold text-sm">{presetName(preset.id)}</p>
-            <p class="text-white/40 text-xs mt-1 leading-tight">{presetDesc(preset.id)}</p>
+            <p class="text-white font-semibold text-sm">{lookup(dict, `preset.${preset.id}`, preset.id)}</p>
+            <p class="text-white/40 text-xs mt-1 leading-tight">{lookup(dict, `presetDesc.${preset.id}`, '')}</p>
           </div>
         </button>
       {/each}
@@ -103,7 +83,7 @@
   {:else}
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-pink font-bold text-sm uppercase tracking-wider mb-3">
-      {$t.templateHeader}
+      {dict.templateHeader}
     </h2>
     <!-- カテゴリフィルター -->
     <div class="flex flex-wrap gap-1">
@@ -112,7 +92,7 @@
           {activeCategory === 'all' ? 'bg-cat-pink text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
         on:click={() => (activeCategory = 'all')}
       >
-        {$t.all}
+        {dict.all}
       </button>
       {#each templateCategories as cat}
         <button
@@ -120,7 +100,7 @@
             {activeCategory === cat.id ? 'bg-cat-pink text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
           on:click={() => setCategory(cat.id)}
         >
-          {tplCatLabel(cat.id)}
+          {lookup(dict, `tpl.${cat.id}`, cat.id)}
         </button>
       {/each}
     </div>
@@ -137,20 +117,20 @@
         <div class="w-full bg-white/5 flex items-center justify-center p-2 h-24 overflow-hidden">
           <img
             src="{base}{template.thumbnail}"
-            alt={tplName(template.id)}
+            alt={lookup(dict, `tpl.${template.id}`, template.id)}
             class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
           />
         </div>
         <div class="p-2">
-          <p class="text-white font-semibold text-xs">{tplName(template.id)}</p>
-          <p class="text-white/40 text-xs mt-0.5 leading-tight">{tplDesc(template.id)}</p>
+          <p class="text-white font-semibold text-xs">{lookup(dict, `tpl.${template.id}`, template.id)}</p>
+          <p class="text-white/40 text-xs mt-0.5 leading-tight">{lookup(dict, `tplDesc.${template.id}`, '')}</p>
         </div>
       </button>
     {/each}
 
     {#if filtered.length === 0}
       <div class="text-center text-white/40 text-sm py-8">
-        {$t.noTemplates}
+        {dict.noTemplates}
       </div>
     {/if}
   </div>

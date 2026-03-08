@@ -9,25 +9,20 @@
 
   let activeCategory: CatPartCategory | 'all' = 'all';
 
+  $: dict = $t;
   $: filtered = activeCategory === 'all'
     ? catParts
     : catParts.filter((p) => p.category === activeCategory);
 
-  function catLabel(id: string): string {
-    const key = `cat.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
-  }
-
-  function partLabel(id: string): string {
-    const key = `part.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
+  function lookup(d: Record<string, string>, key: string, fallback: string): string {
+    return d[key] ?? fallback;
   }
 </script>
 
 <div class="flex flex-col h-full">
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider mb-3">
-      {$t.partsHeader}
+      {dict.partsHeader}
     </h2>
     <div class="flex flex-wrap gap-1">
       <button
@@ -35,7 +30,7 @@
           {activeCategory === 'all' ? 'bg-cat-lavender text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
         on:click={() => (activeCategory = 'all')}
       >
-        {$t.all}
+        {dict.all}
       </button>
       {#each catPartCategories as cat}
         <button
@@ -43,7 +38,7 @@
             {activeCategory === cat.id ? 'bg-cat-lavender text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
           on:click={() => (activeCategory = cat.id)}
         >
-          {catLabel(cat.id)}
+          {lookup(dict, `cat.${cat.id}`, cat.id)}
         </button>
       {/each}
     </div>
@@ -60,18 +55,18 @@
           <div class="w-full bg-white/5 flex items-center justify-center p-3 h-20 overflow-hidden">
             <img
               src="{base}{part.svgFile}"
-              alt={partLabel(part.id)}
+              alt={lookup(dict, `part.${part.id}`, part.id)}
               class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform"
             />
           </div>
-          <p class="text-white/70 text-[10px] font-semibold text-center py-1.5 px-1 truncate">{partLabel(part.id)}</p>
+          <p class="text-white/70 text-[10px] font-semibold text-center py-1.5 px-1 truncate">{lookup(dict, `part.${part.id}`, part.id)}</p>
         </button>
       {/each}
     </div>
 
     {#if filtered.length === 0}
       <div class="text-center text-white/40 text-sm py-8">
-        {$t.noParts}
+        {dict.noParts}
       </div>
     {/if}
   </div>
