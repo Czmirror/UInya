@@ -771,11 +771,6 @@
     return dataUrl;
   }
 
-  function tplName(id: string): string {
-    const key = `tpl.${id}` as keyof typeof $t;
-    return ($t as Record<string, string>)[key] ?? id;
-  }
-
   // Context menu action helper
   function ctxAction(fn: () => void) {
     fn();
@@ -827,11 +822,11 @@
             <div class="w-full bg-white/5 flex items-center justify-center p-2 h-20 overflow-hidden">
               <img
                 src="{base}{template.thumbnail}"
-                alt={tplName(template.id)}
+                alt={$t[`tpl.${template.id}`] ?? template.id}
                 class="max-h-full max-w-full object-contain"
               />
             </div>
-            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{tplName(template.id)}</p>
+            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{$t[`tpl.${template.id}`] ?? template.id}</p>
           </button>
         {/each}
       </div>
