@@ -71,9 +71,24 @@
     const obj = canvas.getActiveObject();
     if (!obj) return;
 
-    // Do NOT apply fill/stroke to groups or activeSelections —
-    // they don't own individual fill/stroke and applying would overwrite children's properties
-    if (obj.type === 'group' || obj.type === 'activeSelection') return;
+    // For groups: propagate fill/stroke to all child objects for uniform color change
+    if (obj.type === 'group' || obj.type === 'activeSelection') {
+      obj.set({ opacity: state.opacity / 100 });
+      if (obj._objects) {
+        for (const child of obj._objects) {
+          // Only set fill on children that originally have a fill (skip stroke-only elements)
+          if (child.fill && child.fill !== 'none' && child.fill !== '') {
+            child.set({ fill: state.fillColor });
+          }
+          // Apply stroke color/width to children that have stroke
+          if (child.stroke && child.stroke !== 'none' && child.stroke !== '') {
+            child.set({ stroke: state.strokeColor, strokeWidth: state.strokeWidth });
+          }
+        }
+      }
+      canvas.renderAll();
+      return;
+    }
 
     obj.set({
       fill: state.fillColor,
@@ -374,10 +389,30 @@
   function syncStateFromObject(obj: any) {
     isSyncingFromObject = true;
 
-    // For groups/activeSelections, only sync opacity (they don't have individual fill/stroke)
+    // For groups/activeSelections, read fill/stroke from the first visible child
     if (obj.type === 'group' || obj.type === 'activeSelection') {
+      let childFill = '';
+      let childStroke = '';
+      let childStrokeWidth = 0;
+      if (obj._objects) {
+        for (const child of obj._objects) {
+          if (!childFill && child.fill && child.fill !== 'none' && child.fill !== '') {
+            childFill = child.fill;
+          }
+          if (!childStroke && child.stroke && child.stroke !== 'none' && child.stroke !== '') {
+            childStroke = child.stroke;
+          }
+          if (!childStrokeWidth && child.strokeWidth) {
+            childStrokeWidth = child.strokeWidth;
+          }
+          if (childFill || childStroke) break;
+        }
+      }
       editorState.update((s) => ({
         ...s,
+        fillColor: childFill || s.fillColor,
+        strokeColor: childStroke || s.strokeColor,
+        strokeWidth: childStrokeWidth || s.strokeWidth,
         opacity: Math.round((obj.opacity ?? 1) * 100)
       }));
     } else {

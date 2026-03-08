@@ -82,5 +82,11 @@ export const catSilhouettes: CatSilhouette[] = [
     name: 'Tail Wrap Cat',
     nameJa: 'しっぽ巻き猫',
     svgFile: '/silhouettes/cat-tailwrap.svg'
+  },
+  {
+    id: 'cat-running',
+    name: 'Running Cat',
+    nameJa: '走り猫',
+    svgFile: '/silhouettes/cat-running.svg'
   }
 ];
