@@ -33,6 +33,10 @@
   // Batch operation flag: prevents undo history from capturing intermediate states
   let isBatchOperation = false;
 
+  // Child-edit mode: tracks ungrouped children so they can be re-grouped on exit
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let childEditObjects: any[] | null = null;
+
   // Undo/Redo history
   let history: string[] = [];
   let historyIndex = -1;
@@ -124,6 +128,11 @@
     } else if (isCtrlOrCmd && e.key === 'g' && e.shiftKey) {
       e.preventDefault();
       ungroupSelected();
+    } else if (e.key === 'Escape') {
+      if (childEditObjects) {
+        e.preventDefault();
+        exitChildEditMode();
+      }
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
       e.preventDefault();
       deleteSelected();
@@ -166,22 +175,48 @@
       Promise.resolve().then(() => { isSyncingFromObject = false; });
     });
 
-    // Double-click to enter group for editing (proper ungroup with position preservation)
+    // Double-click to enter group child-edit mode
     canvas.on('mouse:dblclick', () => {
       const active = canvas.getActiveObject();
       if (!active || active.type !== 'group') return;
 
-      // Batch operation: prevent intermediate state saves from object:added/removed events
+      // Exit any existing child-edit mode first
+      exitChildEditMode();
+
       isBatchOperation = true;
 
-      // Use fabric's toActiveSelection to properly ungroup with preserved transforms
-      const activeSelection = active.toActiveSelection();
-      canvas.renderAll();
+      // Snapshot existing canvas object set before ungroup
+      const existingSet = new Set(canvas.getObjects());
 
-      // Now discard the selection so items are individual on canvas
+      // Ungroup: use fabric's toActiveSelection to properly split with preserved transforms
+      active.toActiveSelection();
       canvas.discardActiveObject();
       canvas.renderAll();
 
+      // Identify the newly-added children (objects not in the pre-ungroup set)
+      const newChildren: any[] = [];
+      for (const obj of canvas.getObjects()) {
+        if (!existingSet.has(obj)) {
+          newChildren.push(obj);
+        }
+      }
+
+      // Upgrade fabric.Text → fabric.IText for editability
+      const { fabric } = fabricModule!;
+      for (let i = 0; i < newChildren.length; i++) {
+        const obj = newChildren[i];
+        if (obj.type === 'text') {
+          const itext = new fabric.IText(obj.text, obj.toObject());
+          itext.set({ left: obj.left, top: obj.top, scaleX: obj.scaleX, scaleY: obj.scaleY, angle: obj.angle });
+          canvas.insertAt(itext, canvas.getObjects().indexOf(obj));
+          canvas.remove(obj);
+          newChildren[i] = itext;
+        }
+      }
+
+      childEditObjects = newChildren;
+
+      canvas.renderAll();
       isBatchOperation = false;
       saveState();
     });
@@ -191,8 +226,6 @@
     canvas.on('mouse:down', (opt: any) => {
       if (opt.button === 3) {
         // Right click
-        const pointer = canvas.getPointer(opt.e);
-        const canvasRect = canvasEl.getBoundingClientRect();
         contextMenu = {
           visible: true,
           x: opt.e.clientX - (wrapperEl?.getBoundingClientRect().left ?? 0),
@@ -207,6 +240,18 @@
         }
       } else {
         hideContextMenu();
+
+        // Child-edit mode: click on empty space → exit child-edit mode
+        if (childEditObjects) {
+          const target = opt.target;
+          if (!target) {
+            // Clicked on empty space — exit child-edit mode
+            exitChildEditMode();
+          } else if (!childEditObjects.includes(target)) {
+            // Clicked on an object that's NOT one of the child-edit objects — also exit
+            exitChildEditMode();
+          }
+        }
       }
     });
 
@@ -350,6 +395,38 @@
     Promise.resolve().then(() => {
       isSyncingFromObject = false;
     });
+  }
+
+  /** Exit child-edit mode: re-group scattered children back into a single group */
+  function exitChildEditMode() {
+    if (!childEditObjects || !canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+
+    isBatchOperation = true;
+
+    // Exit any active text editing first
+    const active = canvas.getActiveObject();
+    if (active && active.isEditing) {
+      active.exitEditing();
+    }
+    canvas.discardActiveObject();
+
+    // Filter out any children that may have been deleted during editing
+    const surviving = childEditObjects.filter((obj: any) => canvas.getObjects().includes(obj));
+
+    if (surviving.length > 0) {
+      // Remove children from canvas and create a new group
+      const group = new fabric.Group(surviving, { });
+      surviving.forEach((obj: any) => canvas.remove(obj));
+      (group as { __id?: string }).__id = `group_${Date.now()}`;
+      canvas.add(group);
+      canvas.setActiveObject(group);
+    }
+
+    childEditObjects = null;
+    canvas.renderAll();
+    isBatchOperation = false;
+    saveState();
   }
 
   export function addRect() {
