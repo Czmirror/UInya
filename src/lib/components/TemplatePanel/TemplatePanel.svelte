@@ -34,31 +34,31 @@
 </script>
 
 <aside class="w-64 bg-dark-panel flex flex-col h-full border-r border-white/10 overflow-hidden">
-  <!-- タブ切替 -->
-  <div class="flex border-b border-white/10 shrink-0">
+  <!-- タブ切替 (横スクロール対応) -->
+  <div class="flex border-b border-white/10 shrink-0 overflow-x-auto scrollbar-hide">
     <button
-      class="flex-1 py-2 text-xs font-bold transition-colors
+      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
         {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'templates')}
     >
       {dict.templates}
     </button>
     <button
-      class="flex-1 py-2 text-xs font-bold transition-colors
+      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
         {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'parts')}
     >
       {dict.parts}
     </button>
     <button
-      class="flex-1 py-2 text-xs font-bold transition-colors
+      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
         {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'presets')}
     >
       {dict.presetUi}
     </button>
     <button
-      class="flex-1 py-2 text-xs font-bold transition-colors
+      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
         {activeTab === 'silhouettes' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-white/40 hover:text-white/60'}"
       on:click={() => (activeTab = 'silhouettes')}
     >
@@ -66,6 +66,8 @@
     </button>
   </div>
 
+  <!-- min-h-0 enables flex children to shrink below their content height, allowing overflow-y-auto to work -->
+  <div class="flex flex-col flex-1 min-h-0">
   {#if activeTab === 'silhouettes'}
     <SilhouettePanel on:selectSilhouette />
   {:else if activeTab === 'presets'}
@@ -146,4 +148,5 @@
     {/if}
   </div>
   {/if}
+  </div>
 </aside>

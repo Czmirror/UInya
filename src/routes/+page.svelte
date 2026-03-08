@@ -11,6 +11,7 @@
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { locale, initLocale, setLocale, t } from '$lib/stores/i18n';
   import type { Locale } from '$lib/stores/i18n';
+  import HeaderLogo from '$lib/components/HeaderLogo.svelte';
 
   let fabricCanvas: FabricCanvas;
 
@@ -70,13 +71,8 @@
 <div class="flex flex-col h-screen overflow-hidden bg-dark-bg font-rounded">
   <!-- ヘッダー -->
   <header class="flex items-center justify-between px-5 py-3 bg-dark-panel border-b border-white/10 shrink-0">
-    <div class="flex items-center gap-3">
-      <img src="{base}/icon.svg" alt="UInya" class="w-8 h-8" />
-      <div>
-        <h1 class="text-xl font-extrabold text-cat-pink leading-none">UInya</h1>
-        <p class="text-white/40 text-xs">{$t.subtitle}</p>
-      </div>
-    </div>
+    <!-- Logo: change variant="catface" to try the new cat face logo -->
+    <HeaderLogo variant="paw" />
 
     <div class="flex items-center gap-3">
       <!-- 言語切替 -->
