@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- UInya logo candidate: simplified cat face -->
+  <rect width="64" height="64" rx="14" fill="#1A1A2E"/>
+  <!-- Head -->
+  <ellipse cx="32" cy="38" rx="16" ry="14" fill="#FFB7C5"/>
+  <!-- Left ear -->
+  <polygon points="14,28 20,12 26,28" fill="#FFB7C5"/>
+  <!-- Right ear -->
+  <polygon points="38,28 44,12 50,28" fill="#FFB7C5"/>
+  <!-- Left ear inner -->
+  <polygon points="17,27 20,16 24,27" fill="#FF8FA3"/>
+  <!-- Right ear inner -->
+  <polygon points="40,27 44,16 47,27" fill="#FF8FA3"/>
+  <!-- Left eye -->
+  <ellipse cx="25" cy="36" rx="2.5" ry="3" fill="#1A1A2E"/>
+  <!-- Right eye -->
+  <ellipse cx="39" cy="36" rx="2.5" ry="3" fill="#1A1A2E"/>
+  <!-- Nose -->
+  <polygon points="32,40 30,43 34,43" fill="#FF8FA3"/>
+  <!-- Mouth -->
+  <path d="M32,43 Q28,47 26,45" stroke="#1A1A2E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M32,43 Q36,47 38,45" stroke="#1A1A2E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+</svg>
