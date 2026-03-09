@@ -44,6 +44,10 @@
   let isRestoring = false;
   const MAX_HISTORY = 50;
 
+  // Debounce timer for property-change history saves (e.g. color picker drag)
+  let propSaveTimer: ReturnType<typeof setTimeout> | null = null;
+  const PROP_SAVE_DELAY = 300; // ms
+
   function saveState() {
     if (!canvas || isRestoring || isBatchOperation) return;
     const json = JSON.stringify(canvas.toJSON());
@@ -57,17 +61,37 @@
 
   function restoreState(index: number) {
     if (!canvas || index < 0 || index >= history.length) return;
+    // Flush any pending property-change save so it doesn't overwrite the restored state
+    if (propSaveTimer) {
+      clearTimeout(propSaveTimer);
+      propSaveTimer = null;
+    }
     isRestoring = true;
     historyIndex = index;
     canvas.loadFromJSON(history[index], () => {
       canvas.renderAll();
-      isRestoring = false;
+      // Selection is lost after loadFromJSON — clear editor state selection
+      isSyncingFromObject = true;
+      setSelectedObjectId(null);
+      Promise.resolve().then(() => {
+        isSyncingFromObject = false;
+        isRestoring = false;
+      });
     });
+  }
+
+  // Schedule a debounced history save for property changes (color, font, etc.)
+  function schedulePropSave() {
+    if (propSaveTimer) clearTimeout(propSaveTimer);
+    propSaveTimer = setTimeout(() => {
+      propSaveTimer = null;
+      saveState();
+    }, PROP_SAVE_DELAY);
   }
 
   // Store subscription for syncing props to selected object
   const unsubscribe = editorState.subscribe((state) => {
-    if (!canvas || isSyncingFromObject) return;
+    if (!canvas || isSyncingFromObject || isRestoring) return;
     const obj = canvas.getActiveObject();
     if (!obj) return;
 
@@ -87,6 +111,7 @@
         }
       }
       canvas.renderAll();
+      schedulePropSave();
       return;
     }
 
@@ -120,6 +145,7 @@
     }
 
     canvas.renderAll();
+    schedulePropSave();
   });
 
   function hideContextMenu() {
@@ -385,6 +411,7 @@
 
   onDestroy(() => {
     unsubscribe();
+    if (propSaveTimer) clearTimeout(propSaveTimer);
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('click', hideContextMenu);
     canvas?.dispose();
