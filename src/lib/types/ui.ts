@@ -12,7 +12,7 @@ export interface CatTemplate {
 }
 
 /** 新規: 猫パーツ規格（viewBox 0 0 100 100 統一） */
-export type CatPartCategory = 'face' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail' | 'whisker';
+export type CatPartCategory = 'face' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail' | 'whisker' | 'expression' | 'accent';
 
 export interface CatPart {
   id: string;
@@ -36,6 +36,7 @@ export interface EditorState {
   shadowOffsetY: number;
   canvasWidth: number;
   canvasHeight: number;
+  fontFamily: string;
   activeTemplate: CatTemplate | null;
   zoom: number;
 }

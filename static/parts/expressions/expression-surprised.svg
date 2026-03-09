@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <!-- Surprised: big round eyes + open mouth -->
+  <circle cx="33" cy="38" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="33" cy="38" r="4"/>
+  <circle cx="67" cy="38" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="67" cy="38" r="4"/>
+  <ellipse cx="50" cy="62" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.5"/>
+</svg>

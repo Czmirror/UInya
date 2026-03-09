@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <!-- 4-point sparkle -->
+  <path d="M50,10 Q52,45 90,50 Q52,55 50,90 Q48,55 10,50 Q48,45 50,10Z"/>
+  <!-- Small sparkles -->
+  <path d="M20,20 Q21,27 28,28 Q21,29 20,36 Q19,29 12,28 Q19,27 20,20Z" opacity="0.5"/>
+  <path d="M78,14 Q79,20 84,21 Q79,22 78,28 Q77,22 72,21 Q77,20 78,14Z" opacity="0.4"/>
+</svg>

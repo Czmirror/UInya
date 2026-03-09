@@ -97,6 +97,11 @@
       opacity: state.opacity / 100
     });
 
+    // Apply fontFamily to text objects
+    if (obj.type === 'i-text' || obj.type === 'text' || obj.type === 'textbox') {
+      obj.set({ fontFamily: state.fontFamily });
+    }
+
     if ('rx' in obj) {
       obj.set({ rx: state.borderRadius, ry: state.borderRadius });
     }
@@ -422,7 +427,8 @@
         strokeColor: obj.stroke ?? s.strokeColor,
         strokeWidth: obj.strokeWidth ?? s.strokeWidth,
         borderRadius: obj.rx ?? s.borderRadius,
-        opacity: Math.round((obj.opacity ?? 1) * 100)
+        opacity: Math.round((obj.opacity ?? 1) * 100),
+        fontFamily: obj.fontFamily ?? s.fontFamily
       }));
     }
 
@@ -530,7 +536,7 @@
       left: 80,
       top: 160,
       fontSize: 32,
-      fontFamily: 'Nunito, sans-serif',
+      fontFamily: $editorState.fontFamily,
       fill: $editorState.fillColor,
       fontWeight: '700'
     });
@@ -719,7 +725,7 @@
           left: canvasW * elem.xRatio,
           top: canvasH * elem.yRatio,
           fontSize: 24,
-          fontFamily: 'Nunito, sans-serif',
+          fontFamily: $editorState.fontFamily,
           fill: '#FFB7C5',
           fontWeight: '700'
         });

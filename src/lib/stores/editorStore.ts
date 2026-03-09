@@ -15,11 +15,22 @@ const initialState: EditorState = {
   shadowOffsetY: 4,
   canvasWidth: 512,
   canvasHeight: 512,
+  fontFamily: 'system-ui, sans-serif',
   activeTemplate: null,
   zoom: 1
 };
 
 export const editorState = writable<EditorState>(initialState);
+
+/** Font family options available in the font selector */
+export const fontFamilyOptions = [
+  { value: 'system-ui, sans-serif', labelJa: '標準', labelEn: 'System' },
+  { value: '"Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif', labelJa: 'ヒラギノ', labelEn: 'Hiragino Sans' },
+  { value: '"Yu Gothic", "YuGothic", sans-serif', labelJa: '游ゴシック', labelEn: 'Yu Gothic' },
+  { value: '"Noto Sans JP", sans-serif', labelJa: 'Noto Sans JP', labelEn: 'Noto Sans JP' },
+  { value: 'Inter, sans-serif', labelJa: 'Inter', labelEn: 'Inter' },
+  { value: 'Poppins, sans-serif', labelJa: 'Poppins', labelEn: 'Poppins' }
+] as const;
 
 // グリッド表示・スナップ機能の状態（editorStateとは独立して管理）
 export const gridEnabled = writable(false);
@@ -73,6 +84,10 @@ export function updateShadow(
     shadowOffsetX: offsetX ?? s.shadowOffsetX,
     shadowOffsetY: offsetY ?? s.shadowOffsetY
   }));
+}
+
+export function updateFontFamily(fontFamily: string) {
+  editorState.update((s) => ({ ...s, fontFamily }));
 }
 
 export function setActiveTemplate(template: CatTemplate | null) {

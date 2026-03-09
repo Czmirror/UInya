@@ -89,6 +89,9 @@ const dict = {
     xOffset: 'X オフセット',
     yOffset: 'Y オフセット',
 
+    // Font
+    fontFamily: 'フォント',
+
     // Export
     transparentPng: '透過PNG',
 
@@ -104,6 +107,8 @@ const dict = {
     'cat.paw': '肉球',
     'cat.tail': 'しっぽ',
     'cat.whisker': 'ひげ',
+    'cat.expression': '表情',
+    'cat.accent': 'アクセント',
 
     // Template categories
     'tpl.button': 'ボタン',
@@ -134,6 +139,22 @@ const dict = {
     'part.whisker-left': 'ひげ（左）',
     'part.whisker-right': 'ひげ（右）',
     'part.whisker-pair': 'ひげ',
+
+    // Expression parts
+    'part.expression-happy': 'にっこり',
+    'part.expression-sleepy': 'ねむい',
+    'part.expression-surprised': 'びっくり',
+    'part.expression-angry': 'おこり',
+    'part.expression-crying': 'ないてる',
+    'part.expression-smug': 'どや顔',
+
+    // Accent parts
+    'part.accent-star': '星',
+    'part.accent-heart': 'ハート',
+    'part.accent-rainbow': '虹',
+    'part.accent-cloud': '雲',
+    'part.accent-sparkle': 'きらきら',
+    'part.accent-moon': '月',
 
     // Template names
     'tpl.paw-button': '肉球ボタン',
@@ -234,6 +255,8 @@ const dict = {
     xOffset: 'X Offset',
     yOffset: 'Y Offset',
 
+    fontFamily: 'Font',
+
     transparentPng: 'Transparent',
 
     delete: 'Delete',
@@ -246,6 +269,8 @@ const dict = {
     'cat.paw': 'Paws',
     'cat.tail': 'Tail',
     'cat.whisker': 'Whiskers',
+    'cat.expression': 'Expressions',
+    'cat.accent': 'Accents',
 
     'tpl.button': 'Buttons',
     'tpl.frame': 'Frames',
@@ -274,6 +299,22 @@ const dict = {
     'part.whisker-left': 'Whisker (L)',
     'part.whisker-right': 'Whisker (R)',
     'part.whisker-pair': 'Whiskers',
+
+    // Expression parts
+    'part.expression-happy': 'Happy',
+    'part.expression-sleepy': 'Sleepy',
+    'part.expression-surprised': 'Surprised',
+    'part.expression-angry': 'Angry',
+    'part.expression-crying': 'Crying',
+    'part.expression-smug': 'Smug',
+
+    // Accent parts
+    'part.accent-star': 'Star',
+    'part.accent-heart': 'Heart',
+    'part.accent-rainbow': 'Rainbow',
+    'part.accent-cloud': 'Cloud',
+    'part.accent-sparkle': 'Sparkle',
+    'part.accent-moon': 'Moon',
 
     'tpl.paw-button': 'Paw Button',
     'tpl.cat-ear-frame': 'Cat Ear Frame',

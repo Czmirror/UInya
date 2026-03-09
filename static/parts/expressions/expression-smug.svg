@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <!-- Smug: one eye open, one closed + smirk -->
+  <circle cx="33" cy="40" r="5"/>
+  <circle cx="31" cy="38" r="1.5" fill="white" opacity="0.8"/>
+  <path d="M61,40 Q68,32 75,40" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M40,60 Q50,66 65,58" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>
