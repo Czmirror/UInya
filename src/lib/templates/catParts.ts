@@ -167,6 +167,94 @@ export const catParts: CatPart[] = [
     nameJa: 'ひげ',
     category: 'whisker',
     svgFile: '/parts/whiskers/whisker-pair.svg'
+  },
+
+  // ── 表情 ──
+  {
+    id: 'expression-happy',
+    name: 'Happy',
+    nameJa: 'にっこり',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-happy.svg'
+  },
+  {
+    id: 'expression-sleepy',
+    name: 'Sleepy',
+    nameJa: 'ねむい',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-sleepy.svg'
+  },
+  {
+    id: 'expression-surprised',
+    name: 'Surprised',
+    nameJa: 'びっくり',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-surprised.svg'
+  },
+  {
+    id: 'expression-angry',
+    name: 'Angry',
+    nameJa: 'おこり',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-angry.svg'
+  },
+  {
+    id: 'expression-crying',
+    name: 'Crying',
+    nameJa: 'ないてる',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-crying.svg'
+  },
+  {
+    id: 'expression-smug',
+    name: 'Smug',
+    nameJa: 'どや顔',
+    category: 'expression',
+    svgFile: '/parts/expressions/expression-smug.svg'
+  },
+
+  // ── アクセント ──
+  {
+    id: 'accent-star',
+    name: 'Star',
+    nameJa: '星',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-star.svg'
+  },
+  {
+    id: 'accent-heart',
+    name: 'Heart',
+    nameJa: 'ハート',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-heart.svg'
+  },
+  {
+    id: 'accent-rainbow',
+    name: 'Rainbow',
+    nameJa: '虹',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-rainbow.svg'
+  },
+  {
+    id: 'accent-cloud',
+    name: 'Cloud',
+    nameJa: '雲',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-cloud.svg'
+  },
+  {
+    id: 'accent-sparkle',
+    name: 'Sparkle',
+    nameJa: 'きらきら',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-sparkle.svg'
+  },
+  {
+    id: 'accent-moon',
+    name: 'Moon',
+    nameJa: '月',
+    category: 'accent',
+    svgFile: '/parts/accents/accent-moon.svg'
   }
 ];
 
@@ -178,5 +266,7 @@ export const catPartCategories: { id: CatPartCategory; label: string }[] = [
   { id: 'mouth', label: '口' },
   { id: 'paw', label: '肉球' },
   { id: 'tail', label: 'しっぽ' },
-  { id: 'whisker', label: 'ひげ' }
+  { id: 'whisker', label: 'ひげ' },
+  { id: 'expression', label: '表情' },
+  { id: 'accent', label: 'アクセント' }
 ];

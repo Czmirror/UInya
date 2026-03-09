@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+  <!-- Happy: arc eyes + wide smile -->
+  <path d="M25,40 Q32,30 39,40" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M61,40 Q68,30 75,40" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="32" cy="33" r="1.5"/>
+  <circle cx="68" cy="33" r="1.5"/>
+  <path d="M50,55 Q38,68 30,60" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M50,55 Q62,68 70,60" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <ellipse cx="25" cy="52" rx="6" ry="4" opacity="0.2"/>
+  <ellipse cx="75" cy="52" rx="6" ry="4" opacity="0.2"/>
+</svg>

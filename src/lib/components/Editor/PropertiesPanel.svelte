@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow } from '$lib/stores/editorStore';
+  import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow, updateFontFamily, fontFamilyOptions } from '$lib/stores/editorStore';
   import { createEventDispatcher } from 'svelte';
-  import { t } from '$lib/stores/i18n';
+  import { t, locale } from '$lib/stores/i18n';
 
   const dispatch = createEventDispatcher<{ bgColorChange: string | null }>();
 
@@ -164,6 +164,21 @@
           class="range-input mt-1.5"
           on:input={(e) => updateOpacity(Number(e.currentTarget.value))}
         />
+      </div>
+
+      <!-- フォント -->
+      <div class="prop-section">
+        <label for="font-family" class="prop-label">{$t.fontFamily}</label>
+        <select
+          id="font-family"
+          class="text-input w-full mt-1.5"
+          value={state.fontFamily}
+          on:change={(e) => updateFontFamily(e.currentTarget.value)}
+        >
+          {#each fontFamilyOptions as opt}
+            <option value={opt.value}>{$locale === 'ja' ? opt.labelJa : opt.labelEn}</option>
+          {/each}
+        </select>
       </div>
 
       <!-- シャドウ -->
