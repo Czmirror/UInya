@@ -28,6 +28,8 @@ export const fontFamilyOptions = [
   { value: '"Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif', labelJa: 'ヒラギノ', labelEn: 'Hiragino Sans' },
   { value: '"Yu Gothic", "YuGothic", sans-serif', labelJa: '游ゴシック', labelEn: 'Yu Gothic' },
   { value: '"Noto Sans JP", sans-serif', labelJa: 'Noto Sans JP', labelEn: 'Noto Sans JP' },
+  { value: '"Noto Serif JP", serif', labelJa: 'Noto Serif JP（明朝）', labelEn: 'Noto Serif JP' },
+  { value: '"M PLUS Rounded 1c", sans-serif', labelJa: 'M PLUS Rounded 1c', labelEn: 'M PLUS Rounded 1c' },
   { value: 'Inter, sans-serif', labelJa: 'Inter', labelEn: 'Inter' },
   { value: 'Poppins, sans-serif', labelJa: 'Poppins', labelEn: 'Poppins' }
 ] as const;
