@@ -22,6 +22,7 @@
     sendToBack: void;
     flipX: void;
     flipY: void;
+    randomCatUI: void;
   }>();
 
   $: hasSelection = $editorState.selectedObjectId !== null;
@@ -234,6 +235,26 @@
         <circle cx="12" cy="12" r="2"/>
       </svg>
       <span class="tooltip">{$t.snap} {$snapEnabled ? 'OFF' : 'ON'}</span>
+    </button>
+  </div>
+
+  <!-- ランダム猫UI生成 -->
+  <div class="flex items-center gap-1 border-r border-white/10 pr-3 mr-1">
+    <button
+      class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold
+        bg-cat-pink/15 text-cat-pink hover:bg-cat-pink/25 transition-colors relative"
+      on:click={() => dispatch('randomCatUI')}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="4"/>
+        <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+        <circle cx="16" cy="8" r="1.5" fill="currentColor"/>
+        <circle cx="8" cy="16" r="1.5" fill="currentColor"/>
+        <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+        <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+      </svg>
+      <span class="hidden sm:inline">{$t.randomCatUI}</span>
+      <span class="tooltip">{$t.randomCatUI}</span>
     </button>
   </div>
 
