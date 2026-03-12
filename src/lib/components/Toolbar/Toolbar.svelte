@@ -23,6 +23,7 @@
     flipX: void;
     flipY: void;
     randomCatUI: void;
+    shuffleCatUI: void;
   }>();
 
   $: hasSelection = $editorState.selectedObjectId !== null;
@@ -255,6 +256,17 @@
       </svg>
       <span class="hidden sm:inline">{$t.randomCatUI}</span>
       <span class="tooltip">{$t.randomCatUI}</span>
+    </button>
+    <button
+      class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold
+        bg-cat-lavender/15 text-cat-lavender hover:bg-cat-lavender/25 transition-colors relative"
+      on:click={() => dispatch('shuffleCatUI')}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="hidden sm:inline">{$t.shuffleCatUI}</span>
+      <span class="tooltip">{$t.shuffleCatUI}</span>
     </button>
   </div>
 
