@@ -7,6 +7,7 @@
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { base } from '$app/paths';
   import { t } from '$lib/stores/i18n';
+  import { generateRandomLayout } from '$lib/templates/randomCatUi';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
 
@@ -907,6 +908,67 @@
     if (!canvas) return;
     canvas.backgroundColor = color || '';
     canvas.renderAll();
+    saveState();
+  }
+
+  /** Generate a random cat UI composition using existing parts/templates */
+  export async function generateRandomCatUI() {
+    if (!canvas || !fabricModule) return;
+    const { fabric } = fabricModule;
+    const { theme, parts } = generateRandomLayout();
+    const canvasW = canvas.getWidth();
+    const canvasH = canvas.getHeight();
+
+    isBatchOperation = true;
+    showWelcome = false;
+
+    // Apply theme background
+    canvas.backgroundColor = theme.bg;
+
+    for (const placed of parts) {
+      await new Promise<void>((resolve) => {
+        fabric.loadSVGFromURL(
+          `${base}${placed.svgFile}`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (objects: any[], options: any) => {
+            if (!objects || objects.length === 0) { resolve(); return; }
+
+            const group = fabric.util.groupSVGElements(objects, options);
+            const scale = (canvasW * placed.scale) / (group.width ?? 100);
+
+            group.set({
+              left: canvasW * placed.x,
+              top: canvasH * placed.y,
+              scaleX: scale,
+              scaleY: scale
+            });
+
+            // Apply theme colours to children
+            if (group._objects) {
+              for (const child of group._objects) {
+                if (child.fill && child.fill !== 'none' && child.fill !== '') {
+                  child.set({ fill: theme.fill });
+                }
+                if (child.stroke && child.stroke !== 'none' && child.stroke !== '') {
+                  child.set({ stroke: theme.stroke });
+                }
+              }
+            } else {
+              if (group.fill && group.fill !== 'none') group.set({ fill: theme.fill });
+              if (group.stroke && group.stroke !== 'none') group.set({ stroke: theme.stroke });
+            }
+
+            (group as { __id?: string }).__id = `random_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            canvas.add(group);
+            resolve();
+          }
+        );
+      });
+    }
+
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    isBatchOperation = false;
     saveState();
   }
 
