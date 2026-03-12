@@ -85,17 +85,48 @@ You can combine templates and parts to quickly prototype a game interface.
 
 ## **Why UInya?**
 
-  
+
 
 Many asset generators focus on characters.
 
-  
+
 
 UInya focuses on **UI components for games**.
 
-  
+
 
 It is designed for developers who want quick UI placeholders or stylized assets without opening a full design tool.
+
+---
+
+## **Tech Stack**
+
+- **TypeScript** — type-safe codebase
+- **SvelteKit** — UI framework (`@sveltejs/adapter-static` for static output)
+- **Fabric.js** — canvas interaction and SVG manipulation
+- **Tailwind CSS** — styling
+- **Vite** — build system
+- **GitHub Pages** — hosting via GitHub Actions
+
+---
+
+## **Architecture**
+
+The application is structured as a client-only web tool.
+
+- **UI editor layer** — Handles canvas interactions, object selection, transform tools and property editing via Fabric.js.
+- **Asset / template layer** — Manages SVG-based cat parts, templates, silhouettes and accent assets. All assets are static SVG files bundled at build time.
+- **Export layer** — Exports the canvas as SVG (with `viewBox`) or transparent PNG (via Canvas `toDataURL`).
+
+Because all processing happens in the browser, the tool requires no backend services.
+
+---
+
+## **Development Background**
+
+UInya was created as an experiment in building lightweight asset generation tools for game development.
+
+The goal was to create a browser-based UI asset generator that allows rapid prototyping of stylized game interfaces without relying on heavy design tools.
 
 ---
 
@@ -118,9 +149,12 @@ Generated images are free to use, including commercial use.
 - [x] grid guide
 - [x] snap positioning
 - [x] flip transforms
-- [ ] line / bezier drawing tools
-- [ ] random cat generator
+- [x] line / bezier drawing tools
+- [x] random cat UI generator
+- [x] font selection (serif / rounded / sans-serif)
+- [x] expression parts and accent decorations
 - [ ] additional UI templates
+- [ ] ZIP batch export
     
 
 ---
