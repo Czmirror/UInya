@@ -72,6 +72,7 @@ const dict = {
     grid: 'グリッド',
     snap: 'スナップ',
     randomCatUI: 'ランダム猫UI',
+    shuffleCatUI: 'シャッフル',
     deleteSelected: '選択を削除',
     clearAll: '全消去',
 
@@ -240,6 +241,7 @@ const dict = {
     grid: 'Grid',
     snap: 'Snap',
     randomCatUI: 'Random Cat UI',
+    shuffleCatUI: 'Shuffle',
     deleteSelected: 'Delete Selected',
     clearAll: 'Clear All',
 

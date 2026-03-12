@@ -113,6 +113,7 @@
     on:flipX={() => fabricCanvas?.flipX()}
     on:flipY={() => fabricCanvas?.flipY()}
     on:randomCatUI={() => fabricCanvas?.generateRandomCatUI()}
+    on:shuffleCatUI={() => fabricCanvas?.shuffleCatUI()}
   />
 
   <!-- メインコンテンツ -->

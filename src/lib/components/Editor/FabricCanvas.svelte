@@ -8,6 +8,7 @@
   import { base } from '$app/paths';
   import { t } from '$lib/stores/i18n';
   import { generateRandomLayout } from '$lib/templates/randomCatUi';
+  import type { RandomResult } from '$lib/templates/randomCatUi';
 
   const dispatch = createEventDispatcher<{ ready: void }>();
 
@@ -38,6 +39,10 @@
   // Child-edit mode: tracks ungrouped children so they can be re-grouped on exit
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let childEditObjects: any[] | null = null;
+
+  // Random Cat UI tracking: IDs of generated objects + last theme for shuffle
+  let randomObjectIds: string[] = [];
+  let lastRandomThemeId: string | null = null;
 
   // Undo/Redo history
   let history: string[] = [];
@@ -911,21 +916,30 @@
     saveState();
   }
 
-  /** Generate a random cat UI composition using existing parts/templates */
-  export async function generateRandomCatUI() {
+  /** Remove previously generated random objects from canvas */
+  function removeRandomObjects() {
+    if (!canvas || randomObjectIds.length === 0) return;
+    const objs = canvas.getObjects();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const toRemove = objs.filter((o: any) => randomObjectIds.includes((o as { __id?: string }).__id ?? ''));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    toRemove.forEach((o: any) => canvas.remove(o));
+    randomObjectIds = [];
+  }
+
+  /** Core: place a RandomResult onto canvas, tracking generated object IDs */
+  async function placeRandomLayout(result: RandomResult) {
     if (!canvas || !fabricModule) return;
     const { fabric } = fabricModule;
-    const { theme, parts } = generateRandomLayout();
     const canvasW = canvas.getWidth();
     const canvasH = canvas.getHeight();
 
-    isBatchOperation = true;
-    showWelcome = false;
+    const newIds: string[] = [];
 
     // Apply theme background
-    canvas.backgroundColor = theme.bg;
+    canvas.backgroundColor = result.theme.bg;
 
-    for (const placed of parts) {
+    for (const placed of result.parts) {
       await new Promise<void>((resolve) => {
         fabric.loadSVGFromURL(
           `${base}${placed.svgFile}`,
@@ -947,24 +961,62 @@
             if (group._objects) {
               for (const child of group._objects) {
                 if (child.fill && child.fill !== 'none' && child.fill !== '') {
-                  child.set({ fill: theme.fill });
+                  child.set({ fill: result.theme.fill });
                 }
                 if (child.stroke && child.stroke !== 'none' && child.stroke !== '') {
-                  child.set({ stroke: theme.stroke });
+                  child.set({ stroke: result.theme.stroke });
                 }
               }
             } else {
-              if (group.fill && group.fill !== 'none') group.set({ fill: theme.fill });
-              if (group.stroke && group.stroke !== 'none') group.set({ stroke: theme.stroke });
+              if (group.fill && group.fill !== 'none') group.set({ fill: result.theme.fill });
+              if (group.stroke && group.stroke !== 'none') group.set({ stroke: result.theme.stroke });
             }
 
-            (group as { __id?: string }).__id = `random_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            const id = `random_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+            (group as { __id?: string }).__id = id;
+            newIds.push(id);
             canvas.add(group);
             resolve();
           }
         );
       });
     }
+
+    randomObjectIds = newIds;
+    lastRandomThemeId = result.themeId;
+  }
+
+  /** Generate a random cat UI composition using themed parts/templates */
+  export async function generateRandomCatUI() {
+    if (!canvas || !fabricModule) return;
+
+    isBatchOperation = true;
+    showWelcome = false;
+
+    // Remove previous random objects if any
+    removeRandomObjects();
+
+    const result = generateRandomLayout();
+    await placeRandomLayout(result);
+
+    canvas.discardActiveObject();
+    canvas.renderAll();
+    isBatchOperation = false;
+    saveState();
+  }
+
+  /** Shuffle: regenerate random cat UI (same theme or new random) */
+  export async function shuffleCatUI() {
+    if (!canvas || !fabricModule) return;
+
+    isBatchOperation = true;
+
+    // Remove previous random objects
+    removeRandomObjects();
+
+    // Re-generate with same theme if available, otherwise pick new
+    const result = generateRandomLayout(lastRandomThemeId ?? undefined);
+    await placeRandomLayout(result);
 
     canvas.discardActiveObject();
     canvas.renderAll();
