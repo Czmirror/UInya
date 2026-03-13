@@ -1041,6 +1041,118 @@
     saveState();
   }
 
+  // ── localStorage 保存 / 読み込み / 削除 ──
+  const SAVE_KEY = 'uinya:canvas:v1';
+  const SAVE_VERSION = 1;
+
+  export function saveToLocalStorage(): boolean {
+    if (!canvas) return false;
+    try {
+      const data = {
+        version: SAVE_VERSION,
+        savedAt: new Date().toISOString(),
+        canvas: {
+          width: canvas.getWidth(),
+          height: canvas.getHeight(),
+          backgroundColor: canvas.backgroundColor ?? '',
+          fabricJson: canvas.toJSON()
+        }
+      };
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      return true;
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e);
+      return false;
+    }
+  }
+
+  export function loadFromLocalStorage(): Promise<boolean> {
+    if (!canvas) return Promise.resolve(false);
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return Promise.resolve(false);
+
+      const data = JSON.parse(raw);
+      if (!data || data.version !== SAVE_VERSION || !data.canvas?.fabricJson) {
+        console.warn('Invalid or incompatible save data');
+        return Promise.resolve(false);
+      }
+
+      isRestoring = true;
+      isBatchOperation = true;
+      showWelcome = false;
+
+      // Discard stale transient state from the old canvas before replacing it.
+      // childEditObjects holds references to old canvas objects; calling
+      // exitChildEditMode() here would re-group them into a canvas that's about
+      // to be overwritten, so we simply drop the references.
+      childEditObjects = null;
+      if (propSaveTimer) {
+        clearTimeout(propSaveTimer);
+        propSaveTimer = null;
+      }
+      hideContextMenu();
+
+      // Restore canvas dimensions
+      canvas.setWidth(data.canvas.width ?? 512);
+      canvas.setHeight(data.canvas.height ?? 512);
+
+      return new Promise<boolean>((resolve) => {
+        canvas.loadFromJSON(data.canvas.fabricJson, () => {
+          try {
+            canvas.backgroundColor = data.canvas.backgroundColor ?? '#0F3460';
+            canvas.renderAll();
+
+            // Clear undo history and start fresh from restored state
+            history = [];
+            historyIndex = -1;
+
+            // Clear random tracking (saved objects are now "manual")
+            randomObjectIds = [];
+            lastRandomThemeId = null;
+
+            isSyncingFromObject = true;
+            setSelectedObjectId(null);
+            Promise.resolve().then(() => {
+              isSyncingFromObject = false;
+              saveState();
+            });
+            resolve(true);
+          } catch (e) {
+            console.error('Failed during canvas restoration:', e);
+            resolve(false);
+          } finally {
+            isRestoring = false;
+            isBatchOperation = false;
+          }
+        });
+      });
+    } catch (e) {
+      console.error('Failed to load from localStorage:', e);
+      isRestoring = false;
+      isBatchOperation = false;
+      return Promise.resolve(false);
+    }
+  }
+
+  export function clearLocalStorage(): boolean {
+    try {
+      localStorage.removeItem(SAVE_KEY);
+      return true;
+    } catch (e) {
+      console.error('Failed to clear localStorage:', e);
+      return false;
+    }
+  }
+
+  export function hasSavedData(): boolean {
+    try {
+      return localStorage.getItem(SAVE_KEY) !== null;
+    } catch {
+      return false;
+    }
+  }
+
   export function undo() {
     if (historyIndex > 0) {
       restoreState(historyIndex - 1);
