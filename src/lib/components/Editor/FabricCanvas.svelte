@@ -1066,16 +1066,16 @@
     }
   }
 
-  export function loadFromLocalStorage(): boolean {
-    if (!canvas) return false;
+  export function loadFromLocalStorage(): Promise<boolean> {
+    if (!canvas) return Promise.resolve(false);
     try {
       const raw = localStorage.getItem(SAVE_KEY);
-      if (!raw) return false;
+      if (!raw) return Promise.resolve(false);
 
       const data = JSON.parse(raw);
       if (!data || data.version !== SAVE_VERSION || !data.canvas?.fabricJson) {
         console.warn('Invalid or incompatible save data');
-        return false;
+        return Promise.resolve(false);
       }
 
       isRestoring = true;
@@ -1086,33 +1086,41 @@
       canvas.setWidth(data.canvas.width ?? 512);
       canvas.setHeight(data.canvas.height ?? 512);
 
-      canvas.loadFromJSON(data.canvas.fabricJson, () => {
-        canvas.backgroundColor = data.canvas.backgroundColor ?? '#0F3460';
-        canvas.renderAll();
+      return new Promise<boolean>((resolve) => {
+        canvas.loadFromJSON(data.canvas.fabricJson, () => {
+          try {
+            canvas.backgroundColor = data.canvas.backgroundColor ?? '#0F3460';
+            canvas.renderAll();
 
-        // Clear undo history and start fresh from restored state
-        history = [];
-        historyIndex = -1;
+            // Clear undo history and start fresh from restored state
+            history = [];
+            historyIndex = -1;
 
-        // Clear random tracking (saved objects are now "manual")
-        randomObjectIds = [];
-        lastRandomThemeId = null;
+            // Clear random tracking (saved objects are now "manual")
+            randomObjectIds = [];
+            lastRandomThemeId = null;
 
-        isSyncingFromObject = true;
-        setSelectedObjectId(null);
-        Promise.resolve().then(() => {
-          isSyncingFromObject = false;
-          isRestoring = false;
-          isBatchOperation = false;
-          saveState();
+            isSyncingFromObject = true;
+            setSelectedObjectId(null);
+            Promise.resolve().then(() => {
+              isSyncingFromObject = false;
+              saveState();
+            });
+            resolve(true);
+          } catch (e) {
+            console.error('Failed during canvas restoration:', e);
+            resolve(false);
+          } finally {
+            isRestoring = false;
+            isBatchOperation = false;
+          }
         });
       });
-      return true;
     } catch (e) {
       console.error('Failed to load from localStorage:', e);
       isRestoring = false;
       isBatchOperation = false;
-      return false;
+      return Promise.resolve(false);
     }
   }
 

@@ -63,13 +63,13 @@
     toolbar?.showToast(ok ? $t.saveSuccess : $t.saveFailed);
   }
 
-  function handleLoadCanvas() {
+  async function handleLoadCanvas() {
     if (!fabricCanvas) return;
     if (!fabricCanvas.hasSavedData()) {
       toolbar?.showToast($t.loadNoData);
       return;
     }
-    const ok = fabricCanvas.loadFromLocalStorage();
+    const ok = await fabricCanvas.loadFromLocalStorage();
     toolbar?.showToast(ok ? $t.loadSuccess : $t.loadFailed);
   }
 
