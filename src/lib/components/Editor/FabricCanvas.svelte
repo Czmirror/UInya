@@ -1082,6 +1082,17 @@
       isBatchOperation = true;
       showWelcome = false;
 
+      // Discard stale transient state from the old canvas before replacing it.
+      // childEditObjects holds references to old canvas objects; calling
+      // exitChildEditMode() here would re-group them into a canvas that's about
+      // to be overwritten, so we simply drop the references.
+      childEditObjects = null;
+      if (propSaveTimer) {
+        clearTimeout(propSaveTimer);
+        propSaveTimer = null;
+      }
+      hideContextMenu();
+
       // Restore canvas dimensions
       canvas.setWidth(data.canvas.width ?? 512);
       canvas.setHeight(data.canvas.height ?? 512);
