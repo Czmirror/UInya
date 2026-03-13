@@ -71,8 +71,8 @@ const dict = {
     flipY: '垂直反転',
     grid: 'グリッド',
     snap: 'スナップ',
-    randomCatUI: 'ランダム猫UI',
-    shuffleCatUI: 'シャッフル',
+    randomCatUI: '新規生成',
+    shuffleCatUI: '再生成',
     deleteSelected: '選択を削除',
     clearAll: '全消去',
 
@@ -240,8 +240,8 @@ const dict = {
     flipY: 'Flip Vertical',
     grid: 'Grid',
     snap: 'Snap',
-    randomCatUI: 'Random Cat UI',
-    shuffleCatUI: 'Shuffle',
+    randomCatUI: 'Generate',
+    shuffleCatUI: 'Regenerate',
     deleteSelected: 'Delete Selected',
     clearAll: 'Clear All',
 
