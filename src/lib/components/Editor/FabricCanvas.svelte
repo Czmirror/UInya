@@ -996,6 +996,7 @@
     showWelcome = false;
 
     const result = generateRandomLayout();
+    canvas.backgroundColor = result.theme.bg;
     const newIds = await placeRandomLayout(result);
 
     // Track the newly generated group (previous random objects become "manual" — no longer shuffleable)
@@ -1028,6 +1029,7 @@
 
     // Re-generate with same theme
     const result = generateRandomLayout(lastRandomThemeId ?? undefined);
+    canvas.backgroundColor = result.theme.bg;
     const newIds = await placeRandomLayout(result);
 
     randomObjectIds = newIds;
