@@ -1041,6 +1041,99 @@
     saveState();
   }
 
+  // ── localStorage 保存 / 読み込み / 削除 ──
+  const SAVE_KEY = 'uinya:canvas:v1';
+  const SAVE_VERSION = 1;
+
+  export function saveToLocalStorage(): boolean {
+    if (!canvas) return false;
+    try {
+      const data = {
+        version: SAVE_VERSION,
+        savedAt: new Date().toISOString(),
+        canvas: {
+          width: canvas.getWidth(),
+          height: canvas.getHeight(),
+          backgroundColor: canvas.backgroundColor ?? '',
+          fabricJson: canvas.toJSON()
+        }
+      };
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      return true;
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e);
+      return false;
+    }
+  }
+
+  export function loadFromLocalStorage(): boolean {
+    if (!canvas) return false;
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return false;
+
+      const data = JSON.parse(raw);
+      if (!data || data.version !== SAVE_VERSION || !data.canvas?.fabricJson) {
+        console.warn('Invalid or incompatible save data');
+        return false;
+      }
+
+      isRestoring = true;
+      isBatchOperation = true;
+      showWelcome = false;
+
+      // Restore canvas dimensions
+      canvas.setWidth(data.canvas.width ?? 512);
+      canvas.setHeight(data.canvas.height ?? 512);
+
+      canvas.loadFromJSON(data.canvas.fabricJson, () => {
+        canvas.backgroundColor = data.canvas.backgroundColor ?? '#0F3460';
+        canvas.renderAll();
+
+        // Clear undo history and start fresh from restored state
+        history = [];
+        historyIndex = -1;
+
+        // Clear random tracking (saved objects are now "manual")
+        randomObjectIds = [];
+        lastRandomThemeId = null;
+
+        isSyncingFromObject = true;
+        setSelectedObjectId(null);
+        Promise.resolve().then(() => {
+          isSyncingFromObject = false;
+          isRestoring = false;
+          isBatchOperation = false;
+          saveState();
+        });
+      });
+      return true;
+    } catch (e) {
+      console.error('Failed to load from localStorage:', e);
+      isRestoring = false;
+      isBatchOperation = false;
+      return false;
+    }
+  }
+
+  export function clearLocalStorage(): boolean {
+    try {
+      localStorage.removeItem(SAVE_KEY);
+      return true;
+    } catch (e) {
+      console.error('Failed to clear localStorage:', e);
+      return false;
+    }
+  }
+
+  export function hasSavedData(): boolean {
+    try {
+      return localStorage.getItem(SAVE_KEY) !== null;
+    } catch {
+      return false;
+    }
+  }
+
   export function undo() {
     if (historyIndex > 0) {
       restoreState(historyIndex - 1);

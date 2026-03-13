@@ -24,9 +24,24 @@
     flipY: void;
     randomCatUI: void;
     shuffleCatUI: void;
+    saveCanvas: void;
+    loadCanvas: void;
+    clearSave: void;
   }>();
 
   $: hasSelection = $editorState.selectedObjectId !== null;
+
+  // Toast notification for save/load feedback
+  let toastMessage = '';
+  let toastVisible = false;
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+  export function showToast(msg: string) {
+    toastMessage = msg;
+    toastVisible = true;
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toastVisible = false; }, 2000);
+  }
 </script>
 
 <div class="flex items-center gap-1 px-4 py-2 bg-dark-panel border-b border-white/10">
@@ -270,6 +285,49 @@
     </button>
   </div>
 
+  <!-- 保存 / 読み込み / 保存削除 -->
+  <div class="flex items-center gap-1 border-r border-white/10 pr-3 mr-1">
+    <button
+      class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold
+        bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-colors relative"
+      on:click={() => dispatch('saveCanvas')}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+      <span class="hidden sm:inline">{$t.saveCanvas}</span>
+      <span class="tooltip">{$t.saveCanvas}</span>
+    </button>
+    <button
+      class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold
+        bg-sky-500/15 text-sky-400 hover:bg-sky-500/25 transition-colors relative"
+      on:click={() => dispatch('loadCanvas')}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <span class="hidden sm:inline">{$t.loadCanvas}</span>
+      <span class="tooltip">{$t.loadCanvas}</span>
+    </button>
+    <button
+      class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold
+        bg-orange-500/15 text-orange-400 hover:bg-orange-500/25 transition-colors relative"
+      on:click={() => dispatch('clearSave')}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+        <line x1="10" y1="11" x2="10" y2="17"/>
+        <line x1="14" y1="11" x2="14" y2="17"/>
+      </svg>
+      <span class="hidden sm:inline">{$t.clearSave}</span>
+      <span class="tooltip">{$t.clearSave}</span>
+    </button>
+  </div>
+
   <!-- 削除 -->
   <button
     class="tool-btn {hasSelection ? 'text-red-400 hover:bg-red-400/20' : 'opacity-40 cursor-not-allowed'}"
@@ -295,6 +353,15 @@
     </svg>
     <span class="tooltip">{$t.clearAll}</span>
   </button>
+
+  <!-- Toast notification -->
+  {#if toastVisible}
+    <div class="fixed top-16 left-1/2 -translate-x-1/2 z-[100]
+      px-4 py-2 rounded-lg bg-dark-panel border border-white/20 shadow-xl
+      text-sm text-white/90 font-bold animate-fade-in">
+      {toastMessage}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -308,5 +375,12 @@
   }
   .tool-btn:hover .tooltip {
     @apply visible;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translate(-50%, -8px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+  }
+  :global(.animate-fade-in) {
+    animation: fade-in 0.2s ease-out;
   }
 </style>

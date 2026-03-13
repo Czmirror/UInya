@@ -14,6 +14,7 @@
   import HeaderLogo from '$lib/components/HeaderLogo.svelte';
 
   let fabricCanvas: FabricCanvas;
+  let toolbar: Toolbar;
 
   onMount(() => {
     initLocale();
@@ -56,6 +57,28 @@
     link.click();
   }
 
+  function handleSaveCanvas() {
+    if (!fabricCanvas) return;
+    const ok = fabricCanvas.saveToLocalStorage();
+    toolbar?.showToast(ok ? $t.saveSuccess : $t.saveFailed);
+  }
+
+  function handleLoadCanvas() {
+    if (!fabricCanvas) return;
+    if (!fabricCanvas.hasSavedData()) {
+      toolbar?.showToast($t.loadNoData);
+      return;
+    }
+    const ok = fabricCanvas.loadFromLocalStorage();
+    toolbar?.showToast(ok ? $t.loadSuccess : $t.loadFailed);
+  }
+
+  function handleClearSave() {
+    if (!fabricCanvas) return;
+    const ok = fabricCanvas.clearLocalStorage();
+    toolbar?.showToast(ok ? $t.clearSaveSuccess : $t.clearSaveFailed);
+  }
+
   function downloadBlob(blob: Blob, filename: string) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -94,6 +117,7 @@
 
   <!-- ツールバー -->
   <Toolbar
+    bind:this={toolbar}
     on:addRect={() => fabricCanvas?.addRect()}
     on:addRoundedRect={() => fabricCanvas?.addRoundedRect()}
     on:addCircle={() => fabricCanvas?.addCircle()}
@@ -114,6 +138,9 @@
     on:flipY={() => fabricCanvas?.flipY()}
     on:randomCatUI={() => fabricCanvas?.generateRandomCatUI()}
     on:shuffleCatUI={() => fabricCanvas?.shuffleCatUI()}
+    on:saveCanvas={handleSaveCanvas}
+    on:loadCanvas={handleLoadCanvas}
+    on:clearSave={handleClearSave}
   />
 
   <!-- メインコンテンツ -->
