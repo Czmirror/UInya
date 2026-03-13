@@ -916,28 +916,26 @@
     saveState();
   }
 
-  /** Remove previously generated random objects from canvas */
+  /** Remove only the random-generated objects from canvas (manual objects untouched) */
   function removeRandomObjects() {
     if (!canvas || randomObjectIds.length === 0) return;
+    const idSet = new Set(randomObjectIds);
     const objs = canvas.getObjects();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const toRemove = objs.filter((o: any) => randomObjectIds.includes((o as { __id?: string }).__id ?? ''));
+    const toRemove = objs.filter((o: any) => idSet.has((o as { __id?: string }).__id ?? ''));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     toRemove.forEach((o: any) => canvas.remove(o));
     randomObjectIds = [];
   }
 
-  /** Core: place a RandomResult onto canvas, tracking generated object IDs */
-  async function placeRandomLayout(result: RandomResult) {
-    if (!canvas || !fabricModule) return;
+  /** Place a RandomResult onto canvas, returning the IDs of newly added objects */
+  async function placeRandomLayout(result: RandomResult): Promise<string[]> {
+    if (!canvas || !fabricModule) return [];
     const { fabric } = fabricModule;
     const canvasW = canvas.getWidth();
     const canvasH = canvas.getHeight();
 
     const newIds: string[] = [];
-
-    // Apply theme background
-    canvas.backgroundColor = result.theme.bg;
 
     for (const placed of result.parts) {
       await new Promise<void>((resolve) => {
@@ -982,22 +980,27 @@
       });
     }
 
-    randomObjectIds = newIds;
-    lastRandomThemeId = result.themeId;
+    return newIds;
   }
 
-  /** Generate a random cat UI composition using themed parts/templates */
+  /**
+   * ランダム猫UI（新規生成）
+   * - 既存オブジェクト（手動配置・以前の生成物すべて）を残す
+   * - 新しいランダムUIを追加し、randomObjectIds を上書き
+   *   （シャッフル対象は常に「直近の生成グループ」のみ）
+   */
   export async function generateRandomCatUI() {
     if (!canvas || !fabricModule) return;
 
     isBatchOperation = true;
     showWelcome = false;
 
-    // Remove previous random objects if any
-    removeRandomObjects();
-
     const result = generateRandomLayout();
-    await placeRandomLayout(result);
+    const newIds = await placeRandomLayout(result);
+
+    // Track the newly generated group (previous random objects become "manual" — no longer shuffleable)
+    randomObjectIds = newIds;
+    lastRandomThemeId = result.themeId;
 
     canvas.discardActiveObject();
     canvas.renderAll();
@@ -1005,18 +1008,30 @@
     saveState();
   }
 
-  /** Shuffle: regenerate random cat UI (same theme or new random) */
+  /**
+   * シャッフル（再生成）
+   * - 直前に生成された randomObjectIds のオブジェクトだけ削除
+   * - 同じテーマで再生成し、randomObjectIds を更新
+   * - 手動配置オブジェクトは一切触らない
+   */
   export async function shuffleCatUI() {
     if (!canvas || !fabricModule) return;
+    // シャッフル対象がなければ新規生成にフォールバック
+    if (randomObjectIds.length === 0) {
+      return generateRandomCatUI();
+    }
 
     isBatchOperation = true;
 
-    // Remove previous random objects
+    // Remove only the last random-generated group
     removeRandomObjects();
 
-    // Re-generate with same theme if available, otherwise pick new
+    // Re-generate with same theme
     const result = generateRandomLayout(lastRandomThemeId ?? undefined);
-    await placeRandomLayout(result);
+    const newIds = await placeRandomLayout(result);
+
+    randomObjectIds = newIds;
+    lastRandomThemeId = result.themeId;
 
     canvas.discardActiveObject();
     canvas.renderAll();
