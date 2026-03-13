@@ -241,7 +241,7 @@ const dict = {
     grid: 'Grid',
     snap: 'Snap',
     randomCatUI: 'Generate',
-    shuffleCatUI: 'Shuffle',
+    shuffleCatUI: 'Regenerate',
     deleteSelected: 'Delete Selected',
     clearAll: 'Clear All',
 
