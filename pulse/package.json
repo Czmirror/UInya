@@ -1,0 +1,27 @@
+{
+  "name": "pulse",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Real-time animation preview tool for UInya game UI assets",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "3.0.10",
+    "@sveltejs/kit": "2.53.4",
+    "@sveltejs/vite-plugin-svelte": "3.1.2",
+    "autoprefixer": "10.4.27",
+    "postcss": "8.5.6",
+    "svelte": "4.2.20",
+    "svelte-check": "3.8.6",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.9.3",
+    "vite": "5.4.21"
+  },
+  "type": "module"
+}
