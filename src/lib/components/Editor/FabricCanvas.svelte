@@ -1,3 +1,4 @@
+<!-- Owns the Fabric canvas and exposes editing and export operations to the editor page. -->
 <script lang="ts">
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
@@ -1203,6 +1204,8 @@
     return dataUrl;
   }
 
+  $: templateLabels = $t as Record<string, string>;
+
   // Context menu action helper
   function ctxAction(fn: () => void) {
     fn();
@@ -1241,10 +1244,10 @@
 
   <!-- Welcome showcase overlay -->
   {#if showWelcome}
-    <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#111827]/80 z-40 backdrop-blur-sm">
-      <p class="text-white/70 text-lg font-bold mb-1">{$t.welcomeTitle}</p>
-      <p class="text-white/40 text-sm mb-5">{$t.welcomeSub}</p>
-      <div class="flex gap-4 flex-wrap justify-center max-w-xl px-4">
+    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto p-3 bg-[#111827]/80 z-40 backdrop-blur-sm">
+      <p class="text-white text-lg font-bold mb-1 text-center">{$t.welcomeTitle}</p>
+      <p class="text-editor-muted text-sm mb-5 text-center">{$t.welcomeSub}</p>
+      <div class="flex gap-2 flex-wrap justify-center max-w-xl px-4">
         {#each catTemplates.slice(0, 5) as template (template.id)}
           <button
             class="w-24 rounded-xl overflow-hidden bg-dark-panel border border-white/10
@@ -1254,16 +1257,16 @@
             <div class="w-full bg-white/5 flex items-center justify-center p-2 h-20 overflow-hidden">
               <img
                 src="{base}{template.thumbnail}"
-                alt={$t[`tpl.${template.id}`] ?? template.id}
+                alt=""
                 class="max-h-full max-w-full object-contain"
               />
             </div>
-            <p class="text-white/70 text-[10px] font-semibold text-center py-1 px-1 truncate">{$t[`tpl.${template.id}`] ?? template.id}</p>
+            <p class="text-white/90 text-xs leading-tight font-semibold text-center px-1 py-2 break-words">{templateLabels[`tpl.${template.id}`] ?? template.id}</p>
           </button>
         {/each}
       </div>
       <button
-        class="mt-5 text-white/30 text-xs hover:text-white/60 transition-colors"
+        class="mt-4 px-3 py-2 rounded-lg text-editor-muted text-xs hover:text-white hover:bg-white/10 transition-colors"
         on:click={() => { showWelcome = false; }}
       >
         {$t.welcomeSkip}

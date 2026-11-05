@@ -1,0 +1,43 @@
+# CI template for projects that adopt the harness. Copy it to .github/workflows/harness.yml
+# after a human approves the CI change (rules/core/cicd.md). It runs the same checks as
+# .harness/project.json, so local and CI validation do not diverge.
+# Paths assume the copy adoption (.harness/scripts). With the submodule adoption, use
+# .harness/upstream/scripts and enable the submodules option of actions/checkout.
+name: Harness validation
+
+on:
+  pull_request:
+  push:
+    # Use the repository's default branch name.
+    branches: [main]
+  workflow_dispatch:
+  # Enable to rerun checks whose result can change without a code change,
+  # such as dependency vulnerability audits. Pick a time that is not on the hour.
+  # schedule:
+  #   - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Harness validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout disposable workspace
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # submodules: true
+      - name: Set up Node for the harness runner
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      # Add the project's toolchain setup and dependency install here, pinned by commit SHA.
+      # Review install scripts and caches before enabling them (docs/adoption.md).
+      - name: Check the project profile
+        run: node .harness/scripts/validate-config.mjs
+      - name: Run the project checks
+        run: node .harness/scripts/validate.mjs --execute

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "name": "godot-example",
+  "stacks": [{ "path": ".", "rules": ["godot"] }],
+  "checks": [
+    { "id": "import", "stage": "lint", "required": true, "command": ["node", "scripts/run-godot.mjs", "--timeout-ms", "100000", "--", "--headless", "--path", ".", "--editor", "--import"], "cwd": ".", "timeoutMs": 120000 },
+    { "id": "format", "stage": "format", "required": true, "command": ["gdformat", "--check", "scripts", "tests"], "cwd": ".", "timeoutMs": 60000 },
+    { "id": "types", "stage": "typecheck", "required": false, "skipReason": "GDScript parse and type errors are reported by the import check; no separate type checker." },
+    { "id": "tests", "stage": "test", "required": true, "command": ["node", "scripts/run-godot.mjs", "--timeout-ms", "100000", "--", "--headless", "--path", ".", "--script", "res://tests/run_tests.gd"], "cwd": ".", "timeoutMs": 120000 },
+    { "id": "smoke", "stage": "build", "required": true, "command": ["node", "scripts/run-godot.mjs", "--timeout-ms", "100000", "--", "--headless", "--path", ".", "--quit-after", "120"], "cwd": ".", "timeoutMs": 120000 },
+    { "id": "security", "stage": "security", "required": false, "skipReason": "Example only: configure a scanner or record a manual review for this project." }
+  ]
+}

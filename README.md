@@ -14,11 +14,11 @@ It runs entirely in the browser and exports clean SVG assets ready for games or 
 
 ## **Demo**
 
-  
+
 
 Try it here:
 
-  
+
 
 https://czmirror.github.io/UInya/
 
@@ -27,42 +27,42 @@ https://czmirror.github.io/UInya/
 ## **Features**
 
 - SVG / PNG export
-    
+
 - Cat-themed UI templates
-    
+
 - Decoration parts (ears, eyes, paws, tail, etc.)
-    
+
 - Customizable colors
-    
+
 - Transform tools (move / rotate / scale)
-    
+
 - Lightweight browser editor
-    
+
 - No login required
-    
+
 - No backend processing
-    
+
 
 ---
 
 ## **Example UI Elements**
 
-  
+
 
 UInya can generate UI assets such as:
 
 - cat ear dialog frames
-    
-- paw-style buttons
-    
-- tail shaped gauges
-    
-- cat icon frames
-    
-- decorative UI elements
-    
 
-  
+- paw-style buttons
+
+- tail shaped gauges
+
+- cat icon frames
+
+- decorative UI elements
+
+
+
 
 You can combine templates and parts to quickly prototype a game interface.
 
@@ -71,15 +71,15 @@ You can combine templates and parts to quickly prototype a game interface.
 ## **Basic Workflow**
 
 1. Select a template or part from the sidebar
-    
+
 2. Place it on the canvas
-    
+
 3. Adjust color, size, rotation or position
-    
+
 4. Combine multiple elements
-    
+
 5. Export as SVG or PNG
-    
+
 
 ---
 
@@ -132,11 +132,11 @@ The goal was to create a browser-based UI asset generator that allows rapid prot
 
 ## **License**
 
-  
+
 
 MIT License
 
-  
+
 
 Generated images are free to use, including commercial use.
 
@@ -144,7 +144,7 @@ Generated images are free to use, including commercial use.
 
 ## **Roadmap**
 
-  
+
 
 - [x] grid guide
 - [x] snap positioning
@@ -155,16 +155,16 @@ Generated images are free to use, including commercial use.
 - [x] expression parts and accent decorations
 - [ ] additional UI templates
 - [ ] ZIP batch export
-    
+
 
 ---
 
 ## **Contributing**
 
-  
+
 
 Issues and pull requests are welcome.
 
-  
+
 
 If you have ideas for new templates or parts, feel free to open an issue.

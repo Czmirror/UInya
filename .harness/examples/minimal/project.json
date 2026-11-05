@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "minimal-example",
+  "stacks": [],
+  "checks": [
+    { "id": "source-headers", "stage": "lint", "required": true, "command": ["node", ".harness/scripts/check-file-headers.mjs", "--root", "."], "cwd": ".", "timeoutMs": 120000 },
+    { "id": "lint", "stage": "lint", "required": false, "skipReason": "Example only: choose the project's existing linter." },
+    { "id": "text-style", "stage": "format", "required": true, "command": ["node", ".harness/scripts/check-text-style.mjs", "--root", "."], "cwd": ".", "timeoutMs": 120000 },
+    { "id": "format", "stage": "format", "required": false, "skipReason": "Example only: choose the project's existing formatter check." },
+    { "id": "types", "stage": "typecheck", "required": false, "skipReason": "Example only: the example targets an untyped JavaScript project." },
+    { "id": "tests", "stage": "test", "required": true, "command": ["node", "--test"], "cwd": ".", "timeoutMs": 60000 },
+    { "id": "build", "stage": "build", "required": false, "skipReason": "Example only: the example assumes directly executed scripts without a build artifact." },
+    { "id": "secrets", "stage": "security", "required": true, "command": ["node", ".harness/scripts/check-secrets.mjs", "--root", "."], "cwd": ".", "timeoutMs": 120000 }
+  ]
+}

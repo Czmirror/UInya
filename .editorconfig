@@ -1,0 +1,33 @@
+# Editor save settings placed by bootstrap-project.mjs when the project has no .editorconfig.
+# Defaults follow the harness coding conventions: UTF-8 without BOM, LF, final newline.
+# The project owns this file after creation; change indentation to match its formatter.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.{php,cs,py,pyi,rs}]
+indent_size = 4
+
+[*.go]
+indent_style = tab
+indent_size = tab
+tab_width = 8
+
+[*.gd]
+indent_style = tab
+indent_size = tab
+tab_width = 4
+
+[{Makefile,makefile,GNUmakefile,*.mk}]
+indent_style = tab
+indent_size = tab
+tab_width = 8
+
+[*.{bat,cmd}]
+end_of_line = crlf

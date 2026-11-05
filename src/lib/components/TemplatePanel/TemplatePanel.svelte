@@ -1,3 +1,4 @@
+<!-- Presents the asset library and dispatches the chosen template or part to the editor. -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { catTemplates, templateCategories } from '$lib/templates/cat';
@@ -37,29 +38,29 @@
   <!-- タブ切替 (横スクロール対応) -->
   <div class="flex border-b border-white/10 shrink-0 overflow-x-auto scrollbar-hide">
     <button
-      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
-        {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-white/40 hover:text-white/60'}"
+      class="shrink-0 flex-1 whitespace-nowrap px-1.5 py-2 text-[11px] font-bold transition-colors
+        {activeTab === 'templates' ? 'text-cat-pink border-b-2 border-cat-pink' : 'text-editor-muted hover:text-white/60'}"
       on:click={() => (activeTab = 'templates')}
     >
       {dict.templates}
     </button>
     <button
-      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
-        {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-white/40 hover:text-white/60'}"
+      class="shrink-0 flex-1 whitespace-nowrap px-1.5 py-2 text-[11px] font-bold transition-colors
+        {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-editor-muted hover:text-white/60'}"
       on:click={() => (activeTab = 'parts')}
     >
       {dict.parts}
     </button>
     <button
-      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
-        {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-white/40 hover:text-white/60'}"
+      class="shrink-0 flex-1 whitespace-nowrap px-1.5 py-2 text-[11px] font-bold transition-colors
+        {activeTab === 'presets' ? 'text-cat-cream border-b-2 border-cat-cream' : 'text-editor-muted hover:text-white/60'}"
       on:click={() => (activeTab = 'presets')}
     >
       {dict.presetUi}
     </button>
     <button
-      class="shrink-0 flex-1 min-w-0 px-1.5 py-1.5 text-[11px] font-bold transition-colors
-        {activeTab === 'silhouettes' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-white/40 hover:text-white/60'}"
+      class="shrink-0 flex-1 whitespace-nowrap px-1.5 py-2 text-[11px] font-bold transition-colors
+        {activeTab === 'silhouettes' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-editor-muted hover:text-white/60'}"
       on:click={() => (activeTab = 'silhouettes')}
     >
       {dict.silhouettes}
@@ -75,7 +76,7 @@
       <h2 class="text-cat-cream font-bold text-sm uppercase tracking-wider">
         {dict.presetHeader}
       </h2>
-      <p class="text-white/40 text-xs mt-1">{dict.presetDesc}</p>
+      <p class="text-editor-muted text-xs mt-1">{dict.presetDesc}</p>
     </div>
     <div class="flex-1 overflow-y-auto p-3 space-y-2">
       {#each uiPresets as preset (preset.id)}
@@ -86,7 +87,7 @@
         >
           <div class="p-3">
             <p class="text-white font-semibold text-sm">{lookup(dict, `preset.${preset.id}`, preset.id)}</p>
-            <p class="text-white/40 text-xs mt-1 leading-tight">{lookup(dict, `presetDesc.${preset.id}`, '')}</p>
+            <p class="text-editor-muted text-xs mt-1 leading-tight">{lookup(dict, `presetDesc.${preset.id}`, '')}</p>
           </div>
         </button>
       {/each}
@@ -135,14 +136,14 @@
           />
         </div>
         <div class="p-2">
-          <p class="text-white font-semibold text-xs">{lookup(dict, `tpl.${template.id}`, template.id)}</p>
-          <p class="text-white/40 text-xs mt-0.5 leading-tight">{lookup(dict, `tplDesc.${template.id}`, '')}</p>
+          <p class="text-white font-semibold text-sm">{lookup(dict, `tpl.${template.id}`, template.id)}</p>
+          <p class="text-editor-muted text-xs mt-0.5 leading-tight">{lookup(dict, `tplDesc.${template.id}`, '')}</p>
         </div>
       </button>
     {/each}
 
     {#if filtered.length === 0}
-      <div class="text-center text-white/40 text-sm py-8">
+      <div class="text-center text-editor-muted text-sm py-8">
         {dict.noTemplates}
       </div>
     {/if}

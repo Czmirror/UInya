@@ -1,3 +1,4 @@
+<!-- Presents controls for the selected canvas object and its background. -->
 <script lang="ts">
   import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow, updateFontFamily, fontFamilyOptions } from '$lib/stores/editorStore';
   import { createEventDispatcher } from 'svelte';
@@ -62,7 +63,7 @@
   </div>
 
   {#if !hasSelection}
-    <div class="flex-1 flex items-center justify-center text-white/30 text-sm p-4 text-center">
+    <div class="flex-1 flex items-center justify-center text-editor-muted text-sm p-4 text-center">
       <div>
         <p class="text-3xl mb-2">🐾</p>
         <p>{$t.selectPrompt}</p>

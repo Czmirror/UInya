@@ -1,3 +1,4 @@
+// Defines the editor labels and locale store used by the Svelte interface.
 import { writable, derived } from 'svelte/store';
 
 export type Locale = 'ja' | 'en';
@@ -196,7 +197,7 @@ const dict = {
 
     // Silhouettes
     silhouettes: 'シルエット',
-    silhouetteHeader: '🐈‍⬛ シルエット',
+    silhouetteHeader: '🐈\u200D⬛ シルエット',
     silhouetteDesc: '完成済みの猫シルエット素材',
     noSilhouettes: 'シルエットがありません',
     'sil.cat-face': '猫顔シルエット',
@@ -364,7 +365,7 @@ const dict = {
 
     // Silhouettes
     silhouettes: 'Silhouettes',
-    silhouetteHeader: '🐈‍⬛ Silhouettes',
+    silhouetteHeader: '🐈\u200D⬛ Silhouettes',
     silhouetteDesc: 'Ready-made cat silhouette assets',
     noSilhouettes: 'No silhouettes found',
     'sil.cat-face': 'Cat Face',

@@ -1,0 +1,8 @@
+{
+  "repository": "git@github.com:Czmirror/ai-dev-context.git",
+  "commit": "be71a3c337fd65d4aa3c380e0fbfda4feec2a893",
+  "uncommittedChanges": false,
+  "adoption": "copy",
+  "files": 98,
+  "changes": "Copied by bootstrap-project.mjs --copy. Record any local changes here."
+}

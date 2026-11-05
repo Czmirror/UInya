@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # UInya - CLAUDE.md
 
 ## プロジェクト概要

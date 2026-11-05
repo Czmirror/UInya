@@ -1,0 +1,6 @@
+# Git line ending settings placed by bootstrap-project.mjs when the project has no .gitattributes.
+# Normalize detected text to LF; binary files are not converted.
+* text=auto eol=lf
+# cmd.exe can misread labels and goto in batch files saved with LF, so these keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf

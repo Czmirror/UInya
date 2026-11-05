@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "name": "uinya",
+  "stacks": [
+    {
+      "path": ".",
+      "rules": [
+        "web",
+        "typescript"
+      ]
+    },
+    {
+      "path": ".github/workflows",
+      "rules": [
+        "github-actions"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "source-headers",
+      "stage": "lint",
+      "required": true,
+      "command": [
+        "node",
+        ".harness/scripts/check-file-headers.mjs",
+        "--root",
+        ".",
+        "--since",
+        "48cd7040ab5c9712b78c528d09645ba4453114f3"
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000
+    },
+    {
+      "id": "lint",
+      "stage": "lint",
+      "required": false,
+      "skipReason": "No standalone linter is configured."
+    },
+    {
+      "id": "text-style",
+      "stage": "format",
+      "required": true,
+      "command": [
+        "node",
+        ".harness/scripts/check-text-style.mjs",
+        "--root",
+        "."
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000
+    },
+    {
+      "id": "format",
+      "stage": "format",
+      "required": false,
+      "skipReason": "Text encoding and line endings are checked by text-style. No formatter is configured."
+    },
+    {
+      "id": "types",
+      "stage": "typecheck",
+      "required": true,
+      "command": [
+        "npm",
+        "run",
+        "check"
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000
+    },
+    {
+      "id": "tests",
+      "stage": "test",
+      "required": false,
+      "skipReason": "No automated test suite is configured. Verify the editor flow in a browser."
+    },
+    {
+      "id": "build",
+      "stage": "build",
+      "required": true,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000
+    },
+    {
+      "id": "secrets",
+      "stage": "security",
+      "required": true,
+      "command": [
+        "node",
+        ".harness/scripts/check-secrets.mjs",
+        "--root",
+        "."
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Harness guard for git push. Blocks direct, force and delete pushes to protected branches.
+# Copy to .git/hooks/pre-push, or call the node line from an existing hook manager (husky, lefthook).
+# HARNESS_DIR is where this Harness lives in the project (.harness/upstream for the submodule method).
+HARNESS_DIR="${HARNESS_DIR:-.harness/upstream}"
+exec node "$HARNESS_DIR/scripts/guard.mjs" pre-push "$@"
