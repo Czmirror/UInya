@@ -27,7 +27,7 @@
 
 <aside class="flex w-full shrink-0 flex-col overflow-y-auto border-t border-white/10 bg-dark-panel lg:h-full lg:w-56 lg:border-l lg:border-t-0 xl:w-64">
   <div class="p-4 border-b border-white/10">
-    <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider">
+    <h2 class="text-cat-peach font-bold text-sm uppercase tracking-wider">
       {$t.properties}
     </h2>
   </div>
@@ -194,7 +194,7 @@
           {$t.shadow}
         </label>
         {#if state.shadowEnabled}
-          <div class="mt-2 space-y-2 pl-2 border-l-2 border-cat-lavender/30">
+          <div class="mt-2 space-y-2 pl-2 border-l-2 border-cat-peach/30">
             <div>
               <span class="prop-label-sm">{$t.shadowColor}</span>
               <div class="flex items-center gap-2 mt-1">
@@ -210,7 +210,7 @@
             <div>
               <div class="flex justify-between items-center">
                 <span class="prop-label-sm">{$t.blur}</span>
-                <span class="text-cat-lavender text-xs">{state.shadowBlur}px</span>
+                <span class="text-cat-peach text-xs">{state.shadowBlur}px</span>
               </div>
               <input
                 type="range"
@@ -226,7 +226,7 @@
               <div>
                 <div class="flex justify-between items-center">
                   <span class="prop-label-sm">{$t.xOffset}</span>
-                  <span class="text-cat-lavender text-xs">{state.shadowOffsetX}</span>
+                  <span class="text-cat-peach text-xs">{state.shadowOffsetX}</span>
                 </div>
                 <input
                   type="range"
@@ -241,7 +241,7 @@
               <div>
                 <div class="flex justify-between items-center">
                   <span class="prop-label-sm">{$t.yOffset}</span>
-                  <span class="text-cat-lavender text-xs">{state.shadowOffsetY}</span>
+                  <span class="text-cat-peach text-xs">{state.shadowOffsetY}</span>
                 </div>
                 <input
                   type="range"

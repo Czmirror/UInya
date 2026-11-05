@@ -1226,7 +1226,7 @@
   }
 </script>
 
-<div class="relative flex min-h-[23rem] min-w-0 flex-1 overflow-auto bg-[#111827] p-4 lg:min-h-0" bind:this={wrapperEl}>
+<div class="relative flex min-h-[23rem] min-w-0 flex-1 overflow-auto bg-[var(--editor-stage)] p-4 lg:min-h-0" bind:this={wrapperEl}>
   <div class="artboard relative m-auto shrink-0 overflow-hidden rounded-xl border border-white/10 shadow-2xl shadow-black/40">
     <canvas bind:this={canvasEl}></canvas>
     {#if $gridEnabled}
@@ -1257,7 +1257,7 @@
 
   <!-- Welcome showcase overlay -->
   {#if showWelcome}
-    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto p-3 bg-[#111827]/80 z-40 backdrop-blur-sm">
+    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto p-3 bg-[color-mix(in_srgb,var(--editor-stage)_80%,transparent)] z-40 backdrop-blur-sm">
       <p class="text-white text-lg font-bold mb-1 text-center">{$t.welcomeTitle}</p>
       <p class="text-editor-muted text-sm mb-5 text-center">{$t.welcomeSub}</p>
       <div class="flex gap-2 flex-wrap justify-center max-w-xl px-4">

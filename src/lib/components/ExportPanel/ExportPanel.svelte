@@ -55,8 +55,8 @@
       SVG
     </button>
     <button
-      class="px-3 py-2 sm:px-5 bg-cat-lavender text-dark-bg rounded-lg text-sm font-bold
-        hover:bg-cat-lavender/80 transition-colors shadow-md shadow-cat-lavender/20 flex items-center gap-1.5"
+      class="px-3 py-2 sm:px-5 bg-cat-peach text-dark-bg rounded-lg text-sm font-bold
+        hover:bg-cat-peach/80 transition-colors shadow-md shadow-cat-peach/20 flex items-center gap-1.5"
       on:click={onExportPng}
     >
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>

@@ -262,7 +262,7 @@
     </button>
     <button
       aria-label={$t.snap}
-      class="tool-btn {$snapEnabled ? 'text-cat-lavender bg-cat-lavender/15' : ''}"
+      class="tool-btn {$snapEnabled ? 'text-cat-peach bg-cat-peach/15' : ''}"
       on:click={() => snapEnabled.update(v => !v)}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -295,7 +295,7 @@
     <button
       aria-label={$t.shuffleCatUI}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-cat-lavender/15 text-cat-lavender hover:bg-cat-lavender/25 transition-colors relative"
+        bg-cat-peach/15 text-cat-peach hover:bg-cat-peach/25 transition-colors relative"
       on:click={() => dispatch('shuffleCatUI')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

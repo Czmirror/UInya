@@ -21,13 +21,13 @@
 
 <div class="flex flex-col h-full min-h-0">
   <div class="p-4 border-b border-white/10">
-    <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider mb-3">
+    <h2 class="text-cat-peach font-bold text-sm uppercase tracking-wider mb-3">
       {dict.partsHeader}
     </h2>
     <div class="flex flex-wrap gap-1">
       <button
         class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
-          {activeCategory === 'all' ? 'bg-cat-lavender text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
+          {activeCategory === 'all' ? 'bg-cat-peach text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
         on:click={() => (activeCategory = 'all')}
       >
         {dict.all}
@@ -35,7 +35,7 @@
       {#each catPartCategories as cat}
         <button
           class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
-            {activeCategory === cat.id ? 'bg-cat-lavender text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
+            {activeCategory === cat.id ? 'bg-cat-peach text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
           on:click={() => (activeCategory = cat.id)}
         >
           {lookup(dict, `cat.${cat.id}`, cat.id)}
@@ -49,7 +49,7 @@
       {#each filtered as part (part.id)}
         <button
           class="rounded-xl overflow-hidden bg-dark-card border border-white/10
-            hover:border-cat-lavender/60 transition-all group text-left"
+            hover:border-cat-peach/60 transition-all group text-left"
           on:click={() => dispatch('selectPart', part)}
         >
           <div class="w-full bg-white/5 flex items-center justify-center p-3 h-20 overflow-hidden">

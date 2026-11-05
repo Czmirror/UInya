@@ -14,11 +14,11 @@
 
 @layer base {
   :root {
-    --shelf-card: #252b46;
+    --editor-stage: #211719;
   }
 
   :where(button, input, select, a):focus-visible {
-    outline: 2px solid theme('colors.cat-lavender');
+    outline: 2px solid theme('colors.cat-peach');
     outline-offset: 2px;
   }
 }

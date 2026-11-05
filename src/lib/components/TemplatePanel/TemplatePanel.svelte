@@ -47,7 +47,7 @@
     </button>
     <button
       class="shrink-0 flex-1 whitespace-nowrap px-1.5 py-2 text-[11px] font-bold transition-colors
-        {activeTab === 'parts' ? 'text-cat-lavender border-b-2 border-cat-lavender' : 'text-editor-muted hover:text-white'}"
+        {activeTab === 'parts' ? 'text-cat-peach border-b-2 border-cat-peach' : 'text-editor-muted hover:text-white'}"
       aria-pressed={activeTab === 'parts'}
       on:click={() => (activeTab = 'parts')}
     >
@@ -131,7 +131,7 @@
   <div class="grid flex-1 auto-rows-max grid-cols-2 content-start gap-2.5 overflow-y-auto p-3 sm:grid-cols-3 lg:grid-cols-2">
     {#each filtered as template (template.id)}
       <button
-        class="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/10 bg-[var(--shelf-card)]
+        class="group flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/10 bg-dark-card
           text-center transition-colors hover:border-cat-pink focus:border-cat-pink focus-visible:outline-offset-[-3px]"
         title={lookup(dict, `tplDesc.${template.id}`, '')}
         on:click={() => selectTemplate(template)}
