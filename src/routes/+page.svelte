@@ -93,19 +93,19 @@
   }
 </script>
 
-<div class="flex min-h-screen flex-col bg-dark-bg font-rounded lg:h-screen lg:overflow-hidden">
+<div class="flex min-h-screen flex-col bg-editor-paper font-rounded lg:h-screen lg:overflow-hidden">
   <!-- ヘッダー -->
-  <header class="flex shrink-0 flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-white/10 bg-dark-panel px-4 py-2">
+  <header class="flex shrink-0 flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-editor-line bg-editor-panel px-4 py-2">
     <HeaderLogo />
 
     <div class="flex flex-wrap items-center gap-2 sm:gap-3">
       <!-- 言語切替 -->
       <button
-        class="flex items-center gap-0.5 text-xs font-bold rounded-lg border border-white/20 overflow-hidden"
+        class="flex items-center gap-0.5 text-xs font-bold rounded-lg border border-editor-line overflow-hidden"
         on:click={toggleLocale}
       >
-        <span class="px-2 py-1 transition-colors {$locale === 'ja' ? 'bg-cat-pink text-dark-bg' : 'text-white/40 hover:text-white/60'}">JA</span>
-        <span class="px-2 py-1 transition-colors {$locale === 'en' ? 'bg-cat-pink text-dark-bg' : 'text-white/40 hover:text-white/60'}">EN</span>
+        <span class="px-2 py-1 transition-colors {$locale === 'ja' ? 'bg-cat-pink text-editor-ink' : 'text-editor-muted hover:text-editor-ink'}">JA</span>
+        <span class="px-2 py-1 transition-colors {$locale === 'en' ? 'bg-cat-pink text-editor-ink' : 'text-editor-muted hover:text-editor-ink'}">EN</span>
       </button>
 
       <!-- エクスポートパネル -->
@@ -157,9 +157,9 @@
   </div>
 
   <!-- フッター -->
-  <footer class="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/10 bg-dark-panel px-4 py-1.5 text-xs text-editor-muted">
-    <img src="{base}/brand/sleeping-cat.png" alt="" class="h-6 w-auto shrink-0 border-r border-white/20 pr-3 object-contain" />
-    <span>&copy; 2026 <a href="https://czmirror.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-cat-pink/70 hover:text-cat-pink transition-colors">Cz_mirror</a></span>
+  <footer class="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-t border-editor-line bg-editor-panel px-4 py-1.5 text-xs text-editor-muted">
+    <img src="{base}/brand/sleeping-cat.png" alt="" class="h-6 w-auto shrink-0 border-r border-editor-line pr-3 object-contain" />
+    <span>&copy; 2026 <a href="https://czmirror.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-editor-focus/70 hover:text-editor-focus transition-colors">Cz_mirror</a></span>
     <span>·</span>
     <span>MIT License</span>
     <span>·</span>

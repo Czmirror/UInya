@@ -1,6 +1,6 @@
 <!-- Presents controls for the selected canvas object and its background. -->
 <script lang="ts">
-  import { editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow, updateFontFamily, fontFamilyOptions } from '$lib/stores/editorStore';
+  import { DEFAULT_ARTBOARD_COLOR, editorState, updateFill, updateStroke, updateBorderRadius, updateOpacity, updateShadow, updateFontFamily, fontFamilyOptions } from '$lib/stores/editorStore';
   import { createEventDispatcher } from 'svelte';
   import { t, locale } from '$lib/stores/i18n';
 
@@ -9,7 +9,7 @@
   $: state = $editorState;
   $: hasSelection = state.selectedObjectId !== null;
 
-  let bgColor = '#0F3460';
+  let bgColor = DEFAULT_ARTBOARD_COLOR;
   let bgEnabled = true;
 
   function handleBgToggle(checked: boolean) {
@@ -25,15 +25,15 @@
   }
 </script>
 
-<aside class="flex w-full shrink-0 flex-col overflow-y-auto border-t border-white/10 bg-dark-panel lg:h-full lg:w-56 lg:border-l lg:border-t-0 xl:w-64">
-  <div class="p-4 border-b border-white/10">
-    <h2 class="text-cat-peach font-bold text-sm uppercase tracking-wider">
+<aside class="flex w-full shrink-0 flex-col overflow-y-auto border-t border-editor-line bg-editor-panel lg:h-full lg:w-56 lg:border-l lg:border-t-0 xl:w-64">
+  <div class="p-4 border-b border-editor-line">
+    <h2 class="text-editor-muted font-bold text-sm uppercase tracking-wider">
       {$t.properties}
     </h2>
   </div>
 
   <!-- 背景設定（常に表示） -->
-  <div class="p-4 border-b border-white/10 space-y-2">
+  <div class="p-4 border-b border-editor-line space-y-2">
     <label class="prop-label flex items-center gap-2 cursor-pointer">
       <input
         type="checkbox"
@@ -117,7 +117,7 @@
       <div class="prop-section">
         <div class="flex justify-between items-center">
           <label for="stroke-width" class="prop-label">{$t.strokeWidth}</label>
-          <span class="text-cat-pink text-xs font-semibold">{state.strokeWidth}px</span>
+          <span class="text-editor-focus text-xs font-semibold">{state.strokeWidth}px</span>
         </div>
         <input
           id="stroke-width"
@@ -135,7 +135,7 @@
       <div class="prop-section">
         <div class="flex justify-between items-center">
           <label for="border-radius" class="prop-label">{$t.borderRadius}</label>
-          <span class="text-cat-pink text-xs font-semibold">{state.borderRadius}px</span>
+          <span class="text-editor-focus text-xs font-semibold">{state.borderRadius}px</span>
         </div>
         <input
           id="border-radius"
@@ -153,7 +153,7 @@
       <div class="prop-section">
         <div class="flex justify-between items-center">
           <label for="opacity" class="prop-label">{$t.opacity}</label>
-          <span class="text-cat-pink text-xs font-semibold">{state.opacity}%</span>
+          <span class="text-editor-focus text-xs font-semibold">{state.opacity}%</span>
         </div>
         <input
           id="opacity"
@@ -194,7 +194,7 @@
           {$t.shadow}
         </label>
         {#if state.shadowEnabled}
-          <div class="mt-2 space-y-2 pl-2 border-l-2 border-cat-peach/30">
+          <div class="mt-2 space-y-2 pl-2 border-l-2 border-editor-focus/30">
             <div>
               <span class="prop-label-sm">{$t.shadowColor}</span>
               <div class="flex items-center gap-2 mt-1">
@@ -210,7 +210,7 @@
             <div>
               <div class="flex justify-between items-center">
                 <span class="prop-label-sm">{$t.blur}</span>
-                <span class="text-cat-peach text-xs">{state.shadowBlur}px</span>
+                <span class="text-editor-muted text-xs">{state.shadowBlur}px</span>
               </div>
               <input
                 type="range"
@@ -226,7 +226,7 @@
               <div>
                 <div class="flex justify-between items-center">
                   <span class="prop-label-sm">{$t.xOffset}</span>
-                  <span class="text-cat-peach text-xs">{state.shadowOffsetX}</span>
+                  <span class="text-editor-muted text-xs">{state.shadowOffsetX}</span>
                 </div>
                 <input
                   type="range"
@@ -241,7 +241,7 @@
               <div>
                 <div class="flex justify-between items-center">
                   <span class="prop-label-sm">{$t.yOffset}</span>
-                  <span class="text-cat-peach text-xs">{state.shadowOffsetY}</span>
+                  <span class="text-editor-muted text-xs">{state.shadowOffsetY}</span>
                 </div>
                 <input
                   type="range"
@@ -266,17 +266,17 @@
     @apply space-y-0;
   }
   .prop-label {
-    @apply text-white/70 text-xs font-semibold uppercase tracking-wider block;
+    @apply text-editor-muted text-xs font-semibold uppercase tracking-wider block;
   }
   .prop-label-sm {
-    @apply text-white/50 text-xs block;
+    @apply text-editor-muted text-xs block;
   }
   .color-input {
-    @apply w-9 h-9 rounded-lg cursor-pointer border border-white/20 bg-transparent p-0.5;
+    @apply w-9 h-9 rounded-lg cursor-pointer border border-editor-line bg-transparent p-0.5;
   }
   .text-input {
-    @apply bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 text-sm text-white
-      focus:outline-none focus:border-cat-pink/60;
+    @apply bg-editor-paper border border-editor-line rounded-lg px-3 py-1.5 text-sm text-editor-ink
+      focus:outline-none focus:border-editor-focus/60;
   }
   .range-input {
     @apply w-full accent-cat-pink;

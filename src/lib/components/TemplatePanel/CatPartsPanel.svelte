@@ -1,3 +1,4 @@
+<!-- Displays selectable assets for this category of the editor shelf. -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { catParts, catPartCategories } from '$lib/templates/catParts';
@@ -20,14 +21,14 @@
 </script>
 
 <div class="flex flex-col h-full min-h-0">
-  <div class="p-4 border-b border-white/10">
-    <h2 class="text-cat-peach font-bold text-sm uppercase tracking-wider mb-3">
+  <div class="p-4 border-b border-editor-line">
+    <h2 class="text-editor-muted font-bold text-sm uppercase tracking-wider mb-3">
       {dict.partsHeader}
     </h2>
     <div class="flex flex-wrap gap-1">
       <button
         class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
-          {activeCategory === 'all' ? 'bg-cat-peach text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
+          {activeCategory === 'all' ? 'bg-cat-peach text-editor-ink' : 'bg-editor-paper text-editor-muted hover:bg-editor-stage'}"
         on:click={() => (activeCategory = 'all')}
       >
         {dict.all}
@@ -35,7 +36,7 @@
       {#each catPartCategories as cat}
         <button
           class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
-            {activeCategory === cat.id ? 'bg-cat-peach text-dark-bg' : 'bg-white/10 text-white/70 hover:bg-white/20'}"
+            {activeCategory === cat.id ? 'bg-cat-peach text-editor-ink' : 'bg-editor-paper text-editor-muted hover:bg-editor-stage'}"
           on:click={() => (activeCategory = cat.id)}
         >
           {lookup(dict, `cat.${cat.id}`, cat.id)}
@@ -48,24 +49,24 @@
     <div class="grid grid-cols-2 gap-2">
       {#each filtered as part (part.id)}
         <button
-          class="rounded-xl overflow-hidden bg-dark-card border border-white/10
-            hover:border-cat-peach/60 transition-all group text-left"
+          class="rounded-xl overflow-hidden bg-editor-card border border-editor-line
+            hover:border-editor-focus/60 transition-all group text-left"
           on:click={() => dispatch('selectPart', part)}
         >
-          <div class="w-full bg-white/5 flex items-center justify-center p-3 h-20 overflow-hidden">
+          <div class="w-full bg-editor-card flex items-center justify-center p-3 h-20 overflow-hidden">
             <img
               src="{base}{part.svgFile}"
               alt={lookup(dict, `part.${part.id}`, part.id)}
               class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform"
             />
           </div>
-          <p class="text-white/70 text-[10px] font-semibold text-center py-1.5 px-1 truncate">{lookup(dict, `part.${part.id}`, part.id)}</p>
+          <p class="text-editor-muted text-[10px] font-semibold text-center py-1.5 px-1 truncate">{lookup(dict, `part.${part.id}`, part.id)}</p>
         </button>
       {/each}
     </div>
 
     {#if filtered.length === 0}
-      <div class="text-center text-white/40 text-sm py-8">
+      <div class="text-center text-editor-muted text-sm py-8">
         {dict.noParts}
       </div>
     {/if}

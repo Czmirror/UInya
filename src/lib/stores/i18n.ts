@@ -46,6 +46,12 @@ const dict = {
 
     // Template panel
     templateHeader: 'ねこ素材棚',
+    templateCollections: '素材のコレクション',
+    'collection.featured': 'おすすめ',
+    'collection.strawberry': 'いちご',
+    'collection.honey': 'はちみつ',
+    'collection.peach': 'もも',
+    'collection.classic': 'クラシック',
     partsHeader: '🐱 パーツ',
     presetHeader: '🎮 用途別UI',
     presetDesc: '1クリックで完成UIをキャンバスに追加',
@@ -226,6 +232,12 @@ const dict = {
     all: 'All',
 
     templateHeader: 'Cat Asset Shelf',
+    templateCollections: 'Template collections',
+    'collection.featured': 'Featured',
+    'collection.strawberry': 'Strawberry',
+    'collection.honey': 'Honey',
+    'collection.peach': 'Peach',
+    'collection.classic': 'Classic',
     partsHeader: '🐱 Parts',
     presetHeader: '🎮 Preset UI',
     presetDesc: 'Add a ready-made UI to canvas with one click',

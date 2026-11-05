@@ -1,3 +1,4 @@
+// Stores editor state and shared defaults for the canvas and property controls.
 import { writable, derived } from 'svelte/store';
 import type { EditorState, CatTemplate, ExportOptions } from '$lib/types/ui';
 
@@ -37,6 +38,8 @@ export const fontFamilyOptions = [
 // グリッド表示・スナップ機能の状態（editorStateとは独立して管理）
 export const gridEnabled = writable(false);
 export const snapEnabled = writable(false);
+
+export const DEFAULT_ARTBOARD_COLOR = '#FFF9E6';
 
 export const exportOptions = writable<ExportOptions>({
   format: 'svg',

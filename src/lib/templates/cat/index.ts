@@ -1,6 +1,7 @@
+// Defines the editor’s SVG template collections and the starting shelf.
 import type { CatTemplate } from '$lib/types/ui';
 
-export const catTemplates: CatTemplate[] = [
+const classicTemplates: CatTemplate[] = [
   {
     id: 'paw-button',
     name: 'Paw Button',
@@ -47,6 +48,61 @@ export const catTemplates: CatTemplate[] = [
     description: 'キャラクターアイコン用の猫耳付き丸フレーム'
   }
 ];
+
+const collectionIds = ['strawberry', 'honey', 'peach'] as const;
+type NewCollection = (typeof collectionIds)[number];
+
+export const templateCollectionIds = ['featured', ...collectionIds, 'classic'] as const;
+export type TemplateCollection = (typeof templateCollectionIds)[number];
+
+const designs = {
+  strawberry: [
+    ['Paw Button', '肉球ボタン'], ['Strawberry Cat Frame', 'いちご猫耳フレーム'],
+    ['Paw Tail Gauge', '肉球しっぽゲージ'], ['Strawberry Whisker Box', 'いちごひげ入力欄'],
+    ['Calico Avatar Frame', '三毛猫アバターフレーム'],
+  ],
+  honey: [
+    ['Calico Action Button', '三毛猫ボタン'], ['Honey Cat Dialog', 'はちみつ猫耳ダイアログ'],
+    ['Honey Tail Gauge', 'はちみつしっぽゲージ'], ['Honey Whisker Box', 'はちみつひげ入力欄'],
+    ['Honey Avatar Frame', 'はちみつアバターフレーム'],
+  ],
+  peach: [
+    ['Peach Cat Button', 'もも猫ボタン'], ['Peach Whisker Frame', 'ももひげフレーム'],
+    ['Striped Tail Gauge', 'しましっぽゲージ'], ['Bell Whisker Box', '鈴つきひげ入力欄'],
+    ['Peach Avatar Frame', 'ももアバターフレーム'],
+  ],
+} as const;
+
+const templateKinds = [
+  ['button', 'button'], ['frame', 'frame'], ['gauge', 'gauge'],
+  ['textbox', 'textbox'], ['avatar', 'icon'],
+] as const;
+
+/** Builds shelf entries whose preview and editable SVG refer to the same asset. */
+function collectionTemplates(collection: NewCollection): CatTemplate[] {
+  return templateKinds.map(([file, category], index) => {
+    const [name, nameJa] = designs[collection][index];
+    const svgFile = `/templates/collections/${collection}/${file}.svg`;
+    return { id: `${collection}-${file}`, name, nameJa, category, svgFile, thumbnail: svgFile, description: '' };
+  });
+}
+
+const strawberryTemplates = collectionTemplates('strawberry');
+const honeyTemplates = collectionTemplates('honey');
+
+// Keep the calico avatar as the final card on the featured shelf.
+export const featuredTemplates = [
+  ...honeyTemplates.filter(template => template.category !== 'icon'),
+  ...strawberryTemplates.filter(template => template.category === 'icon'),
+];
+
+export const templateCollections: Record<TemplateCollection, CatTemplate[]> = {
+  featured: featuredTemplates,
+  strawberry: strawberryTemplates,
+  honey: honeyTemplates,
+  peach: collectionTemplates('peach'),
+  classic: classicTemplates,
+};
 
 export const templateCategories = [
   { id: 'button', label: 'ボタン', emoji: '🐾' },

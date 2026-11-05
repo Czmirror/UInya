@@ -1,13 +1,13 @@
 <!-- Owns the Fabric canvas and exposes editing and export operations to the editor page. -->
 <script lang="ts">
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-  import { editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
-  import { catTemplates } from '$lib/templates/cat';
+  import { DEFAULT_ARTBOARD_COLOR, editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
+  import { featuredTemplates } from '$lib/templates/cat';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { base } from '$app/paths';
-  import { t } from '$lib/stores/i18n';
+  import { locale, t } from '$lib/stores/i18n';
   import { generateRandomLayout } from '$lib/templates/randomCatUi';
   import type { RandomResult } from '$lib/templates/randomCatUi';
 
@@ -200,7 +200,7 @@
     canvas = new fabric.Canvas(canvasEl, {
       width: $editorState.canvasWidth,
       height: $editorState.canvasHeight,
-      backgroundColor: '#0F3460',
+      backgroundColor: DEFAULT_ARTBOARD_COLOR,
       selection: true,
       preserveObjectStacking: true,
       fireRightClick: true,
@@ -426,6 +426,12 @@
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function syncStateFromObject(obj: any) {
+    obj.set({
+      borderColor: '#a54857',
+      cornerColor: '#fff8e8',
+      cornerStrokeColor: '#a54857',
+      transparentCorners: false
+    });
     isSyncingFromObject = true;
 
     // For groups/activeSelections, read fill/stroke from the first visible child
@@ -906,7 +912,7 @@
   export function clearAll() {
     if (!canvas) return;
     canvas.clear();
-    canvas.backgroundColor = '#0F3460';
+    canvas.backgroundColor = DEFAULT_ARTBOARD_COLOR;
     canvas.renderAll();
   }
 
@@ -1217,8 +1223,6 @@
     return output.toDataURL('image/png');
   }
 
-  $: templateLabels = $t as Record<string, string>;
-
   // Context menu action helper
   function ctxAction(fn: () => void) {
     fn();
@@ -1226,16 +1230,16 @@
   }
 </script>
 
-<div class="relative flex min-h-[23rem] min-w-0 flex-1 overflow-auto bg-[var(--editor-stage)] p-4 lg:min-h-0" bind:this={wrapperEl}>
-  <div class="artboard relative m-auto shrink-0 overflow-hidden rounded-xl border border-white/10 shadow-2xl shadow-black/40">
+<div class="relative flex min-h-[23rem] min-w-0 flex-1 overflow-auto bg-editor-stage p-4 lg:min-h-0" bind:this={wrapperEl}>
+  <div class="artboard relative m-auto shrink-0 overflow-hidden rounded-xl border border-editor-line shadow-md shadow-editor-ink/15">
     <canvas bind:this={canvasEl}></canvas>
     {#if $gridEnabled}
       <div
         class="absolute inset-0 pointer-events-none"
         style="
           background-image:
-            linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
+            linear-gradient(to right, rgba(67,37,26,0.12) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(67,37,26,0.12) 1px, transparent 1px);
           background-size: {100 * GRID_SIZE / $editorState.canvasWidth}% {100 * GRID_SIZE / $editorState.canvasHeight}%;
         "
       ></div>
@@ -1257,29 +1261,29 @@
 
   <!-- Welcome showcase overlay -->
   {#if showWelcome}
-    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto p-3 bg-[color-mix(in_srgb,var(--editor-stage)_80%,transparent)] z-40 backdrop-blur-sm">
-      <p class="text-white text-lg font-bold mb-1 text-center">{$t.welcomeTitle}</p>
+    <div class="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto p-3 bg-editor-panel/90 z-40 backdrop-blur-sm">
+      <p class="text-editor-ink text-lg font-bold mb-1 text-center">{$t.welcomeTitle}</p>
       <p class="text-editor-muted text-sm mb-5 text-center">{$t.welcomeSub}</p>
       <div class="flex gap-2 flex-wrap justify-center max-w-xl px-4">
-        {#each catTemplates.slice(0, 5) as template (template.id)}
+        {#each featuredTemplates as template (template.id)}
           <button
-            class="w-24 rounded-xl overflow-hidden bg-dark-panel border border-white/10
-              hover:border-cat-pink/60 hover:scale-105 transition-all group"
+            class="w-24 rounded-xl overflow-hidden bg-editor-panel border border-editor-line
+              hover:border-editor-focus/60 hover:scale-105 transition-all group"
             on:click={() => { showWelcome = false; loadTemplate(template); }}
           >
-            <div class="w-full bg-white/5 flex items-center justify-center p-2 h-20 overflow-hidden">
+            <div class="w-full bg-editor-card flex items-center justify-center p-2 h-20 overflow-hidden">
               <img
                 src="{base}{template.thumbnail}"
                 alt=""
                 class="max-h-full max-w-full object-contain"
               />
             </div>
-            <p class="text-white/90 text-xs leading-tight font-semibold text-center px-1 py-2 break-words">{templateLabels[`tpl.${template.id}`] ?? template.id}</p>
+            <p class="text-editor-ink text-xs leading-tight font-semibold text-center px-1 py-2 break-words">{$locale === 'ja' ? template.nameJa : template.name}</p>
           </button>
         {/each}
       </div>
       <button
-        class="mt-4 px-3 py-2 rounded-lg text-editor-muted text-xs hover:text-white hover:bg-white/10 transition-colors"
+        class="mt-4 px-3 py-2 rounded-lg text-editor-muted text-xs hover:text-editor-ink hover:bg-editor-card transition-colors"
         on:click={() => { showWelcome = false; }}
       >
         {$t.welcomeSkip}
@@ -1300,7 +1304,7 @@
         <button class="ctx-item" on:click={() => ctxAction(deleteSelected)}>
           <span>{$t.delete}</span><span class="ctx-shortcut">Delete</span>
         </button>
-        <hr class="border-white/10" />
+        <hr class="border-editor-line" />
         <button class="ctx-item" on:click={() => ctxAction(bringToFront)}>
           <span>{$t.bringToFront}</span>
         </button>
@@ -1313,7 +1317,7 @@
         <button class="ctx-item" on:click={() => ctxAction(sendToBack)}>
           <span>{$t.sendToBack}</span>
         </button>
-        <hr class="border-white/10" />
+        <hr class="border-editor-line" />
         <button class="ctx-item" on:click={() => ctxAction(groupSelected)}>
           <span>{$t.group}</span><span class="ctx-shortcut">Ctrl+G</span>
         </button>
@@ -1336,6 +1340,7 @@
   .artboard {
     width: min(100%, 514px);
     aspect-ratio: 1;
+    background: repeating-conic-gradient(#fff9e6 0% 25%, #f7e9c9 0% 50%) 0 / 24px 24px;
   }
   /* Fit both Fabric layers without changing the document or its exported dimensions. */
   .artboard :global(.canvas-container),
@@ -1346,14 +1351,14 @@
 
 
   .ctx-menu {
-    @apply absolute z-50 bg-dark-panel border border-white/20 rounded-lg shadow-xl shadow-black/50
+    @apply absolute z-50 bg-editor-panel border border-editor-line rounded-lg shadow-xl shadow-black/50
       py-1 min-w-[180px] overflow-hidden;
   }
   .ctx-item {
-    @apply w-full flex items-center justify-between px-3 py-1.5 text-sm text-white/80
-      hover:bg-white/10 hover:text-white transition-colors text-left;
+    @apply w-full flex items-center justify-between px-3 py-1.5 text-sm text-editor-ink
+      hover:bg-editor-card hover:text-editor-ink transition-colors text-left;
   }
   .ctx-shortcut {
-    @apply text-white/30 text-xs ml-4;
+    @apply text-editor-muted text-xs ml-4;
   }
 </style>

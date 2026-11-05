@@ -5,13 +5,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        'editor-muted': '#D8C5BB',
-        'cat-pink': '#FFB7C5',
-        'cat-peach': '#EAB999',
-        'cat-cream': '#FFF3E0',
-        'dark-bg': '#251A1C',
-        'dark-panel': '#342427',
-        'dark-card': '#483134',
+        'editor-muted': '#775449',
+        'editor-ink': '#43251A',
+        'editor-line': '#DDC4A4',
+        'editor-paper': '#FFFAEE',
+        'editor-panel': '#FFF4DF',
+        'editor-card': '#F7E6C7',
+        'editor-stage': '#F4DEB8',
+        'editor-focus': '#A54857',
+        'cat-pink': '#F8AEB7',
+        'cat-peach': '#F7D49C',
         'accent-pink': '#E91E8C',
         'accent-purple': '#9C27B0'
       },

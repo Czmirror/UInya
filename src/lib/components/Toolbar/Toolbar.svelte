@@ -45,9 +45,9 @@
   }
 </script>
 
-<div class="flex flex-wrap shrink-0 items-center gap-x-1 gap-y-2 px-3 py-2 bg-dark-panel border-b border-white/10">
+<div class="flex flex-wrap shrink-0 items-center gap-x-1 gap-y-2 px-3 py-2 bg-editor-panel border-b border-editor-line">
   <!-- 図形追加ツール -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <span class="text-editor-muted text-xs mr-1 whitespace-nowrap">{$t.add}</span>
     <button
       aria-label={$t.addRect}
@@ -112,7 +112,7 @@
   </div>
 
   <!-- 編集ツール -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.undo}
       class="tool-btn"
@@ -138,7 +138,7 @@
   </div>
 
   <!-- グループ -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.group}
       class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
@@ -168,7 +168,7 @@
   </div>
 
   <!-- レイヤー順序 -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.bringToFront}
       class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
@@ -220,7 +220,7 @@
   </div>
 
   <!-- 反転 -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.flipX}
       class="tool-btn {hasSelection ? '' : 'opacity-40 cursor-not-allowed'}"
@@ -248,10 +248,10 @@
   </div>
 
   <!-- グリッド・スナップ -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.grid}
-      class="tool-btn {$gridEnabled ? 'text-cat-pink bg-cat-pink/15' : ''}"
+      class="tool-btn {$gridEnabled ? 'text-editor-focus bg-cat-pink/15' : ''}"
       on:click={() => gridEnabled.update(v => !v)}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -262,7 +262,7 @@
     </button>
     <button
       aria-label={$t.snap}
-      class="tool-btn {$snapEnabled ? 'text-cat-peach bg-cat-peach/15' : ''}"
+      class="tool-btn {$snapEnabled ? 'text-editor-muted bg-cat-peach/15' : ''}"
       on:click={() => snapEnabled.update(v => !v)}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -274,11 +274,11 @@
   </div>
 
   <!-- ランダム猫UI生成 -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.randomCatUI}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-cat-pink/15 text-cat-pink hover:bg-cat-pink/25 transition-colors relative"
+        bg-cat-pink/15 text-editor-focus hover:bg-cat-pink/25 transition-colors relative"
       on:click={() => dispatch('randomCatUI')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -295,7 +295,7 @@
     <button
       aria-label={$t.shuffleCatUI}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-cat-peach/15 text-cat-peach hover:bg-cat-peach/25 transition-colors relative"
+        bg-cat-peach/15 text-editor-muted hover:bg-cat-peach/25 transition-colors relative"
       on:click={() => dispatch('shuffleCatUI')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -307,11 +307,11 @@
   </div>
 
   <!-- 保存 / 読み込み / 保存削除 -->
-  <div class="flex items-center gap-1 shrink-0 border-r border-white/10 pr-2">
+  <div class="flex items-center gap-1 shrink-0 border-r border-editor-line pr-2">
     <button
       aria-label={$t.saveCanvas}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-colors relative"
+        bg-emerald-500/15 text-emerald-800 hover:bg-emerald-500/25 transition-colors relative"
       on:click={() => dispatch('saveCanvas')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -325,7 +325,7 @@
     <button
       aria-label={$t.loadCanvas}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-sky-500/15 text-sky-400 hover:bg-sky-500/25 transition-colors relative"
+        bg-sky-500/15 text-sky-800 hover:bg-sky-500/25 transition-colors relative"
       on:click={() => dispatch('loadCanvas')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -339,7 +339,7 @@
     <button
       aria-label={$t.clearSave}
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-bold whitespace-nowrap
-        bg-orange-500/15 text-orange-400 hover:bg-orange-500/25 transition-colors relative"
+        bg-orange-500/15 text-orange-900 hover:bg-orange-500/25 transition-colors relative"
       on:click={() => dispatch('clearSave')}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -355,7 +355,7 @@
   <!-- 削除 -->
   <button
       aria-label={$t.deleteSelected}
-    class="tool-btn {hasSelection ? 'text-red-400 hover:bg-red-400/20' : 'opacity-40 cursor-not-allowed'}"
+    class="tool-btn {hasSelection ? 'text-red-800 hover:bg-red-400/20' : 'opacity-40 cursor-not-allowed'}"
     disabled={!hasSelection}
     on:click={() => dispatch('deleteSelected')}
   >
@@ -370,7 +370,7 @@
 
   <button
       aria-label={$t.clearAll}
-    class="tool-btn text-white/50 hover:text-red-400"
+    class="tool-btn text-editor-muted hover:text-red-800"
     on:click={() => dispatch('clearAll')}
   >
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -383,8 +383,8 @@
   <!-- Toast notification -->
   {#if toastVisible}
     <div class="fixed top-16 left-1/2 -translate-x-1/2 z-[100]
-      px-4 py-2 rounded-lg bg-dark-panel border border-white/20 shadow-xl
-      text-sm text-white/90 font-bold animate-fade-in">
+      px-4 py-2 rounded-lg bg-editor-panel border border-editor-line shadow-xl
+      text-sm text-editor-ink font-bold animate-fade-in">
       {toastMessage}
     </div>
   {/if}
@@ -392,12 +392,12 @@
 
 <style>
   .tool-btn {
-    @apply p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors relative;
+    @apply p-1.5 rounded-lg text-editor-muted hover:text-editor-ink hover:bg-editor-card transition-colors relative;
   }
   .tooltip {
     @apply invisible absolute left-1/2 -translate-x-1/2 top-full mt-2
       px-2 py-1 rounded text-xs whitespace-nowrap z-50
-      bg-black/90 text-white pointer-events-none;
+      bg-editor-ink text-editor-paper pointer-events-none;
   }
   .tool-btn:hover .tooltip,
   .tool-btn:focus-visible .tooltip {

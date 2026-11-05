@@ -11,7 +11,7 @@
 
 <div class="contents sm:flex sm:flex-wrap sm:items-center sm:gap-3">
   <!-- サイズ -->
-  <div class="flex items-center gap-1 text-xs text-white/50">
+  <div class="flex items-center gap-1 text-xs text-editor-muted">
     <span>W:</span>
     <input
       type="number"
@@ -19,7 +19,7 @@
       max="4096"
       step="64"
       value={opts.width}
-      class="w-16 bg-white/10 border border-white/20 rounded px-2 py-1 text-white text-xs focus:outline-none focus:border-cat-pink/60"
+      class="w-16 bg-editor-paper border border-editor-line rounded px-2 py-1 text-editor-ink text-xs focus:outline-none focus:border-editor-focus/60"
       on:change={(e) => exportOptions.update(o => ({ ...o, width: Number(e.currentTarget.value) }))}
     />
     <span>H:</span>
@@ -29,13 +29,13 @@
       max="4096"
       step="64"
       value={opts.height}
-      class="w-16 bg-white/10 border border-white/20 rounded px-2 py-1 text-white text-xs focus:outline-none focus:border-cat-pink/60"
+      class="w-16 bg-editor-paper border border-editor-line rounded px-2 py-1 text-editor-ink text-xs focus:outline-none focus:border-editor-focus/60"
       on:change={(e) => exportOptions.update(o => ({ ...o, height: Number(e.currentTarget.value) }))}
     />
   </div>
 
   <!-- 透過PNG オプション -->
-  <label class="flex items-center gap-1 text-xs text-white/60 cursor-pointer">
+  <label class="flex items-center gap-1 text-xs text-editor-muted cursor-pointer">
     <input
       type="checkbox"
       checked={opts.transparent}
@@ -47,7 +47,7 @@
   <!-- エクスポートボタン -->
   <div class="flex shrink-0 items-center gap-2 sm:gap-3">
     <button
-      class="px-3 py-2 sm:px-5 bg-cat-pink text-dark-bg rounded-lg text-sm font-bold
+      class="px-3 py-2 sm:px-5 bg-cat-pink text-editor-ink rounded-lg text-sm font-bold
         hover:bg-cat-pink/80 transition-colors shadow-md shadow-cat-pink/20 flex items-center gap-1.5"
       on:click={onExportSvg}
     >
@@ -55,7 +55,7 @@
       SVG
     </button>
     <button
-      class="px-3 py-2 sm:px-5 bg-cat-peach text-dark-bg rounded-lg text-sm font-bold
+      class="px-3 py-2 sm:px-5 bg-cat-peach text-editor-ink rounded-lg text-sm font-bold
         hover:bg-cat-peach/80 transition-colors shadow-md shadow-cat-peach/20 flex items-center gap-1.5"
       on:click={onExportPng}
     >
