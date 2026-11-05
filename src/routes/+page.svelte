@@ -93,13 +93,12 @@
   }
 </script>
 
-<div class="flex flex-col h-screen overflow-hidden bg-dark-bg font-rounded">
+<div class="flex min-h-screen flex-col bg-dark-bg font-rounded lg:h-screen lg:overflow-hidden">
   <!-- ヘッダー -->
-  <header class="flex items-center justify-between px-5 py-3 bg-dark-panel border-b border-white/10 shrink-0">
-    <!-- Logo: change variant="catface" to try the new cat face logo -->
-    <HeaderLogo variant="paw" />
+  <header class="flex shrink-0 flex-wrap items-center justify-between gap-x-5 gap-y-2 border-b border-white/10 bg-dark-panel px-4 py-2">
+    <HeaderLogo />
 
-    <div class="flex items-center gap-3">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3">
       <!-- 言語切替 -->
       <button
         class="flex items-center gap-0.5 text-xs font-bold rounded-lg border border-white/20 overflow-hidden"
@@ -146,7 +145,7 @@
   />
 
   <!-- メインコンテンツ -->
-  <div class="flex flex-1 overflow-hidden">
+  <div class="flex flex-1 flex-col lg:min-h-0 lg:flex-row lg:overflow-hidden">
     <!-- 左パネル: テンプレート -->
     <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} on:selectPreset={handlePresetSelect} on:selectSilhouette={handleSilhouetteSelect} />
 
@@ -158,11 +157,12 @@
   </div>
 
   <!-- フッター -->
-  <footer class="flex items-center justify-center gap-x-4 gap-y-0.5 flex-wrap px-5 py-1.5 bg-dark-panel border-t border-white/10 shrink-0 text-xs text-white/40">
+  <footer class="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-t border-white/10 bg-dark-panel px-4 py-1.5 text-xs text-editor-muted">
+    <img src="{base}/brand/sleeping-cat.png" alt="" class="h-6 w-auto shrink-0 border-r border-white/20 pr-3 object-contain" />
     <span>&copy; 2026 <a href="https://czmirror.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="text-cat-pink/70 hover:text-cat-pink transition-colors">Cz_mirror</a></span>
     <span>·</span>
     <span>MIT License</span>
     <span>·</span>
-    <span class="text-white/50">Generated images are free to use, including commercial use.</span>
+    <span class="text-editor-muted">Generated images are free to use, including commercial use.</span>
   </footer>
 </div>

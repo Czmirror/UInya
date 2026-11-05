@@ -33,7 +33,7 @@ export function setLocale(l: Locale) {
 const dict = {
   ja: {
     // Header / welcome
-    subtitle: 'Cat UI SVG Generator for Games',
+    subtitle: 'ねこの仕立て台',
     welcomeTitle: 'かわいい猫ゲームUIを作ろう',
     welcomeSub: 'テンプレートを選ぶか、空のキャンバスで始めましょう',
     welcomeSkip: 'スキップ — 空のキャンバスで始める',
@@ -45,7 +45,7 @@ const dict = {
     all: 'すべて',
 
     // Template panel
-    templateHeader: '🐾 テンプレート',
+    templateHeader: 'ねこ素材棚',
     partsHeader: '🐱 パーツ',
     presetHeader: '🎮 用途別UI',
     presetDesc: '1クリックで完成UIをキャンバスに追加',
@@ -215,7 +215,7 @@ const dict = {
     'sil.cat-running': '走り猫',
   },
   en: {
-    subtitle: 'Cat UI SVG Generator for Games',
+    subtitle: 'Cat UI Workshop',
     welcomeTitle: 'Create cute cat game UI',
     welcomeSub: 'Pick a template or start from scratch',
     welcomeSkip: 'Skip — start with empty canvas',
@@ -225,7 +225,7 @@ const dict = {
     presetUi: 'Preset UI',
     all: 'All',
 
-    templateHeader: '🐾 Templates',
+    templateHeader: 'Cat Asset Shelf',
     partsHeader: '🐱 Parts',
     presetHeader: '🎮 Preset UI',
     presetDesc: 'Add a ready-made UI to canvas with one click',

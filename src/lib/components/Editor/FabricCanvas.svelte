@@ -1226,8 +1226,8 @@
   }
 </script>
 
-<div class="flex-1 flex items-center justify-center overflow-auto bg-[#111827] p-4 relative" bind:this={wrapperEl}>
-  <div class="shadow-2xl shadow-black/60 rounded-lg overflow-hidden border border-white/10 relative">
+<div class="relative flex min-h-[23rem] min-w-0 flex-1 overflow-auto bg-[#111827] p-4 lg:min-h-0" bind:this={wrapperEl}>
+  <div class="artboard relative m-auto shrink-0 overflow-hidden rounded-xl border border-white/10 shadow-2xl shadow-black/40">
     <canvas bind:this={canvasEl}></canvas>
     {#if $gridEnabled}
       <div
@@ -1236,7 +1236,7 @@
           background-image:
             linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);
-          background-size: {GRID_SIZE}px {GRID_SIZE}px;
+          background-size: {100 * GRID_SIZE / $editorState.canvasWidth}% {100 * GRID_SIZE / $editorState.canvasHeight}%;
         "
       ></div>
     {/if}
@@ -1244,13 +1244,13 @@
     {#if snapGuides.x !== null}
       <div
         class="absolute top-0 bottom-0 pointer-events-none"
-        style="left: {snapGuides.x}px; width: 1px; background: rgba(255,107,181,0.5);"
+        style="left: {100 * snapGuides.x / $editorState.canvasWidth}%; width: 1px; background: rgba(255,107,181,0.5);"
       ></div>
     {/if}
     {#if snapGuides.y !== null}
       <div
         class="absolute left-0 right-0 pointer-events-none"
-        style="top: {snapGuides.y}px; height: 1px; background: rgba(255,107,181,0.5);"
+        style="top: {100 * snapGuides.y / $editorState.canvasHeight}%; height: 1px; background: rgba(255,107,181,0.5);"
       ></div>
     {/if}
   </div>
@@ -1333,6 +1333,18 @@
 </div>
 
 <style>
+  .artboard {
+    width: min(100%, 514px);
+    aspect-ratio: 1;
+  }
+  /* Fit both Fabric layers without changing the document or its exported dimensions. */
+  .artboard :global(.canvas-container),
+  .artboard :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+
   .ctx-menu {
     @apply absolute z-50 bg-dark-panel border border-white/20 rounded-lg shadow-xl shadow-black/50
       py-1 min-w-[180px] overflow-hidden;

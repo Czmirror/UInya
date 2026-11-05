@@ -25,7 +25,7 @@
   }
 </script>
 
-<aside class="w-64 bg-dark-panel flex flex-col h-full border-l border-white/10 overflow-y-auto">
+<aside class="flex w-full shrink-0 flex-col overflow-y-auto border-t border-white/10 bg-dark-panel lg:h-full lg:w-56 lg:border-l lg:border-t-0 xl:w-64">
   <div class="p-4 border-b border-white/10">
     <h2 class="text-cat-lavender font-bold text-sm uppercase tracking-wider">
       {$t.properties}

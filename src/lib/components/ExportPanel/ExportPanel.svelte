@@ -1,3 +1,4 @@
+<!-- Presents localized export options and calls the page download actions. -->
 <script lang="ts">
   import { exportOptions } from '$lib/stores/editorStore';
   import { t } from '$lib/stores/i18n';
@@ -8,7 +9,7 @@
   $: opts = $exportOptions;
 </script>
 
-<div class="flex items-center gap-3">
+<div class="contents sm:flex sm:flex-wrap sm:items-center sm:gap-3">
   <!-- サイズ -->
   <div class="flex items-center gap-1 text-xs text-white/50">
     <span>W:</span>
@@ -44,20 +45,22 @@
   </label>
 
   <!-- エクスポートボタン -->
-  <button
-    class="px-5 py-2 bg-cat-pink text-dark-bg rounded-lg text-sm font-bold
-      hover:bg-cat-pink/80 transition-colors shadow-md shadow-cat-pink/20 flex items-center gap-1.5"
-    on:click={onExportSvg}
-  >
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    SVG
-  </button>
-  <button
-    class="px-5 py-2 bg-cat-lavender text-dark-bg rounded-lg text-sm font-bold
-      hover:bg-cat-lavender/80 transition-colors shadow-md shadow-cat-lavender/20 flex items-center gap-1.5"
-    on:click={onExportPng}
-  >
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    PNG
-  </button>
+  <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+    <button
+      class="px-3 py-2 sm:px-5 bg-cat-pink text-dark-bg rounded-lg text-sm font-bold
+        hover:bg-cat-pink/80 transition-colors shadow-md shadow-cat-pink/20 flex items-center gap-1.5"
+      on:click={onExportSvg}
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      SVG
+    </button>
+    <button
+      class="px-3 py-2 sm:px-5 bg-cat-lavender text-dark-bg rounded-lg text-sm font-bold
+        hover:bg-cat-lavender/80 transition-colors shadow-md shadow-cat-lavender/20 flex items-center gap-1.5"
+      on:click={onExportPng}
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-4-4m4 4l4-4M4 19h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      PNG
+    </button>
+  </div>
 </div>

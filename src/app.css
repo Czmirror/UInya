@@ -13,6 +13,10 @@
 }
 
 @layer base {
+  :root {
+    --shelf-card: #252b46;
+  }
+
   :where(button, input, select, a):focus-visible {
     outline: 2px solid theme('colors.cat-lavender');
     outline-offset: 2px;
