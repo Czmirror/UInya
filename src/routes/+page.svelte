@@ -1,3 +1,4 @@
+<!-- Connects the editor panels to the canvas and handles asset downloads. -->
 <script lang="ts">
   import TemplatePanel from '$lib/components/TemplatePanel/TemplatePanel.svelte';
   import Toolbar from '$lib/components/Toolbar/Toolbar.svelte';
@@ -51,6 +52,7 @@
   function handleExportPng() {
     if (!fabricCanvas) return;
     const dataUrl = fabricCanvas.exportPng();
+    if (!dataUrl || dataUrl === 'data:,') return;
     const link = document.createElement('a');
     link.href = dataUrl;
     link.download = 'uinya-export.png';

@@ -1187,21 +1187,34 @@
     return svg;
   }
 
+  /** Returns a PNG data URL at the requested pixel size, with the artwork centered without stretching. */
   export function exportPng(): string {
     if (!canvas) return '';
-    const savedBg = canvas.backgroundColor;
-    if ($exportOptions.transparent) {
-      canvas.backgroundColor = '';
+    const { width, height, transparent } = $exportOptions;
+    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) return '';
+
+    const output = document.createElement('canvas');
+    output.width = width;
+    output.height = height;
+    const context = output.getContext('2d');
+    if (!context) return '';
+
+    const background = canvas.backgroundColor;
+    const scale = Math.min(width / canvas.width, height / canvas.height);
+    let artwork: HTMLCanvasElement;
+    try {
+      if (transparent) canvas.backgroundColor = '';
+      artwork = canvas.toCanvasElement(scale);
+    } finally {
+      canvas.backgroundColor = background;
     }
-    const dataUrl = canvas.toDataURL({
-      format: 'png',
-      multiplier: $exportOptions.width / $editorState.canvasWidth,
-      enableRetinaScaling: false
-    });
-    if ($exportOptions.transparent) {
-      canvas.backgroundColor = savedBg;
+
+    if (!transparent && background) {
+      context.fillStyle = background;
+      context.fillRect(0, 0, width, height);
     }
-    return dataUrl;
+    context.drawImage(artwork, Math.floor((width - artwork.width) / 2), Math.floor((height - artwork.height) / 2));
+    return output.toDataURL('image/png');
   }
 
   $: templateLabels = $t as Record<string, string>;
