@@ -12,7 +12,15 @@ export const catParts: CatPart[] = [
   { id: 'tail-honey-striped', name: 'Honey Striped Tail', nameJa: 'はちみつしましっぽ', category: 'tail', svgFile: '/parts/tails/tail-honey-striped.svg' },
   { id: 'paw-honey-beans', name: 'Honey Paw Beans', nameJa: 'はちみつ肉球', category: 'paw', svgFile: '/parts/paws/paw-honey-beans.svg' },
   { id: 'accent-honey-bell', name: 'Honey Bell', nameJa: 'はちみつ鈴', category: 'accent', svgFile: '/parts/accents/accent-honey-bell.svg' },
-  // ── 顔ベース ──
+  // ── 顔 ──
+  { id: 'face-calico-smile', name: 'Smiling Calico', nameJa: 'にっこり三毛猫', category: 'face', svgFile: '/parts/face/face-calico-smile.svg' },
+  { id: 'face-calico-peek', name: 'Peeking Calico', nameJa: 'ひょっこり三毛猫', category: 'face', svgFile: '/parts/face/face-calico-peek.svg' },
+  { id: 'face-cream-sleep', name: 'Sleeping Cream Kitten', nameJa: 'すやすやクリーム猫', category: 'face', svgFile: '/parts/face/face-cream-sleep.svg' },
+  { id: 'face-ginger-wink', name: 'Winking Ginger Tabby', nameJa: 'ウインク茶トラ', category: 'face', svgFile: '/parts/face/face-ginger-wink.svg' },
+  { id: 'face-black-cat', name: 'Golden-eyed Black Cat', nameJa: '金目の黒猫', category: 'face', svgFile: '/parts/face/face-black-cat.svg' },
+  { id: 'face-tuxedo', name: 'Smiling Tuxedo Cat', nameJa: 'にっこりハチワレ', category: 'face', svgFile: '/parts/face/face-tuxedo.svg' },
+  { id: 'face-siamese', name: 'Blue-eyed Siamese', nameJa: '青い目のシャム猫', category: 'face', svgFile: '/parts/face/face-siamese.svg' },
+  { id: 'face-white-surprise', name: 'Surprised White Cat', nameJa: 'びっくり白猫', category: 'face', svgFile: '/parts/face/face-white-surprise.svg' },
   {
     id: 'face-round-basic',
     name: 'Round Face (Basic)',
