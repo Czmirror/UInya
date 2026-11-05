@@ -4,6 +4,7 @@
   import { DEFAULT_ARTBOARD_COLOR, editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
   import { featuredTemplates } from '$lib/templates/cat';
   import type { CatTemplate, CatPart } from '$lib/types/ui';
+  import { PRESET_TEXT_COLOR } from '$lib/templates/presets';
   import type { UIPreset } from '$lib/templates/presets';
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { base } from '$app/paths';
@@ -759,14 +760,15 @@
 
     for (const elem of preset.elements) {
       // テキスト要素（svgFile が空の場合）
-      if (!elem.svgFile) {
-        const label = elem.idPrefix.replace('preset-text:', '');
-        const text = new fabric.IText(label, {
+      if ('text' in elem) {
+        const text = new fabric.IText(elem.text, {
           left: canvasW * elem.xRatio,
           top: canvasH * elem.yRatio,
-          fontSize: 24,
+          originX: 'center',
+          originY: 'center',
+          fontSize: canvasW * elem.scaleRatio,
           fontFamily: $editorState.fontFamily,
-          fill: '#FFB7C5',
+          fill: PRESET_TEXT_COLOR,
           fontWeight: '700'
         });
         (text as { __id?: string }).__id = `preset_text_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
@@ -790,8 +792,7 @@
               left: canvasW * elem.xRatio,
               top: canvasH * elem.yRatio,
               scaleX: scale,
-              scaleY: scale,
-              angle: elem.angle ?? 0
+              scaleY: scale
             });
             (group as { __id?: string }).__id = `${elem.idPrefix}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
             canvas.add(group);

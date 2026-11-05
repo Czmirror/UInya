@@ -1,3 +1,4 @@
+// Defines the SVG parts used in the asset shelf and by cat composition tools.
 import type { CatPart, CatPartCategory } from '$lib/types/ui';
 
 /**
@@ -6,6 +7,11 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'ear-honey-round', name: 'Honey Round Ear', nameJa: 'はちみつ丸耳', category: 'ear', svgFile: '/parts/ears/ear-honey-round.svg' },
+  { id: 'eye-honey-smile', name: 'Honey Smiling Eyes', nameJa: 'はちみつにっこり目', category: 'eye', svgFile: '/parts/eyes/eye-honey-smile.svg' },
+  { id: 'tail-honey-striped', name: 'Honey Striped Tail', nameJa: 'はちみつしましっぽ', category: 'tail', svgFile: '/parts/tails/tail-honey-striped.svg' },
+  { id: 'paw-honey-beans', name: 'Honey Paw Beans', nameJa: 'はちみつ肉球', category: 'paw', svgFile: '/parts/paws/paw-honey-beans.svg' },
+  { id: 'accent-honey-bell', name: 'Honey Bell', nameJa: 'はちみつ鈴', category: 'accent', svgFile: '/parts/accents/accent-honey-bell.svg' },
   // ── 顔ベース ──
   {
     id: 'face-round-basic',

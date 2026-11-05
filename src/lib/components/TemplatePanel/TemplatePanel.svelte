@@ -2,7 +2,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { templateCollections, templateCollectionIds, templateCategories } from '$lib/templates/cat';
-  import { uiPresets } from '$lib/templates/presets';
+  import { PRESET_TEXT_COLOR, uiPresets } from '$lib/templates/presets';
   import type { CatTemplate, CatPart, TemplateCategory } from '$lib/types/ui';
   import type { UIPreset } from '$lib/templates/presets';
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
@@ -85,14 +85,26 @@
       </h2>
       <p class="text-editor-muted text-xs mt-1">{dict.presetDesc}</p>
     </div>
-    <div class="flex-1 overflow-y-auto p-3 space-y-2">
+    <div class="grid flex-1 auto-rows-max grid-cols-2 gap-2.5 overflow-y-auto p-3">
       {#each uiPresets as preset (preset.id)}
         <button
           class="w-full rounded-xl overflow-hidden bg-editor-card border border-editor-line
             hover:border-editor-focus/60 transition-all group text-left"
           on:click={() => dispatch('selectPreset', preset)}
         >
-          <div class="p-3">
+          <svg class="block h-24 w-full bg-editor-paper" viewBox="0 50 512 412" aria-hidden="true">
+            {#each preset.elements as element}
+              {#if 'svgFile' in element}
+                <image href="{base}{element.svgFile}" x={element.xRatio * 512} y={element.yRatio * 512}
+                  width={element.scaleRatio * 512} height={element.scaleRatio * element.aspectHeight * 512} preserveAspectRatio="xMinYMin meet" />
+              {:else}
+                <text x={element.xRatio * 512} y={element.yRatio * 512}
+                  fill={PRESET_TEXT_COLOR} font-size={element.scaleRatio * 512} font-weight="700"
+                  text-anchor="middle" dominant-baseline="central">{element.text}</text>
+              {/if}
+            {/each}
+          </svg>
+          <div class="px-2 py-2 text-center">
             <p class="text-editor-ink font-semibold text-sm">{lookup(dict, `preset.${preset.id}`, preset.id)}</p>
             <p class="text-editor-muted text-xs mt-1 leading-tight">{lookup(dict, `presetDesc.${preset.id}`, '')}</p>
           </div>

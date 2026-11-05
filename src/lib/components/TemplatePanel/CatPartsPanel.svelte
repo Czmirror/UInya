@@ -4,7 +4,7 @@
   import { catParts, catPartCategories } from '$lib/templates/catParts';
   import type { CatPart, CatPartCategory } from '$lib/types/ui';
   import { base } from '$app/paths';
-  import { t } from '$lib/stores/i18n';
+  import { locale, t } from '$lib/stores/i18n';
 
   const dispatch = createEventDispatcher<{ selectPart: CatPart }>();
 
@@ -29,6 +29,7 @@
       <button
         class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
           {activeCategory === 'all' ? 'bg-cat-peach text-editor-ink' : 'bg-editor-paper text-editor-muted hover:bg-editor-stage'}"
+        aria-pressed={activeCategory === 'all'}
         on:click={() => (activeCategory = 'all')}
       >
         {dict.all}
@@ -37,6 +38,7 @@
         <button
           class="px-2 py-1 rounded-full text-xs font-semibold transition-colors
             {activeCategory === cat.id ? 'bg-cat-peach text-editor-ink' : 'bg-editor-paper text-editor-muted hover:bg-editor-stage'}"
+          aria-pressed={activeCategory === cat.id}
           on:click={() => (activeCategory = cat.id)}
         >
           {lookup(dict, `cat.${cat.id}`, cat.id)}
@@ -56,11 +58,11 @@
           <div class="w-full bg-editor-card flex items-center justify-center p-3 h-20 overflow-hidden">
             <img
               src="{base}{part.svgFile}"
-              alt={lookup(dict, `part.${part.id}`, part.id)}
+              alt=""
               class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform"
             />
           </div>
-          <p class="text-editor-muted text-[10px] font-semibold text-center py-1.5 px-1 truncate">{lookup(dict, `part.${part.id}`, part.id)}</p>
+          <p class="text-editor-ink text-xs font-semibold text-center py-1.5 px-1 break-words">{lookup(dict, `part.${part.id}`, $locale === 'ja' ? part.nameJa : part.name)}</p>
         </button>
       {/each}
     </div>

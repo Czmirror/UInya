@@ -52,6 +52,8 @@ const dict = {
     'collection.honey': 'はちみつ',
     'collection.peach': 'もも',
     'collection.classic': 'クラシック',
+    silhouetteSeries: 'シルエットのシリーズ',
+    silhouetteRound: 'ころん猫',
     partsHeader: '🐱 パーツ',
     presetHeader: '🎮 用途別UI',
     presetDesc: '1クリックで完成UIをキャンバスに追加',
@@ -196,10 +198,10 @@ const dict = {
     'preset.icon-frame': 'アイコンフレーム',
 
     // Preset descriptions
-    'presetDesc.rpg-hp-bar': 'しっぽゲージ + 肉球装飾 + HPテキスト',
-    'presetDesc.dialog-window': '猫耳フレーム + ひげテキストボックス + にゃんこアイコン',
-    'presetDesc.skill-button': '肉球ボタン + 猫顔装飾',
-    'presetDesc.icon-frame': 'にゃんこアイコンフレーム + 耳装飾',
+    'presetDesc.rpg-hp-bar': '残量が見えるしっぽゲージ',
+    'presetDesc.dialog-window': '文字を置ける猫耳ダイアログ',
+    'presetDesc.skill-button': 'ラベルを変えられるもも猫ボタン',
+    'presetDesc.icon-frame': '三毛猫がのぞくアバター枠',
 
     // Silhouettes
     silhouettes: 'シルエット',
@@ -238,6 +240,8 @@ const dict = {
     'collection.honey': 'Honey',
     'collection.peach': 'Peach',
     'collection.classic': 'Classic',
+    silhouetteSeries: 'Silhouette series',
+    silhouetteRound: 'Round Kittens',
     partsHeader: '🐱 Parts',
     presetHeader: '🎮 Preset UI',
     presetDesc: 'Add a ready-made UI to canvas with one click',
@@ -370,10 +374,10 @@ const dict = {
     'preset.skill-button': 'Skill Button',
     'preset.icon-frame': 'Icon Frame',
 
-    'presetDesc.rpg-hp-bar': 'Tail gauge + paw decoration + HP text',
-    'presetDesc.dialog-window': 'Cat ear frame + whisker textbox + cat icon',
-    'presetDesc.skill-button': 'Paw button + cat face decoration',
-    'presetDesc.icon-frame': 'Cat icon frame + ear decoration',
+    'presetDesc.rpg-hp-bar': 'Tail gauge with an editable HP label',
+    'presetDesc.dialog-window': 'Cat-ear dialog with room for text',
+    'presetDesc.skill-button': 'Peach cat button with an editable label',
+    'presetDesc.icon-frame': 'Avatar frame with a peeking calico',
 
     // Silhouettes
     silhouettes: 'Silhouettes',

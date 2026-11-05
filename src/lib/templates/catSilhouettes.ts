@@ -1,3 +1,4 @@
+// Lists the classic and rounded single-color cat silhouettes for the editor.
 export interface CatSilhouette {
   id: string;
   name: string;
@@ -89,4 +90,11 @@ export const catSilhouettes: CatSilhouette[] = [
     nameJa: '走り猫',
     svgFile: '/silhouettes/cat-running.svg'
   }
+];
+
+export const roundCatSilhouettes: CatSilhouette[] = [
+  { id: 'round-loaf', name: 'Loaf Kitten', nameJa: '香箱座り', svgFile: '/silhouettes/round-loaf.svg' },
+  { id: 'round-sleep', name: 'Curled-up Kitten', nameJa: '丸まって眠る', svgFile: '/silhouettes/round-sleep.svg' },
+  { id: 'round-stretch', name: 'Stretching Kitten', nameJa: 'のび', svgFile: '/silhouettes/round-stretch.svg' },
+  { id: 'round-peek', name: 'Peeking Kitten', nameJa: 'ひょっこり', svgFile: '/silhouettes/round-peek.svg' },
 ];
