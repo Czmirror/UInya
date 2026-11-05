@@ -678,7 +678,10 @@
               return;
             }
 
-            const group = fabric.util.groupSVGElements(objects, options);
+            // Fabric unwraps single SVG elements, which would center and enlarge a face marking.
+            const group = part.alignToMascot && objects.length === 1
+              ? new fabric.Group(objects, { ...options, centerPoint: { x: 50, y: 50 } })
+              : fabric.util.groupSVGElements(objects, options);
             // パーツは小さめ（キャンバスの30%）で配置
             const canvasW = canvas.getWidth();
             const canvasH = canvas.getHeight();

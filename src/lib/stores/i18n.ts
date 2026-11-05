@@ -121,6 +121,8 @@ const dict = {
 
     // Part categories
     'cat.face': '顔',
+    'cat.body': '胴体',
+    'cat.marking': '毛柄・頬',
     'cat.ear': '耳',
     'cat.eye': '目',
     'cat.nose': '鼻',
@@ -303,6 +305,8 @@ const dict = {
     delete: 'Delete',
 
     'cat.face': 'Face',
+    'cat.body': 'Body',
+    'cat.marking': 'Markings & cheeks',
     'cat.ear': 'Ears',
     'cat.eye': 'Eyes',
     'cat.nose': 'Nose',

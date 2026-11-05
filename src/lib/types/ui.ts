@@ -1,3 +1,4 @@
+// Defines the shared editor, asset and export types.
 export type TemplateCategory = 'button' | 'frame' | 'gauge' | 'icon' | 'textbox';
 
 /** 既存テンプレート（複合UI素材） */
@@ -12,7 +13,7 @@ export interface CatTemplate {
 }
 
 /** 新規: 猫パーツ規格（viewBox 0 0 100 100 統一） */
-export type CatPartCategory = 'face' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail' | 'whisker' | 'expression' | 'accent';
+export type CatPartCategory = 'face' | 'body' | 'marking' | 'ear' | 'eye' | 'mouth' | 'nose' | 'paw' | 'tail' | 'whisker' | 'expression' | 'accent';
 
 export interface CatPart {
   id: string;
@@ -20,6 +21,8 @@ export interface CatPart {
   nameJa: string;
   category: CatPartCategory;
   svgFile: string;
+  /** Positions a face layer in the shared 100×100 mascot coordinate space. */
+  alignToMascot?: boolean;
 }
 
 export interface EditorState {
