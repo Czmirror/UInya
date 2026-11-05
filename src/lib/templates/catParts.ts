@@ -7,6 +7,19 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'ear-calico-left', name: 'Calico Ear (Left)', nameJa: '三毛猫の耳（左）', category: 'ear', svgFile: '/parts/ears/ear-calico-left.svg' },
+  { id: 'ear-calico-right', name: 'Calico Ear (Right)', nameJa: '三毛猫の耳（右）', category: 'ear', svgFile: '/parts/ears/ear-calico-right.svg' },
+  { id: 'eye-sparkle', name: 'Sparkling Eyes', nameJa: 'きらきら目', category: 'eye', svgFile: '/parts/eyes/eye-sparkle.svg' },
+  { id: 'eye-curious', name: 'Curious Eyes', nameJa: 'きょとん目', category: 'eye', svgFile: '/parts/eyes/eye-curious.svg' },
+  { id: 'nose-bean', name: 'Little Bean Nose', nameJa: 'まめ鼻', category: 'nose', svgFile: '/parts/nose/nose-bean.svg' },
+  { id: 'mouth-mew', name: 'Little Mew', nameJa: 'ちいさな鳴き口', category: 'mouth', svgFile: '/parts/mouth/mouth-mew.svg' },
+  { id: 'mouth-tiny-fang', name: 'Tiny Fang Smile', nameJa: 'ちび牙スマイル', category: 'mouth', svgFile: '/parts/mouth/mouth-tiny-fang.svg' },
+  { id: 'tail-honey-curl', name: 'Curled Honey Tail', nameJa: 'はちみつくるんしっぽ', category: 'tail', svgFile: '/parts/tails/tail-honey-curl.svg' },
+  { id: 'tail-ginger-tip', name: 'Ginger Tipped Tail', nameJa: '茶トラのしっぽ', category: 'tail', svgFile: '/parts/tails/tail-ginger-tip.svg' },
+  { id: 'paw-cream-toes', name: 'Cream Paw', nameJa: 'クリーム色の前足', category: 'paw', svgFile: '/parts/paws/paw-cream-toes.svg' },
+  { id: 'whisker-soft-curves', name: 'Soft Curved Whiskers', nameJa: 'ふんわりひげ', category: 'whisker', svgFile: '/parts/whiskers/whisker-soft-curves.svg' },
+  { id: 'accent-peach-bow', name: 'Peach Bow', nameJa: 'もも色リボン', category: 'accent', svgFile: '/parts/accents/accent-peach-bow.svg' },
+  { id: 'expression-content', name: 'Contented Face', nameJa: 'ごきげん顔', category: 'expression', svgFile: '/parts/expressions/expression-content.svg' },
   { id: 'ear-honey-round', name: 'Honey Round Ear', nameJa: 'はちみつ丸耳', category: 'ear', svgFile: '/parts/ears/ear-honey-round.svg' },
   { id: 'eye-honey-smile', name: 'Honey Smiling Eyes', nameJa: 'はちみつにっこり目', category: 'eye', svgFile: '/parts/eyes/eye-honey-smile.svg' },
   { id: 'tail-honey-striped', name: 'Honey Striped Tail', nameJa: 'はちみつしましっぽ', category: 'tail', svgFile: '/parts/tails/tail-honey-striped.svg' },
