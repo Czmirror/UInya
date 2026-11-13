@@ -45,6 +45,7 @@
   function handleExportSvg() {
     if (!fabricCanvas) return;
     const svgStr = fabricCanvas.exportSvg();
+    if (!svgStr) return;
     const blob = new Blob([svgStr], { type: 'image/svg+xml' });
     downloadBlob(blob, 'uinya-export.svg');
   }

@@ -26,7 +26,7 @@ https://czmirror.github.io/UInya/
 
 ## **Features**
 
-- SVG / PNG export
+- SVG / PNG export with width and height from 64 to 4096 px in whole-pixel increments
 
 - Cat-themed UI templates
 
