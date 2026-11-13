@@ -1,5 +1,6 @@
 <!-- Owns the Fabric canvas and exposes editing and export operations to the editor page. -->
 <script lang="ts">
+  import { isExportSize } from '$lib/types/exportDimensions';
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { DEFAULT_ARTBOARD_COLOR, editorState, exportOptions, setSelectedObjectId, gridEnabled, snapEnabled } from '$lib/stores/editorStore';
   import { featuredTemplates } from '$lib/templates/cat';
@@ -1176,8 +1177,10 @@
     }
   }
 
+  /** Returns an SVG at the requested pixel size, or an empty string if the size is invalid. */
   export function exportSvg(): string {
-    if (!canvas) return '';
+    const { width, height } = $exportOptions;
+    if (!canvas || !isExportSize(width) || !isExportSize(height)) return '';
     const bg = canvas.backgroundColor;
     const hasBg = bg && bg !== '';
     // Keep background if user has it enabled, remove if empty
@@ -1185,8 +1188,8 @@
       canvas.backgroundColor = '';
     }
     const svg = canvas.toSVG({
-      width: $exportOptions.width,
-      height: $exportOptions.height,
+      width,
+      height,
       viewBox: {
         x: 0,
         y: 0,
@@ -1201,7 +1204,7 @@
   export function exportPng(): string {
     if (!canvas) return '';
     const { width, height, transparent } = $exportOptions;
-    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) return '';
+    if (!isExportSize(width) || !isExportSize(height)) return '';
 
     const output = document.createElement('canvas');
     output.width = width;

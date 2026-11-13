@@ -114,6 +114,9 @@ const dict = {
     fontFamily: 'フォント',
 
     // Export
+    exportWidth: '書き出し幅（px）',
+    exportHeight: '書き出し高さ（px）',
+    exportSizeError: '幅と高さを{min}〜{max}pxの整数で入力してください。',
     transparentPng: '透過PNG',
 
     // Context menu
@@ -300,6 +303,9 @@ const dict = {
 
     fontFamily: 'Font',
 
+    exportWidth: 'Export width (px)',
+    exportHeight: 'Export height (px)',
+    exportSizeError: 'Enter a whole number from {min} to {max} px for both dimensions.',
     transparentPng: 'Transparent',
 
     delete: 'Delete',
