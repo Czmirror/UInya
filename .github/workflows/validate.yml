@@ -28,4 +28,6 @@ jobs:
       - name: Validate project profile
         run: node .harness/scripts/validate-config.mjs
       - name: Run project checks
+        env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
         run: node .harness/scripts/validate.mjs --execute
