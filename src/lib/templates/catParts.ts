@@ -7,6 +7,10 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'accent-yarn-ball', name: 'Yarn Ball', nameJa: 'ころころ毛糸玉', category: 'accent', svgFile: '/parts/accents/accent-yarn-ball.svg' },
+  { id: 'accent-paw-pincushion', name: 'Paw Pincushion', nameJa: 'ぷにぷに肉球の針山', category: 'accent', svgFile: '/parts/accents/accent-paw-pincushion.svg' },
+  { id: 'accent-cat-scissors', name: 'Cat-ear Thread Snips', nameJa: 'ねこ耳の糸切りばさみ', category: 'accent', svgFile: '/parts/accents/accent-cat-scissors.svg' },
+  { id: 'accent-fish-button', name: 'Fish-shaped Button', nameJa: 'おさかなボタン', category: 'accent', svgFile: '/parts/accents/accent-fish-button.svg' },
   { id: 'paw-wave-left', name: 'Waving Paw Left', nameJa: '手を振る前足（左）', category: 'paw', svgFile: '/parts/paws/paw-wave-left.svg' },
   { id: 'paw-wave-right', name: 'Waving Paw Right', nameJa: '手を振る前足（右）', category: 'paw', svgFile: '/parts/paws/paw-wave-right.svg' },
   { id: 'paw-hold', name: 'Holding Paws', nameJa: '小物を抱える前足', category: 'paw', svgFile: '/parts/paws/paw-hold.svg' },
