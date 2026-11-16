@@ -162,7 +162,11 @@
   }
 
   function handleKeyDown(e: KeyboardEvent) {
-    if (!canvas) return;
+    if (!canvas || e.defaultPrevented || e.isComposing) return;
+
+    const target = e.target;
+    if (target instanceof HTMLElement && (target.closest('input, textarea, select') || target.isContentEditable)) return;
+
     hideContextMenu();
 
     // Don't intercept keys when editing text
