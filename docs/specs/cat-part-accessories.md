@@ -8,6 +8,9 @@
 | accent-paw-pincushion | ぷにぷに肉球の針山 | Paw Pincushion |
 | accent-cat-scissors | ねこ耳の糸切りばさみ | Cat-ear Thread Snips |
 | accent-fish-button | おさかなボタン | Fish-shaped Button |
+| accent-stitched-cat-tag | ねこ耳の縫い付けタグ | Stitched Cat Tag |
+| accent-paw-pocket | 肉球ポケット | Paw Pocket |
+| accent-cat-tape-measure | ころんとねこメジャー | Cat Tape Measure |
 
 ## 受け入れ条件
 
