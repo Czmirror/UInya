@@ -7,6 +7,8 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'accent-cozy-cat-bed', name: 'Cozy Cat Bed', nameJa: 'ふかふか猫ベッド', category: 'accent', svgFile: '/parts/accents/accent-cozy-cat-bed.svg' },
+  { id: 'accent-fish-cushion', name: 'Fish Cushion', nameJa: 'おさかなクッション', category: 'accent', svgFile: '/parts/accents/accent-fish-cushion.svg' },
   { id: 'accent-yarn-ball', name: 'Yarn Ball', nameJa: 'ころころ毛糸玉', category: 'accent', svgFile: '/parts/accents/accent-yarn-ball.svg' },
   { id: 'accent-paw-pincushion', name: 'Paw Pincushion', nameJa: 'ぷにぷに肉球の針山', category: 'accent', svgFile: '/parts/accents/accent-paw-pincushion.svg' },
   { id: 'accent-cat-scissors', name: 'Cat-ear Thread Snips', nameJa: 'ねこ耳の糸切りばさみ', category: 'accent', svgFile: '/parts/accents/accent-cat-scissors.svg' },
