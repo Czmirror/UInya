@@ -11,6 +11,8 @@
 | accent-stitched-cat-tag | ねこ耳の縫い付けタグ | Stitched Cat Tag |
 | accent-paw-pocket | 肉球ポケット | Paw Pocket |
 | accent-cat-tape-measure | ころんとねこメジャー | Cat Tape Measure |
+| accent-cozy-cat-bed | ふかふか猫ベッド | Cozy Cat Bed |
+| accent-fish-cushion | おさかなクッション | Fish Cushion |
 
 ## 受け入れ条件
 
