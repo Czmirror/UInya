@@ -13,6 +13,8 @@
 | accent-cat-tape-measure | ころんとねこメジャー | Cat Tape Measure |
 | accent-cozy-cat-bed | ふかふか猫ベッド | Cozy Cat Bed |
 | accent-fish-cushion | おさかなクッション | Fish Cushion |
+| accent-cat-food-bowl | ねこ耳のごはん皿 | Cat Food Bowl |
+| accent-paw-treat-pouch | 肉球のおやつ袋 | Paw Treat Pouch |
 
 ## 受け入れ条件
 
