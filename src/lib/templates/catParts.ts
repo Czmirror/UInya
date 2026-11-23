@@ -7,6 +7,18 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'face-peach-kitten', name: 'Peach Kitten', nameJa: 'もも色の子猫', category: 'face', svgFile: '/parts/face/face-peach-kitten.svg' },
+  { id: 'body-cuddle', name: 'Cuddly Body', nameJa: 'ぽてっと抱っこ胴体', category: 'body', svgFile: '/parts/bodies/body-cuddle.svg' },
+  { id: 'mark-peach-freckles', alignToMascot: true, name: 'Peach Freckles', nameJa: 'もも色そばかす', category: 'marking', svgFile: '/parts/markings/mark-peach-freckles.svg' },
+  { id: 'ear-folded-peach', name: 'Folded Peach Ear', nameJa: 'もも色の折れ耳', category: 'ear', svgFile: '/parts/ears/ear-folded-peach.svg' },
+  { id: 'eye-gentle-lashes', alignToMascot: true, name: 'Gentle Lashes', nameJa: 'やさしいまつげ目', category: 'eye', svgFile: '/parts/eyes/eye-gentle-lashes.svg' },
+  { id: 'nose-peach-heart', alignToMascot: true, name: 'Peach Heart Nose', nameJa: 'もも色ハート鼻', category: 'nose', svgFile: '/parts/nose/nose-peach-heart.svg' },
+  { id: 'mouth-tiny-tongue', alignToMascot: true, name: 'Tiny Tongue', nameJa: 'ぺろっと小さな舌', category: 'mouth', svgFile: '/parts/mouth/mouth-tiny-tongue.svg' },
+  { id: 'paw-soft-pair', name: 'Soft Paw Pair', nameJa: 'ふわふわ前足セット', category: 'paw', svgFile: '/parts/paws/paw-soft-pair.svg' },
+  { id: 'tail-soft-loop', name: 'Soft Loop Tail', nameJa: 'ふんわり輪っかしっぽ', category: 'tail', svgFile: '/parts/tails/tail-soft-loop.svg' },
+  { id: 'whisker-upturned', alignToMascot: true, name: 'Upturned Whiskers', nameJa: 'ぴんと上向きひげ', category: 'whisker', svgFile: '/parts/whiskers/whisker-upturned.svg' },
+  { id: 'expression-shy-paws', name: 'Shy Blush', nameJa: 'てれちゃう頬マーク', category: 'expression', svgFile: '/parts/expressions/expression-shy-paws.svg' },
+  { id: 'accent-cat-scarf', name: 'Cat Scarf', nameJa: 'もも色のふんわりマフラー', category: 'accent', svgFile: '/parts/accents/accent-cat-scarf.svg' },
   { id: 'accent-cat-outing-bag', name: 'Cat Outing Bag', nameJa: 'ねこ耳のおでかけバッグ', category: 'accent', svgFile: '/parts/accents/accent-cat-outing-bag.svg' },
   { id: 'accent-paw-water-bottle', name: 'Paw Water Bottle', nameJa: '肉球の水筒', category: 'accent', svgFile: '/parts/accents/accent-paw-water-bottle.svg' },
   { id: 'accent-cat-food-bowl', name: 'Cat Food Bowl', nameJa: 'ねこ耳のごはん皿', category: 'accent', svgFile: '/parts/accents/accent-cat-food-bowl.svg' },
