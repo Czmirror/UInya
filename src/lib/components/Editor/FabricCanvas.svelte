@@ -920,9 +920,24 @@
 
   export function clearAll() {
     if (!canvas) return;
-    canvas.clear();
-    canvas.backgroundColor = DEFAULT_ARTBOARD_COLOR;
-    canvas.renderAll();
+    // Commit pending property edits before recording the clear as one operation.
+    if (propSaveTimer) {
+      clearTimeout(propSaveTimer);
+      propSaveTimer = null;
+      saveState();
+    }
+    isBatchOperation = true;
+    try {
+      childEditObjects = null;
+      randomObjectIds = [];
+      lastRandomThemeId = null;
+      canvas.clear();
+      canvas.backgroundColor = DEFAULT_ARTBOARD_COLOR;
+      canvas.renderAll();
+    } finally {
+      isBatchOperation = false;
+    }
+    saveState();
   }
 
   export function setBackgroundColor(color: string | null) {
