@@ -15,6 +15,8 @@
 | accent-fish-cushion | おさかなクッション | Fish Cushion |
 | accent-cat-food-bowl | ねこ耳のごはん皿 | Cat Food Bowl |
 | accent-paw-treat-pouch | 肉球のおやつ袋 | Paw Treat Pouch |
+| accent-cat-outing-bag | ねこ耳のおでかけバッグ | Cat Outing Bag |
+| accent-paw-water-bottle | 肉球の水筒 | Paw Water Bottle |
 
 ## 受け入れ条件
 
