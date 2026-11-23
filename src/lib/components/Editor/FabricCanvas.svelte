@@ -13,7 +13,7 @@
   import { generateRandomLayout } from '$lib/templates/randomCatUi';
   import type { RandomResult } from '$lib/templates/randomCatUi';
 
-  const dispatch = createEventDispatcher<{ ready: void }>();
+  const dispatch = createEventDispatcher<{ ready: void; backgroundChange: string }>();
 
   // スナップ閾値（px）— 調整しやすいよう定数化
   const SNAP_THRESHOLD = 8;
@@ -59,6 +59,7 @@
 
   function saveState() {
     if (!canvas || isRestoring || isBatchOperation) return;
+    dispatch('backgroundChange', canvas.backgroundColor || '');
     const json = JSON.stringify(canvas.toJSON());
     history = history.slice(0, historyIndex + 1);
     history.push(json);
@@ -78,6 +79,7 @@
     isRestoring = true;
     historyIndex = index;
     canvas.loadFromJSON(history[index], () => {
+      dispatch('backgroundChange', canvas.backgroundColor || '');
       canvas.renderAll();
       // Selection is lost after loadFromJSON — clear editor state selection
       isSyncingFromObject = true;

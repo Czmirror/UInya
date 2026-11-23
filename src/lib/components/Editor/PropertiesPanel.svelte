@@ -9,8 +9,11 @@
   $: state = $editorState;
   $: hasSelection = state.selectedObjectId !== null;
 
+  export let backgroundColor = DEFAULT_ARTBOARD_COLOR;
+
   let bgColor = DEFAULT_ARTBOARD_COLOR;
-  let bgEnabled = true;
+  $: bgEnabled = Boolean(backgroundColor);
+  $: if (backgroundColor) bgColor = backgroundColor;
 
   function handleBgToggle(checked: boolean) {
     bgEnabled = checked;

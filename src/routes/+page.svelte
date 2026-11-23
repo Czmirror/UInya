@@ -12,10 +12,12 @@
   import type { CatSilhouette } from '$lib/templates/catSilhouettes';
   import { locale, initLocale, setLocale, t } from '$lib/stores/i18n';
   import type { Locale } from '$lib/stores/i18n';
+  import { DEFAULT_ARTBOARD_COLOR } from '$lib/stores/editorStore';
   import HeaderLogo from '$lib/components/HeaderLogo.svelte';
 
   let fabricCanvas: FabricCanvas;
   let toolbar: Toolbar;
+  let backgroundColor = DEFAULT_ARTBOARD_COLOR;
 
   onMount(() => {
     initLocale();
@@ -151,10 +153,10 @@
     <TemplatePanel on:select={handleTemplateSelect} on:selectPart={handlePartSelect} on:selectPreset={handlePresetSelect} on:selectSilhouette={handleSilhouetteSelect} />
 
     <!-- 中央: キャンバスエディタ -->
-    <FabricCanvas bind:this={fabricCanvas} />
+    <FabricCanvas bind:this={fabricCanvas} on:backgroundChange={(e) => backgroundColor = e.detail} />
 
     <!-- 右パネル: プロパティ -->
-    <PropertiesPanel on:bgColorChange={(e) => fabricCanvas?.setBackgroundColor(e.detail)} />
+    <PropertiesPanel {backgroundColor} on:bgColorChange={(e) => fabricCanvas?.setBackgroundColor(e.detail)} />
   </div>
 
   <!-- フッター -->
