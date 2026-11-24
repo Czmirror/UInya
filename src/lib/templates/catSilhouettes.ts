@@ -12,6 +12,7 @@ export interface CatSilhouette {
  * - SVGファイルは static/silhouettes/ に配置
  */
 export const catSilhouettes: CatSilhouette[] = [
+  { id: 'cat-wave-soft', name: 'Waving Cat', nameJa: 'おててを上げる猫', svgFile: '/silhouettes/cat-wave-soft.svg' },
   {
     id: 'cat-face',
     name: 'Cat Face',
