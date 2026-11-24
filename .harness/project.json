@@ -72,8 +72,14 @@
     {
       "id": "tests",
       "stage": "test",
-      "required": false,
-      "skipReason": "No automated test suite is configured. Verify the editor flow in a browser."
+      "required": true,
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "cwd": ".",
+      "timeoutMs": 240000
     },
     {
       "id": "build",
