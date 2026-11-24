@@ -24,6 +24,13 @@ export interface UIPreset {
 
 export const uiPresets: UIPreset[] = [
   {
+    id: 'mail-notice',
+    elements: [
+      { svgFile: '/templates/frames/cat-envelope-card.svg', aspectHeight: 180 / 256, xRatio: 0.1, yRatio: 0.2, scaleRatio: 0.8, idPrefix: 'preset-mail' },
+      { text: 'お手紙が届いたよ', xRatio: 0.5, yRatio: 0.45, scaleRatio: 0.04, idPrefix: 'preset-text' },
+    ],
+  },
+  {
     id: 'reward-notice',
     elements: [
       { svgFile: '/templates/frames/paw-reward-card.svg', aspectHeight: 180 / 256, xRatio: 0.1, yRatio: 0.2, scaleRatio: 0.8, idPrefix: 'preset-reward' },
