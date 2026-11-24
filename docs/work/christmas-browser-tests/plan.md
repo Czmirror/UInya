@@ -13,3 +13,5 @@
 仕様・試験結果は docs/specs/browser-asset-checks.md と docs/tests/functional/browser-asset-checks.md に記録する。次の優先項目は、Linux CIの初回実行結果を確認すること。
 
 2026-11-25、Linux CIの初回実行は両ジョブ成功。次の優先項目は素材を配置した際の見た目も回帰試験で確認すること。
+
+レビュー対応として、古い「自動試験なし」のskip理由を除去し、Harnessのtestsへ同じ試験コマンドを必須登録した。独立ジョブとHarnessの両方でブラウザー試験を実行する。
