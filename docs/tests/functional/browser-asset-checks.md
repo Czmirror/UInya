@@ -11,4 +11,4 @@
 
 2026-11-24、CodexがmacOS・Node.js 24・Playwright付属Chromiumで実行。2件成功。512 × 512の既定値とは異なる511 × 129を使い、指定寸法の反映を確認した。新しい季節素材は別途PNGに描画して目視確認した。
 
-GitHub ActionsのLinux・Node.js 22での実行は未実施。pushと公開操作を行わない今回の依頼に従い、ワークフローはローカル差分に留める。既存のSvelteKitとSvelteの互換性警告は残る。
+2026-11-25、ユーザーの公開承認後にGitHub ActionsのLinux・Node.js 22で実行し、Harnessとブラウザー試験の両ジョブが成功した。実行記録は https://github.com/Czmirror/UInya/actions/runs/45446437779 。既存のSvelteKitとSvelteの互換性警告は残る。
