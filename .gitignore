@@ -9,3 +9,6 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .harness/reports/
+
+/playwright-report/
+/test-results/
