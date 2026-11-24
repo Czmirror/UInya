@@ -97,7 +97,14 @@ const rewardCard: CatTemplate = {
   thumbnail: '/templates/frames/paw-reward-card.svg', description: '',
 };
 
+const envelopeCard: CatTemplate = {
+  id: 'cat-envelope-card', name: 'Cat Envelope Card', nameJa: 'ねこ封筒カード',
+  category: 'frame', svgFile: '/templates/frames/cat-envelope-card.svg',
+  thumbnail: '/templates/frames/cat-envelope-card.svg', description: '',
+};
+
 export const featuredTemplates = [
+  envelopeCard,
   rewardCard,
   ...honeyTemplates.filter(template => template.category !== 'icon'),
   ...strawberryTemplates.filter(template => template.category === 'icon'),

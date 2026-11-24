@@ -197,6 +197,8 @@ const dict = {
     'tplDesc.cat-icon-frame': 'キャラクターアイコン用の猫耳付き丸フレーム',
 
     // Preset names
+    'preset.mail-notice': 'お手紙通知',
+    'presetDesc.mail-notice': 'ねこ封筒と編集できる通知ラベル',
     'preset.reward-notice': 'ごほうび通知',
     'presetDesc.reward-notice': '肉球カードと編集できるごほうびラベル',
     'preset.rpg-hp-bar': 'RPG HPバー',
@@ -381,6 +383,8 @@ const dict = {
     'tplDesc.whisker-textbox': 'Text box decorated with cat whiskers',
     'tplDesc.cat-icon-frame': 'Round frame with cat ears for character icons',
 
+    'preset.mail-notice': 'Mail Notice',
+    'presetDesc.mail-notice': 'Cat envelope with an editable message',
     'preset.reward-notice': 'Reward Notice',
     'presetDesc.reward-notice': 'Paw card with editable reward labels',
     'preset.rpg-hp-bar': 'RPG HP Bar',
