@@ -7,6 +7,7 @@ import type { CatPart, CatPartCategory } from '$lib/types/ui';
  * - SVGファイルは static/parts/<category>/ に配置
  */
 export const catParts: CatPart[] = [
+  { id: 'accent-leaf-brooch', name: 'Leaf Brooch', nameJa: '葉っぱのブローチ', category: 'accent', svgFile: '/parts/accents/accent-leaf-brooch.svg' },
   { id: 'face-peach-kitten', name: 'Peach Kitten', nameJa: 'もも色の子猫', category: 'face', svgFile: '/parts/face/face-peach-kitten.svg' },
   { id: 'body-cuddle', name: 'Cuddly Body', nameJa: 'ぽてっと抱っこ胴体', category: 'body', svgFile: '/parts/bodies/body-cuddle.svg' },
   { id: 'mark-peach-freckles', alignToMascot: true, name: 'Peach Freckles', nameJa: 'もも色そばかす', category: 'marking', svgFile: '/parts/markings/mark-peach-freckles.svg' },

@@ -91,7 +91,14 @@ const strawberryTemplates = collectionTemplates('strawberry');
 const honeyTemplates = collectionTemplates('honey');
 
 // Keep the calico avatar as the final card on the featured shelf.
+const rewardCard: CatTemplate = {
+  id: 'paw-reward-card', name: 'Paw Reward Card', nameJa: '肉球のごほうびカード',
+  category: 'frame', svgFile: '/templates/frames/paw-reward-card.svg',
+  thumbnail: '/templates/frames/paw-reward-card.svg', description: '',
+};
+
 export const featuredTemplates = [
+  rewardCard,
   ...honeyTemplates.filter(template => template.category !== 'icon'),
   ...strawberryTemplates.filter(template => template.category === 'icon'),
 ];

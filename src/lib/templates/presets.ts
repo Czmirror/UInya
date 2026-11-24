@@ -24,6 +24,14 @@ export interface UIPreset {
 
 export const uiPresets: UIPreset[] = [
   {
+    id: 'reward-notice',
+    elements: [
+      { svgFile: '/templates/frames/paw-reward-card.svg', aspectHeight: 180 / 256, xRatio: 0.1, yRatio: 0.2, scaleRatio: 0.8, idPrefix: 'preset-reward' },
+      { text: 'ごほうび！', xRatio: 0.5, yRatio: 0.49, scaleRatio: 0.05, idPrefix: 'preset-text' },
+      { text: '+100', xRatio: 0.5, yRatio: 0.63, scaleRatio: 0.065, idPrefix: 'preset-text' },
+    ],
+  },
+  {
     id: 'rpg-hp-bar',
     elements: [
       { svgFile: '/templates/collections/honey/gauge.svg', aspectHeight: 94 / 265, xRatio: 0.08, yRatio: 0.32, scaleRatio: 0.84, idPrefix: 'preset-gauge' },
