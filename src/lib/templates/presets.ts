@@ -24,6 +24,14 @@ export interface UIPreset {
 
 export const uiPresets: UIPreset[] = [
   {
+    id: 'christmas-greeting',
+    elements: [
+      { svgFile: '/templates/frames/cat-christmas-wreath.svg', aspectHeight: 1, xRatio: 0.12, yRatio: 0.08, scaleRatio: 0.76, idPrefix: 'preset-christmas' },
+      { text: 'Merry Christmas', xRatio: 0.5, yRatio: 0.46, scaleRatio: 0.043, idPrefix: 'preset-text' },
+      { text: 'にゃんこからの贈りもの', xRatio: 0.5, yRatio: 0.54, scaleRatio: 0.028, idPrefix: 'preset-text' },
+    ],
+  },
+  {
     id: 'mail-notice',
     elements: [
       { svgFile: '/templates/frames/cat-envelope-card.svg', aspectHeight: 180 / 256, xRatio: 0.1, yRatio: 0.2, scaleRatio: 0.8, idPrefix: 'preset-mail' },
