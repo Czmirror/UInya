@@ -103,7 +103,14 @@ const envelopeCard: CatTemplate = {
   thumbnail: '/templates/frames/cat-envelope-card.svg', description: '',
 };
 
+const christmasWreath: CatTemplate = {
+  id: 'cat-christmas-wreath', name: 'Cat Christmas Wreath', nameJa: 'ねこ耳のクリスマスリース',
+  category: 'frame', svgFile: '/templates/frames/cat-christmas-wreath.svg',
+  thumbnail: '/templates/frames/cat-christmas-wreath.svg', description: '',
+};
+
 export const featuredTemplates = [
+  christmasWreath,
   envelopeCard,
   rewardCard,
   ...honeyTemplates.filter(template => template.category !== 'icon'),

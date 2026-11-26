@@ -118,3 +118,28 @@ test('Christmas accessories can be placed and exported', async ({ page }) => {
   await addPart(page, '肉球のプレゼント箱', 2);
   await checkDownloads(page);
 });
+
+test('Christmas collection spans all four shelves', async ({ page }) => {
+  await page.getByRole('button', { name: 'テンプレート', exact: true }).click();
+  const template = page.getByRole('button', { name: 'ねこ耳のクリスマスリース', exact: true }).first();
+  await expect.poll(() => template.locator('img').evaluate((img: HTMLImageElement) =>
+    img.complete && img.naturalWidth > 0)).toBe(true);
+  await template.click();
+  await expect.poll(() => objectCount(page)).toBe(1);
+
+  await page.getByRole('button', { name: 'パーツ', exact: true }).click();
+  await page.getByRole('button', { name: 'アクセント', exact: true }).click();
+  await addPart(page, 'ひいらぎリボン', 2);
+
+  await page.getByRole('button', { name: 'シルエット', exact: true }).click();
+  await page.getByRole('button', { name: 'クラシック', exact: true }).click();
+  await addPart(page, 'サンタ帽のおすわり猫', 3);
+
+  await page.getByRole('button', { name: '用途別UI', exact: true }).click();
+  await page.getByRole('button', { name: /^クリスマスのごあいさつ/ }).click();
+  await expect.poll(() => objectCount(page)).toBe(6);
+  await test.info().attach('Christmas assets on canvas', {
+    body: await page.screenshot(), contentType: 'image/png'
+  });
+  await checkDownloads(page);
+});
