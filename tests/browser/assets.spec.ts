@@ -118,3 +118,18 @@ test('Christmas accessories can be placed and exported', async ({ page }) => {
   await addPart(page, '肉球のプレゼント箱', 2);
   await checkDownloads(page);
 });
+
+test('search metadata and editor content are present in the initial HTML', async ({ request, page }) => {
+  const response = await request.get('./');
+  expect(response.status()).toBe(200);
+  const html = await response.text();
+  expect(html).toContain('<h1');
+  expect(html).toContain('UInya（ユーイニャ）');
+  expect(html).toContain('猫モチーフのゲームUI素材');
+  expect(html).toContain('rel="canonical" href="https://czmirror.github.io/UInya/"');
+  const sitemap = await request.get('sitemap.xml');
+  expect(sitemap.status()).toBe(200);
+  expect(await sitemap.text()).toContain('<loc>https://czmirror.github.io/UInya/</loc>');
+  await page.getByText('UInyaについて', { exact: true }).click();
+  await expect(page.getByText('UInya（ユーイニャ）', { exact: true })).toBeVisible();
+});

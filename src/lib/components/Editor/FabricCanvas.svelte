@@ -427,8 +427,10 @@
   onDestroy(() => {
     unsubscribe();
     if (propSaveTimer) clearTimeout(propSaveTimer);
-    window.removeEventListener('keydown', handleKeyDown);
-    window.removeEventListener('click', hideContextMenu);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('click', hideContextMenu);
+    }
     canvas?.dispose();
   });
 

@@ -167,5 +167,13 @@
     <span>MIT License</span>
     <span>·</span>
     <span class="text-editor-muted">Generated images are free to use, including commercial use.</span>
+    <details class="relative">
+      <summary class="cursor-pointer text-editor-focus">UInyaについて</summary>
+      <div class="absolute bottom-full right-0 z-50 mb-2 w-72 rounded-xl border border-editor-line bg-editor-panel p-4 shadow-lg">
+        <h2 class="font-bold text-editor-ink">UInya（ユーイニャ）</h2>
+        <p class="mt-2 leading-relaxed">猫モチーフのゲームUI素材を作れる無料のブラウザーエディターです。肉球ボタン、猫耳フレーム、しっぽゲージ、猫パーツやシルエットを組み合わせ、SVG・PNGで書き出せます。</p>
+        <p class="mt-2 leading-relaxed">UnityやGodotなどのゲーム制作に使えます。編集と保存はブラウザー内で完結します。</p>
+      </div>
+    </details>
   </footer>
 </div>
